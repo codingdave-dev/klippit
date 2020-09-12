@@ -6,40 +6,54 @@ import Typography from "@material-ui/core/Typography";
 import { Field } from "redux-form";
 import TextInput from "../../common/form/TextInput";
 import Button from "@material-ui/core/Button";
-import CheckboxInput from "../../common/form/CheckboxInput";
-import TextField from "@material-ui/core/TextField";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    fontSize: "5em",
-    [theme.breakpoints.down("md")]: {
-      fontSize: "4em",
-    },
     [theme.breakpoints.down("sm")]: {
       fontSize: "2.5em",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "1.2em",
+      paddingLeft: '0.5em',
+      paddingRight: '0.5em',
+      fontSize: "2.4em",
+      textAlign: "center",
     },
   },
-  formWrapper: {
-    marginTop: "3em",
-    width: '540px',
+
+  subTitle: {
     [theme.breakpoints.down("sm")]: {
-      width: "450px",
+      fontSize: "1em",
     },
     [theme.breakpoints.down("xs")]: {
-      width: "280px",
+
+      fontSize: "0.7em",
+      textAlign: "center",
+    },
+  },
+
+  formWrapper: {
+    width: "500px",
+    [theme.breakpoints.down("sm")]: {
+      width: "70%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      width: "90%",
+    },
+  },
+
+  // changed
+  inputWrapper: {
+    padding: "1em",
+    [theme.breakpoints.down("xs")]: {
+      padding: "0.5em",
+      marginTop: 0,
     },
   },
 
   textInput: {
-    marginTop: "0.8em",
-    marginBottom: "0.8em",
     backgroundColor: theme.palette.common.white,
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
-        // borderColor: 'red',
         borderColor: theme.palette.common.white,
       },
       "&:hover fieldset": {
@@ -50,6 +64,20 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+
+  buttonWrapper: {
+    padding: "1em",
+    [theme.breakpoints.down("xs")]: {
+      padding: "0.5em",
+    },
+  },
+  button: {
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.secondary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
+    },
+  },
 }));
 
 const BusinessInfoForm = ({ nextPage }) => {
@@ -58,17 +86,26 @@ const BusinessInfoForm = ({ nextPage }) => {
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   return (
     <Fragment>
-      <Grid item>
-        <Typography variant={"h2"} className={classes.title}>
-          Tell us more about your business
-        </Typography>
+      {/*WELCOME TEXT*/}
+      <Grid item container direction={"column"} alignItems={"center"}>
+        <Grid item>
+          <Typography variant={"h2"} className={classes.title}>
+            Tell us more about your business
+          </Typography>
+        </Grid>
       </Grid>
 
-      <Grid item>
-        <Grid item container justify={"center"}>
-          <Grid item className={classes.formWrapper}>
+      {/*FORM*/}
+      <Grid item container justify={"center"}>
+        <Grid
+          item
+          container
+          direction={"column"}
+          className={classes.formWrapper}
+        >
+          <Grid item>
             <Grid item container direction={"column"}>
-              <Grid item>
+              <Grid item className={classes.inputWrapper}>
                 <Field
                   inputStyle={classes.textInput}
                   placeholder={"Name of the business"}
@@ -79,7 +116,7 @@ const BusinessInfoForm = ({ nextPage }) => {
                   component={TextInput}
                 />
               </Grid>
-              <Grid item>
+              <Grid item className={classes.inputWrapper}>
                 <Field
                   inputStyle={classes.textInput}
                   placeholder={"Phone Number"}
@@ -90,26 +127,25 @@ const BusinessInfoForm = ({ nextPage }) => {
                   component={TextInput}
                 />
               </Grid>
-
-              <Grid item style={{ marginTop: "3em" }}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color="secondary"
-                  size={"large"}
-                  fullWidth
-                  onClick={() => nextPage(3)}
-                >
-                  Continue
-                </Button>
-              </Grid>
             </Grid>
+          </Grid>
+
+          {/*BUTTON*/}
+          <Grid item className={classes.buttonWrapper}>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              size={"large"}
+              fullWidth
+              onClick={() => nextPage(3)}
+            >
+              Continue
+            </Button>
           </Grid>
         </Grid>
       </Grid>
     </Fragment>
-
-
   );
 };
 

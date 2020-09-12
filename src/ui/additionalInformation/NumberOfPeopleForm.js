@@ -10,28 +10,22 @@ import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles((theme) => ({
   title: {
-    fontSize: "5em",
-    [theme.breakpoints.down("md")]: {
-      fontSize: "4em",
-    },
+    textAlign: "center",
     [theme.breakpoints.down("sm")]: {
       fontSize: "2.5em",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "1.2em",
+      fontSize: "2em",
+      textAlign: "center",
     },
   },
-  formWrapper: {
+  optionWrapper: {
     marginTop: "3em",
-    width: "540px",
+    width: "500px",
     [theme.breakpoints.down("sm")]: {
-      width: "450px",
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: "280px",
+      width: "80%",
     },
   },
-
   option: {
     marginTop: "0.8em",
     marginBottom: "0.8em",
@@ -53,6 +47,13 @@ const useStyles = makeStyles((theme) => ({
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.8em",
       },
+    },
+  },
+  button: {
+    color: theme.palette.common.white,
+    backgroundColor: theme.palette.secondary.main,
+    "&:hover": {
+      backgroundColor: theme.palette.secondary.light,
     },
   },
 }));
@@ -80,71 +81,54 @@ const numberOfEmployees = [
   },
 ];
 
-const NumberOfPeopleForm = ({ submitAdditionalInfo }) => {
+const NumberOfPeopleForm = ({ submitting }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   return (
     <Fragment>
-      <Grid item>
-        <Grid item container direction={"column"} alignItems={"center"}>
-          <Hidden xsDown>
-            <Grid item>
-              <Typography variant={"h2"} className={classes.title}>
-                How many people work at your company?
-              </Typography>
-            </Grid>
-          </Hidden>
-          <Hidden smUp>
-            <Grid item>
-              <Typography variant={"h2"} className={classes.title}>
-                How many people work
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant={"h2"} className={classes.title}>
-                at your company?
-              </Typography>
-            </Grid>
-          </Hidden>
+      {/*NUMBER OF PEOPLE*/}
+      <Grid item container direction={"column"} alignItems={"center"}>
+        <Grid item>
+          <Typography variant={"h2"} className={classes.title}>
+            How many people work at your company?
+          </Typography>
         </Grid>
       </Grid>
 
-      <Grid item>
-        <Grid item container justify={"center"}>
-          <Grid item className={classes.formWrapper}>
-            <Grid item container direction={"column"}>
-              {numberOfEmployees.map((number) => (
-                <Grid key={number.id} item className={classes.option}>
-                  <Grid item container alignItems={"center"}>
-                    <Grid item>
-                      <Typography variant={"h6"}>{number.name}</Typography>
-                    </Grid>
-
-                    <Grid item style={{ marginLeft: "auto" }}>
-                      <Field
-                        name={number.id}
-                        component={CheckboxInput}
-                        checkboxClass={classes.checkbox}
-                      />
-                    </Grid>
-                  </Grid>
+      {/*PEOPLE OPTIONS*/}
+      <Grid item container justify={"center"}>
+        <Grid item className={classes.optionWrapper}>
+          {numberOfEmployees.map((number) => (
+            <Grid key={number.id} item className={classes.option}>
+              <Grid item container alignItems={"center"}>
+                <Grid item>
+                  <Typography variant={"subtitle1"}>{number.name}</Typography>
                 </Grid>
-              ))}
 
-              <Grid item style={{ marginTop: "3em" }}>
-                <Button
-                  className={classes.button}
-                  variant="contained"
-                  color="secondary"
-                  size={"large"}
-                  fullWidth
-                  type={"submit"}
-                >
-                  Continue
-                </Button>
+                <Grid item style={{ marginLeft: "auto" }}>
+                  <Field
+                    name={number.id}
+                    component={CheckboxInput}
+                    checkboxClass={classes.checkbox}
+                  />
+                </Grid>
               </Grid>
             </Grid>
+          ))}
+
+          <Grid item style={{ marginTop: "3em" }}>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              size={"large"}
+              fullWidth
+              type={"submit"}
+              disabled={submitting}
+            >
+              Continue
+            </Button>
           </Grid>
         </Grid>
       </Grid>

@@ -10,27 +10,50 @@ import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    padding: '1.2em',
-    [theme.breakpoints.down('md')]: {
-      padding: '0.8em',
-    }
+    paddingLeft: "1em",
+    paddingRight: "1em",
   },
   logo: {
-    [theme.breakpoints.down("md")]: {
-      width: "7.5em",
+    width: "140px",
+    [theme.breakpoints.down("sm")]: {
+      width: "100px",
     },
   },
   logoText: {
-    fontWeight: "600",
+    [theme.breakpoints.down("md")]: {
+      fontSize: "1.25em",
+    },
     [theme.breakpoints.down("md")]: {
       fontSize: "1em",
     },
   },
+
+  supportWrapper: {
+    marginLeft: "auto",
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: 0,
+    },
+  },
+
   supportText: {
     [theme.breakpoints.down("md")]: {
       fontSize: "1em",
     },
-  }
+  },
+  avatarWrapper: {
+    marginRight: "1em",
+    [theme.breakpoints.down("sm")]: {
+      marginRight: "0.5em",
+    },
+  },
+  avatar: {
+    [theme.breakpoints.down("sm")]: {
+      "&.MuiAvatar-root": {
+        width: "30px",
+        height: "30px",
+      },
+    },
+  },
 }));
 
 const Header = () => {
@@ -38,11 +61,21 @@ const Header = () => {
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
   return (
-    <Grid container direction={matchesXS ? 'column' : 'row'}  alignItems={"center"} className={classes.wrapper}>
+    <Grid
+      container
+      direction={matchesXS ? "column" : "row"}
+      alignItems={"center"}
+      className={classes.wrapper}
+    >
+      {/*LOGO*/}
       <Grid item>
-        <Grid item container alignItems={'center'}>
+        <Grid item container alignItems={"center"}>
           <Grid item>
-            <img className={classes.logo} src="/assets/logo/logo.png" alt="logo" />
+            <img
+              className={classes.logo}
+              src="/assets/logo/logo.png"
+              alt="logo"
+            />
           </Grid>
           <Grid item>
             <Typography className={classes.logoText} variant={"h6"}>
@@ -52,33 +85,43 @@ const Header = () => {
         </Grid>
       </Grid>
 
-      <Grid item style={matchesXS ? { marginTop: "0.5em" } : { marginLeft: "auto" }}>
-        <Grid item container alignItems={'center'}>
-          <Grid item >
+      {/*SUPPORT*/}
+      <Grid item className={classes.supportWrapper}>
+        <Grid item container alignItems={"center"}>
+          <Grid item>
             <Grid item container alignItems={"center"}>
-              <Hidden mdDown>
-                <Grid item style={{ marginRight: "1em" }}>
+              <Hidden xsDown>
+                <Grid item className={classes.avatarWrapper}>
                   <AvatarGroup>
-                    <Avatar alt="Remy Sharp" src="" />
-                    <Avatar alt="Travis Howard" src="" />
-                    <Avatar alt="Cindy Baker" src="" />
+                    <Avatar
+                      className={classes.avatar}
+                      alt="Remy Sharp"
+                      src=""
+                    />
+                    <Avatar
+                      className={classes.avatar}
+                      alt="Travis Howard"
+                      src=""
+                    />
+                    <Avatar
+                      className={classes.avatar}
+                      alt="Cindy Baker"
+                      src=""
+                    />
                   </AvatarGroup>
                 </Grid>
               </Hidden>
 
               <Grid item>
                 <Typography variant={"h6"} className={classes.supportText}>
-                  Need help? <span style={{ fontWeight: "700" }}>Get Support</span>
+                  Need help?{" "}
+                  <span style={{ fontWeight: "600" }}>Get Support</span>
                 </Typography>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-
-
-
-
     </Grid>
   );
 };
