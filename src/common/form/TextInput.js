@@ -18,6 +18,7 @@ const TextInput = ({
   type,
   variant,
   required,
+    aria,
   meta: { touched, error },
 }) => {
   const classes = useStyles();
@@ -33,6 +34,7 @@ const TextInput = ({
         variant={variant}
         fullWidth
         className={inputStyle}
+        aria-label={aria}
       />
 
       {touched && error && (

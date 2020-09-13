@@ -221,6 +221,7 @@ const Index = ({ registerUser, auth, profile, handleSubmit, submitting }) => {
                   <Grid item>
                     <Field
                       inputStyle={classes.textInput}
+                      aria={'Email Address'}
                       placeholder={"Email address"}
                       label={"Email address"}
                       name={"email"}
@@ -232,6 +233,7 @@ const Index = ({ registerUser, auth, profile, handleSubmit, submitting }) => {
                   <Grid item>
                     <Field
                       inputStyle={classes.textInput}
+                      aria={'Password'}
                       placeholder={"Password"}
                       label={"Password"}
                       name={"password"}
