@@ -92,7 +92,7 @@ const Index = ({auth, profile, logout, changeUserPassword, handleSubmit, error, 
 
 
     return (
-        <div style={{backgroundColor: 'lightgrey'}}>
+        <div style={{backgroundColor: 'lightgrey', paddingBottom: '3em'}}>
             <DashboardHeader />
 
             <Grid item container direction={'column'} className={classes.wrapper} >

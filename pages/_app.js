@@ -6,6 +6,7 @@ import theme from "../src/theme";
 
 import { Provider } from "react-redux";
 import { useStore } from "../src/store/store";
+import Footer from "../src/ui/Footer";
 
 
 const MyApp = (props) => {
@@ -38,6 +39,8 @@ const MyApp = (props) => {
 
 
               <Component {...pageProps} />
+
+              <Footer/>
 
 
 

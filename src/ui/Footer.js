@@ -1,0 +1,368 @@
+import React, { Fragment } from "react";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Typography from "@material-ui/core/Typography";
+
+const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    marginTop: "8em",
+    marginBottom: "3em",
+  },
+  title: {
+    fontWeight: 600,
+    [theme.breakpoints.down("md")]: {
+      fontSize: "0.8em",
+    },
+
+  },
+  option: {
+    color: theme.palette.grey.A200,
+    [theme.breakpoints.down("md")]: {
+      fontSize: "0.8em",
+    },
+
+  },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.grey.A200,
+    "&:hover": {
+      textDecoration: "underline",
+    },
+  },
+  icon: {
+    width: "20px",
+    height: "20px",
+    padding: "0.3em",
+    [theme.breakpoints.down("md")]: {
+      width: "18px",
+      height: "18px",
+      padding: "0.25em",
+    },
+  },
+  copyright: {
+    color: theme.palette.grey.A200,
+    [theme.breakpoints.down("md")]: {
+      fontSize: "0.8em",
+    },
+  },
+}));
+
+const footerLinks = [
+  {
+    learnMore: [
+      {
+        id: "influencers",
+        name: "Influencers",
+        link: "/",
+      },
+      {
+        id: "marketplace",
+        name: "Marketplace",
+        link: "/",
+      },
+    ],
+  },
+  {
+    about: [
+      {
+        id: "blog",
+        name: "Blog",
+        link: "/",
+      },
+      {
+        id: "resources",
+        name: "Resources",
+        link: "/",
+      },
+    ],
+  },
+  {
+    support: [
+      {
+        id: "helpCenter",
+        name: "Help Center",
+        link: "/",
+      },
+      {
+        id: "contactUs",
+        name: "Contact Us",
+        link: "/",
+      },
+      {
+        id: "productTour",
+        name: "Product Tour",
+        link: "/",
+      },
+    ],
+  },
+  {
+    legal: [
+      {
+        id: "termsOfUs",
+        name: "Terms of Use",
+        link: "/",
+      },
+      {
+        id: "privacyNotice",
+        name: "Privacy Notice",
+        link: "/",
+      },
+    ],
+  },
+  {
+    address: [
+      {
+        id: "addr1",
+        name: "501 N. Orlando",
+      },
+      {
+        id: "addr2",
+        name: "Ave. #323. PMB",
+      },
+      {
+        id: "addr3",
+        name: "247, Winter",
+      },
+      {
+        id: "addr4",
+        name: "Park, FL 32789",
+      },
+    ],
+  },
+];
+
+const socialIcons = [
+  {
+    id: "facebook",
+    name: "Facebook",
+    image: "/assets/icon/social/facebook.png",
+    link: "https://www.facebook.com/klippitapp",
+  },
+  {
+    id: "twitter",
+    name: "Twitter",
+    image: "/assets/icon/social/twitter.png",
+    link: "https://twitter.com/OfficialKlippit",
+  },
+  {
+    id: "linkedin",
+    name: "Linkedin",
+    image: "/assets/icon/social/linkedin.png",
+    link: "https://www.linkedin.com/company/klippit-ltd-company/",
+  },
+  {
+    id: "instagram",
+    name: "Instagram",
+    image: "/assets/icon/social/instagram.png",
+    link: "https://www.instagram.com/klippitcash/",
+  },
+];
+
+const Footer = () => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  return (
+    <div className={classes.wrapper}>
+      <Grid container>
+        {/*LEARN MORE*/}
+        <Grid item lg={2} md={2} sm={3} xs={4}>
+          <Grid item container justify={"center"}>
+            <Grid item>
+              <Grid item container direction={"column"}>
+                <Grid item>
+                  <Typography variant={"subtitle1"} className={classes.title}>
+                    LEARN MORE
+                  </Typography>
+                </Grid>
+                {footerLinks[0].learnMore.map((footer) => (
+                  <Grid item key={footer.id}>
+                    <a href={footer.link} className={classes.link}>
+                      <Typography
+                        variant={"subtitle1"}
+                        className={classes.option}
+                      >
+                        {footer.name}
+                      </Typography>
+                    </a>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/*ABOUT*/}
+        <Grid item lg={2} md={2} sm={3} xs={4}>
+          <Grid item container justify={"center"}>
+            <Grid item>
+              <Grid item container direction={"column"}>
+                <Grid item>
+                  <Typography variant={"subtitle1"} className={classes.title}>
+                    ABOUT
+                  </Typography>
+                </Grid>
+                {footerLinks[1].about.map((footer) => (
+                  <Grid item key={footer.id}>
+                    <a href={footer.link} className={classes.link}>
+                      <Typography
+                        variant={"subtitle1"}
+                        className={classes.option}
+                      >
+                        {footer.name}
+                      </Typography>
+                    </a>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/*SUPPORT*/}
+        <Grid item lg={2} md={2} sm={3} xs={4}>
+          <Grid item container justify={"center"}>
+            <Grid item>
+              <Grid item container direction={"column"}>
+                <Grid item>
+                  <Typography variant={"subtitle1"} className={classes.title}>
+                    SUPPORT
+                  </Typography>
+                </Grid>
+                {footerLinks[2].support.map((footer) => (
+                  <Grid item key={footer.id}>
+                    <a href={footer.link} className={classes.link}>
+                      <Typography
+                        variant={"subtitle1"}
+                        className={classes.option}
+                      >
+                        {footer.name}
+                      </Typography>
+                    </a>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/*LEGAL*/}
+        <Grid
+          item
+          lg={2}
+          md={2}
+          sm={3}
+          xs={4}
+          style={matchesXS ? { marginTop: "1em" } : null}
+        >
+          <Grid item container justify={"center"}>
+            <Grid item>
+              <Grid item container direction={"column"}>
+                <Grid item>
+                  <Typography variant={"subtitle1"} className={classes.title}>
+                    LEGAL
+                  </Typography>
+                </Grid>
+                {footerLinks[3].legal.map((footer) => (
+                  <Grid item key={footer.id}>
+                    <a href={footer.link} className={classes.link}>
+                      <Typography
+                        variant={"subtitle1"}
+                        className={classes.option}
+                      >
+                        {footer.name}
+                      </Typography>
+                    </a>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/*ADDRESS*/}
+        <Grid
+          item
+          lg={2}
+          md={2}
+          sm={6}
+          xs={4}
+          style={matchesSM ? { marginTop: "1em" } : null}
+        >
+          <Grid item container justify={"center"}>
+            <Grid item>
+              <Grid item container direction={"column"}>
+                <Grid item>
+                  <Typography variant={"subtitle1"} className={classes.title}>
+                    ADDRESS
+                  </Typography>
+                </Grid>
+                {footerLinks[4].address.map((footer) => (
+                  <Grid item key={footer.id}>
+                    <Typography
+                      variant={"subtitle1"}
+                      className={classes.option}
+                    >
+                      {footer.name}
+                    </Typography>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        {/*SOCIAL*/}
+        <Grid
+          item
+          lg={2}
+          md={2}
+          sm={6}
+          xs={12}
+          style={matchesSM ? { marginTop: "1em" } : null}
+        >
+          <Grid item container justify={"center"}>
+            <Grid item>
+              <Grid item container>
+                {socialIcons.map((social) => (
+                  <Grid item key={social.id}>
+                    <a
+                      href={social.link}
+                      target={"_blank"}
+                      className={classes.socialLink}
+                    >
+                      <img
+                        className={classes.icon}
+                        src={social.image}
+                        alt={`${social.name} link`}
+                      />
+                    </a>
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+
+      <Grid item container justify={matchesSM ? "center" : null}>
+        <Grid
+          item
+          style={
+            matchesSM
+              ? { marginTop: "2em" }
+              : { marginLeft: "auto", marginTop: "2em", paddingRight: "2em" }
+          }
+        >
+          <Typography variant={"body2"} className={classes.copyright}>
+            © TapInfluence 2020
+          </Typography>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
+export default Footer;

@@ -16,6 +16,18 @@ import {fetchUserCampaigns, toggleCampaign} from "../../../src/store/actions/cam
 
 
 const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        width: '60%',
+        [theme.breakpoints.down('md')]: {
+            width: '90%'
+        }
+    },
+    title: {
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '1.8em',
+            textAlign: 'center'
+        }
+    },
     button: {
         marginLeft: "2em",
         borderRadius: "100px",
@@ -31,6 +43,20 @@ const useStyles = makeStyles((theme) => ({
             fontSize: "0.8em",
         },
     },
+    tabPanel: {
+        border: '1px solid lightgrey',
+        marginTop: '-2px',
+        borderTopRightRadius: '10px',
+        borderBottomRightRadius: '10px',
+        borderBottomLeftRadius: '10px'.length,
+        [theme.breakpoints.down('xs')]: {
+            '& .MuiBox-root': {
+                padding: '0.2em'
+            }
+        }
+
+
+    }
 
 }));
 
@@ -70,6 +96,7 @@ const Index = ({auth, profile, fetchUserCampaigns, toggleCampaign, currentCampai
 
     const [value, setValue] = useState(0)
 
+    // TAB PANEL PROPS
     const a11yProps = (index) => {
         return {
             id: `simple-tab-${index}`,
@@ -90,7 +117,6 @@ const Index = ({auth, profile, fetchUserCampaigns, toggleCampaign, currentCampai
                 {value === index && (
                     <Box p={3}>
                         {children}
-                        {/*<Typography>{children}</Typography>*/}
                     </Box>
                 )}
             </div>
@@ -123,17 +149,15 @@ const Index = ({auth, profile, fetchUserCampaigns, toggleCampaign, currentCampai
         toggleCampaign(userId,id, !value )
     }
 
-
-
     return (
         <Fragment>
             <DashboardHeader />
 
-            <Grid item container justify={'center'} style={{marginTop: '6em'}}>
-                <Grid item style={{width: '60%'}}>
-                    <Grid item container alignItems={'center'}>
+            <Grid item container justify={'center'} style={matchesSM ? {marginTop: '3em'}:{marginTop: '6em'}}>
+                <Grid item className={classes.wrapper} >
+                    <Grid item container alignItems={'center'} direction={matchesSM ? 'column' : 'row'}>
                         <Grid item>
-                            <Typography variant={'h4'}>Welcome to your Dashboard</Typography>
+                            <Typography variant={'h4'} className={classes.title}>Welcome to your Dashboard</Typography>
                         </Grid>
                         <Grid item>
                             <Button
@@ -149,23 +173,17 @@ const Index = ({auth, profile, fetchUserCampaigns, toggleCampaign, currentCampai
                     </Grid>
 
 
-                    <Grid item container style={{marginTop: '6em'}}>
-                        <Grid item>
+                    <Grid item container style={matchesSM ? {marginTop: '3em'}:{marginTop: '6em'}}>
+                        <Grid item lg={12} md={12} sm={12} xs={12}>
                             <Tabs value={value}   onChange={handleTabChange} indicatorColor={'primary'} aria-label="simple tabs example">
                                 <Tab label="CURRENT"  {...a11yProps(0)} />
                                 <Tab label="PREVIOUS" {...a11yProps(1)} />
                             </Tabs>
 
-                            <TabPanel value={value} index={0} style={{border: '1px solid lightgrey', marginTop: '-2px', borderTopRightRadius: '10px', borderBottomRightRadius: '10px', borderBottomLeftRadius: '10px'}}>
-
+                            <TabPanel value={value} index={0} className={classes.tabPanel} >
                                 <CampaignTable campaigns={currentCampaigns} toggleCampaign={handleToggleCampaign}/>
-
-
-
-
-
                             </TabPanel>
-                            <TabPanel value={value} index={1} style={{border: '1px solid lightgrey', marginTop: '-2px', borderTopRightRadius: '10px', borderBottomRightRadius: '10px', borderBottomLeftRadius: '10px'}}>
+                            <TabPanel value={value} index={1} className={classes.tabPanel}>
                                 <CampaignTable campaigns={previousCampaigns} toggleCampaign={handleToggleCampaign}/>
                             </TabPanel>
                         </Grid>

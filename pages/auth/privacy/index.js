@@ -10,6 +10,15 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "30em",
     filter: "brightness(0.4)",
+    [theme.breakpoints.down("md")]: {
+      height: "25em",
+    },
+    [theme.breakpoints.down("sm")]: {
+      height: "15em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      height: "10em",
+    },
   },
   overlay: {
     zIndex: theme.zIndex.modal + 1,
@@ -18,22 +27,54 @@ const useStyles = makeStyles((theme) => ({
     width: "60%",
     height: "60em",
     padding: "1em",
+    borderRadius: "5px",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "-250px",
+      width: "80%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "-150px",
+      width: "90%",
+    },
+    [theme.breakpoints.down("xs")]: {
+      marginTop: "-100px",
+    },
   },
   headerWrapper: {
     marginTop: "0.5em",
     marginBottom: "0.5em",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "0.1em",
+      marginBottom: "0.1em",
+    },
   },
   textWrapper: {
     marginTop: "0.4em",
     marginBottom: "0.4em",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "0.3em",
+      marginBottom: "0.3em",
+    },
   },
 
   sectionHeader: {
     color: theme.palette.error.main,
     fontWeight: 600,
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "1.2em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1em",
+    },
   },
   sectionText: {
     color: "grey",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.8em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.7em",
+    },
   },
 }));
 
@@ -48,7 +89,7 @@ const Index = () => {
         item
         container
         direction={"column"}
-        style={{ backgroundColor: "lightgrey" }}
+        style={{ backgroundColor: "lightgrey", paddingBottom: '3em' }}
       >
         <Grid item container style={{ marginTop: "-3em" }}>
           <Grid item lg={12}>
