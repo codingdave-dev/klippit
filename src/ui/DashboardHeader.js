@@ -28,7 +28,7 @@ import { useRouter } from "next/router";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: "black",
-    zIndex: theme.zIndex.modal + 2,
+    zIndex: theme.zIndex.modal + 3,
   },
 
   menuIcon: {
@@ -293,6 +293,7 @@ const DashboardHeader = ({ logout, profile }) => {
           {/*DRAWER*/}
           <Fragment>
             <SwipeableDrawer
+                style={{zIndex: theme.zIndex.modal + 2,}}
               open={openDrawer}
               onClose={() => setOpenDrawer(false)}
               onOpen={() => setOpenDrawer(true)}
