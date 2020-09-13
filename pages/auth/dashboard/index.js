@@ -163,6 +163,7 @@ const Index = ({ auth, profile }) => {
   const router = useRouter();
 
   useEffect(() => {
+    window.scrollTo(0,0)
     if (auth.isLoaded === true && auth.isEmpty === true) {
       router.push({ pathname: "/login" });
     }

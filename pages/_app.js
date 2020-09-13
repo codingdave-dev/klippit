@@ -21,6 +21,8 @@ const MyApp = (props) => {
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
+
+
   }, []);
 
 
