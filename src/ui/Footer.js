@@ -3,6 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -101,12 +102,12 @@ const footerLinks = [
       {
         id: "termsOfUs",
         name: "Terms of Use",
-        link: "/",
+        link: "/terms",
       },
       {
         id: "privacyNotice",
         name: "Privacy Notice",
-        link: "/",
+        link: "/privacy",
       },
     ],
   },
@@ -159,11 +160,20 @@ const socialIcons = [
   },
 ];
 
-const Footer = () => {
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+  }
+}
+
+const Footer = ({auth, profile}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const authenticated = auth.isLoaded === true && auth.isEmpty === false
   return (
     <div className={classes.wrapper}>
       <Grid container>
@@ -267,7 +277,7 @@ const Footer = () => {
                 </Grid>
                 {footerLinks[3].legal.map((footer) => (
                   <Grid item key={footer.id}>
-                    <a href={footer.link} className={classes.link}>
+                    <a href={authenticated ? `/auth${footer.link}` : footer.link} className={classes.link}>
                       <Typography
                         variant={"subtitle1"}
                         className={classes.option}
@@ -365,4 +375,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default connect(mapStateToProps) (Footer);

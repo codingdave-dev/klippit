@@ -125,3 +125,58 @@ export const logout = () => {
     } catch (error) {}
   };
 };
+
+export const resetPassword = (creds) => {
+  return async (dispatch, getState, { getFirebase }) => {
+    const firebase = getFirebase();
+
+    try {
+      dispatch(asyncActionStart());
+      await firebase
+          .auth().sendPasswordResetEmail(creds.email)
+
+      console.log('done')
+
+      dispatch(asyncActionFinish());
+    } catch (error) {
+      dispatch(asyncActionError());
+      let errorMessage = "";
+
+      // if (
+      //     error.message ===
+      //     'signInWithEmailAndPassword failed: First argument "email" must be a valid string.'
+      // ) {
+      //   errorMessage = "Please enter a email address.";
+      // }
+      //
+      // if (
+      //     error.message ===
+      //     'signInWithEmailAndPassword failed: Second argument "password" must be a valid string.'
+      // ) {
+      //   errorMessage = "Please enter a password.";
+      // }
+      //
+      // if (error.message === "The email address is badly formatted.") {
+      //   errorMessage = "Please enter a valid email address.";
+      // }
+      //
+      // if (
+      //     error.message ===
+      //     "There is no user record corresponding to this identifier. The user may have been deleted."
+      // ) {
+      //   errorMessage = "Email or Password not found.";
+      // }
+      //
+      // if (
+      //     error.message ===
+      //     "The password is invalid or the user does not have a password."
+      // ) {
+      //   errorMessage = "Email or Password not found.";
+      // }
+
+      throw new SubmissionError({
+        _error: errorMessage,
+      });
+    }
+  };
+};

@@ -63,28 +63,28 @@ exports.sendNewCampaignEmail = functions.https.onRequest((request, response) => 
 });
 
 // SEND RESET PASSWORD EMAIL
-exports.sendNewResetPasswordEmail = functions.https.onRequest((request, response) =>  {
-    cors(request, response, async () => {
-        const { email, fullName} = request.query;
-
-        // const link = await admin.auth().generatePasswordResetLink(`${email}`)
-        const link = 'link here'
-        const mailOptions = {
-            from: "Klippit <codingdave.dev.nodemailer@gmail.com>",
-            to: `${email}`,
-            subject: "Reset Password Request - Klippit",
-            html: `<p style="font-size: 16px">Hello ${fullName}, You have reset your password.  If this wasn't you please reset your password.</p><p>${link}</p>`,
-        };
-
-
-
-        transporter.sendMail(mailOptions, (error) => {
-            if (error) {
-                response.send(error);
-            } else {
-                response.send("Message Sent Succesfully");
-            }
-        });
-
-    });
-});
+// exports.sendNewResetPasswordEmail = functions.https.onRequest((request, response) =>  {
+//     cors(request, response, async () => {
+//         const { email, fullName} = request.query;
+//
+//         // const link = await admin.auth().generatePasswordResetLink(`${email}`)
+//         const link = 'link here'
+//         const mailOptions = {
+//             from: "Klippit <codingdave.dev.nodemailer@gmail.com>",
+//             to: `${email}`,
+//             subject: "Reset Password Request - Klippit",
+//             html: `<p style="font-size: 16px">Hello ${fullName}, You have reset your password.  If this wasn't you please reset your password.</p><p>${link}</p>`,
+//         };
+//
+//
+//
+//         transporter.sendMail(mailOptions, (error) => {
+//             if (error) {
+//                 response.send(error);
+//             } else {
+//                 response.send("Message Sent Succesfully");
+//             }
+//         });
+//
+//     });
+// });

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
@@ -8,7 +8,10 @@ import { Field, reduxForm } from "redux-form";
 import TextInput from "../src/common/form/TextInput";
 import Button from "@material-ui/core/Button";
 import { connect } from "react-redux";
-import { login } from "../src/store/actions/authActions/authActions";
+import {
+  login,
+  resetPassword,
+} from "../src/store/actions/authActions/authActions";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -108,6 +111,7 @@ const useStyles = makeStyles((theme) => ({
 
 const actions = {
   login,
+  resetPassword,
 };
 
 const mapStateToProps = (state) => ({
@@ -115,11 +119,23 @@ const mapStateToProps = (state) => ({
   profile: state.firebase.profile,
 });
 
-const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
+const Login = ({
+  login,
+  resetPassword,
+  auth,
+  profile,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const [forgotPassword, setForgotPassword] = useState(false);
+  const [message, setMessage] = useState(null);
 
   const router = useRouter();
 
@@ -140,6 +156,10 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
       router.push({ pathname: "/auth/dashboard" });
     }
   });
+
+  const handleResetPassword = () => {
+    setMessage("Please check your email and follow instructions.");
+  };
 
   return (
     <Grid
@@ -179,7 +199,9 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
         >
           <Grid item>
             <Typography variant={"h4"} className={classes.formHeader}>
-              Welcome bact to Klippit
+              {forgotPassword
+                ? "Reset your password"
+                : "Welcome back to Klippit"}
             </Typography>
           </Grid>
         </Grid>
@@ -189,7 +211,12 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
           <Grid item className={classes.formWrapper}>
             <Grid item container direction={"column"}>
               <Grid item>
-                <form autoComplete={"off"} onSubmit={handleSubmit(login)}>
+                <form
+                  autoComplete={"off"}
+                  onSubmit={handleSubmit(
+                    forgotPassword ? resetPassword : login
+                  )}
+                >
                   <Grid item>
                     <Field
                       inputStyle={classes.textInput}
@@ -201,44 +228,80 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
                       component={TextInput}
                     />
                   </Grid>
-                  <Grid item>
-                    <Field
-                      inputStyle={classes.textInput}
-                      placeholder={"Password"}
-                      label={"Password"}
-                      name={"password"}
-                      type={"password"}
-                      variant={"outlined"}
-                      component={TextInput}
-                    />
-                  </Grid>
+                  {!forgotPassword && (
+                    <Grid item>
+                      <Field
+                        inputStyle={classes.textInput}
+                        placeholder={"Password"}
+                        label={"Password"}
+                        name={"password"}
+                        type={"password"}
+                        variant={"outlined"}
+                        component={TextInput}
+                      />
+                    </Grid>
+                  )}
 
                   {/*FORGOT PASSWORD*/}
-                  <Grid item>
-                    <Grid
-                      item
-                      container
-                      alignItems={"center"}
-                      direction={matchesXS ? "column" : null}
-                    >
-                      <Grid item>
-                        <Typography
-                          className={classes.subFormText}
-                          variant={"body2"}
-                        >
-                          <a
-                            style={{
-                              textDecoration: "none",
-                              color: "black",
-                            }}
-                            href="/forgotPassword"
+                  {!forgotPassword && (
+                    <Grid item>
+                      <Grid
+                        item
+                        container
+                        alignItems={"center"}
+                        direction={matchesSM ? "column" : null}
+                      >
+                        <Grid item>
+                          <Typography
+                            className={classes.subFormText}
+                            variant={"body2"}
+                            style={{ cursor: "pointer" }}
+                            onClick={() => setForgotPassword(true)}
                           >
                             Forgot your password?
-                          </a>
-                        </Typography>
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
+                  )}
+
+                  {error && (
+                    <Grid
+                      item
+                      style={
+                        matchesXS ? { marginTop: "1em" } : { marginTop: "2em" }
+                      }
+                    >
+                      <Typography
+                        variant={"subtitle1"}
+                        style={{
+                          color: theme.palette.error.main,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {error}
+                      </Typography>
+                    </Grid>
+                  )}
+
+                  {message && (
+                    <Grid
+                      item
+                      style={
+                        matchesXS ? { marginTop: "1em" } : { marginTop: "2em" }
+                      }
+                    >
+                      <Typography
+                        variant={"subtitle1"}
+                        style={{
+                          color: theme.palette.error.main,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {message}
+                      </Typography>
+                    </Grid>
+                  )}
 
                   {/*BUTTON WRAPPER*/}
                   <Grid item className={classes.buttonWrapper}>
@@ -246,7 +309,7 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
                       item
                       container
                       alignItems={"center"}
-                      direction={matchesXS ? "column" : null}
+                      direction={matchesSM ? "column" : null}
                     >
                       <Grid item>
                         <Typography
@@ -265,13 +328,31 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
                               Sign up
                             </a>
                           </span>
+                          {forgotPassword && (
+                            <Fragment>
+                              {" "}
+                              or{" "}
+                              <span
+                                onClick={() => {
+                                  setForgotPassword(false);
+                                  setMessage(null);
+                                }}
+                                style={{
+                                  fontWeight: "bold",
+                                  cursor: "pointer",
+                                }}
+                              >
+                                Log in
+                              </span>
+                            </Fragment>
+                          )}
                         </Typography>
                       </Grid>
 
                       <Grid
                         item
                         style={
-                          matchesXS
+                          matchesSM
                             ? { marginTop: "1em" }
                             : { marginLeft: "auto" }
                         }
@@ -282,8 +363,11 @@ const Login = ({ login, auth, profile, handleSubmit, error, submitting }) => {
                           size={"medium"}
                           type={"submit"}
                           disabled={submitting}
+                          onClick={() =>
+                            forgotPassword ? handleResetPassword() : null
+                          }
                         >
-                          Login
+                          {forgotPassword ? "Reset" : "Login"}
                         </Button>
                       </Grid>
                     </Grid>

@@ -127,7 +127,7 @@ const mapStateToProps = (state) => ({
   profile: state.firebase.profile,
 });
 
-const Index = ({ registerUser, auth, profile, handleSubmit, submitting }) => {
+const Index = ({ registerUser, auth, profile, handleSubmit, error, submitting }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesMD = useMediaQuery(theme.breakpoints.down("md"));
@@ -243,6 +243,12 @@ const Index = ({ registerUser, auth, profile, handleSubmit, submitting }) => {
                     />
                   </Grid>
 
+                  {error && (
+                      <Grid item style={matchesXS ? {marginTop: '1em'} : {marginTop: '2em'}}>
+                        <Typography variant={'subtitle1'} style={{color: theme.palette.error.main, fontWeight: 600}}>{error}</Typography>
+                      </Grid>
+                  )}
+
                   <Grid item className={classes.buttonWrapper}>
                     <Grid
                       item
@@ -299,7 +305,7 @@ const Index = ({ registerUser, auth, profile, handleSubmit, submitting }) => {
         <Grid item container justify={matchesMD ? "center" : null}>
           <Grid item className={classes.privacyWrapper}>
             <Typography className={classes.subFormText} variant={"body2"}>
-              By signing up, you agree to our Terms of use and Privacy Policy.
+              By signing up, you agree to our <a href="/terms" style={{textDecoration: 'none', color: theme.palette.common.black}}><span style={{fontWeight: 600}}>Terms of use</span></a> and <a href="/privacy" style={{textDecoration: 'none', color: theme.palette.common.black}}><span style={{fontWeight: 600}}>Privacy Policy</span></a>.
             </Typography>
           </Grid>
         </Grid>
