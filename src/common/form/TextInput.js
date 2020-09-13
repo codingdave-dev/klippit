@@ -27,6 +27,7 @@ const TextInput = ({
     <Fragment>
       <TextField
         {...input}
+          id={label}
         required={required}
         label={label}
         placeholder={placeholder}
