@@ -18,12 +18,33 @@ import { createCampaign } from "../../../src/store/actions/campaignActions/campa
 import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
+
   wrapper: {
     width: "60%",
     [theme.breakpoints.down("md")]: {
-      width: "80%",
+      width: "90%",
     },
   },
+
+  title: {
+    [theme.breakpoints.down("sm")]: {
+      textAlign: 'center'
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: '1em'
+    },
+  },
+
+  stepperWrapper: {
+    marginTop: "4em",
+    width: "100%",
+    [theme.breakpoints.down("md")]: {
+      marginTop: "2em",
+},
+    [theme.breakpoints.down("xs")]: {
+      textAlign: 'center'
+    },
+  }
 }));
 
 const actions = {
@@ -65,7 +86,7 @@ const steps = [
 const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState("");
@@ -162,15 +183,19 @@ const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading 
 
       <Grid item container direction={"column"} alignItems={"center"}>
         <Grid item className={classes.wrapper}>
+
+          {/*TITLE STEPPER BLOCK*/}
           <Grid item container direction={"column"} alignItems={"center"}>
+            {/*TITLE*/}
             <Grid item>
-              <Typography variant={"h4"}>
+              <Typography variant={"h4"} className={classes.title}>
                 Create a new campaign by following the steps below
               </Typography>
             </Grid>
 
-            <Grid item style={{ marginTop: "4em", width: "100%" }}>
-              <Stepper alternativeLabel activeStep={stepperValue}>
+            {/*STEPPER*/}
+            <Grid item className={classes.stepperWrapper} >
+              <Stepper alternativeLabel={matchesXS ? false : true} activeStep={stepperValue} orientation={matchesXS ? 'vertical' : 'horizontal'}>
                 {steps.map((step) => (
                   <Step key={step.id}>
                     <StepLabel>
@@ -184,13 +209,13 @@ const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading 
             </Grid>
           </Grid>
 
-          <form
-            autoComplete={"off"}
-            onSubmit={handleSubmit(handleCreateCampaign)}
-          >
+          {/*FORMS*/}
+          <form autoComplete={"off"} onSubmit={handleSubmit(handleCreateCampaign)}>
+            {/*SERVICE FORM*/}
             {servicePriceForm && (
               <ChooseServiceAndPriceForm nextForm={handleNextForm} />
             )}
+
             {addImagesForm && (
               <AddImagesForm
                 nextForm={handleNextForm}

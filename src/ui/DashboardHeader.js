@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   logo: {
+    cursor: 'pointer',
     width: "100px",
     [theme.breakpoints.down("xs")]: {
       width: "80px",
@@ -203,6 +204,7 @@ const DashboardHeader = ({ logout, profile }) => {
               <Grid item container alignItems={"center"}>
                 <Grid item>
                   <IconButton
+                      aria-label={'menu button'}
                     onClick={() => setOpenDrawer(!openDrawer)}
                     disableRipple
                   >
@@ -211,6 +213,8 @@ const DashboardHeader = ({ logout, profile }) => {
                 </Grid>
                 <Grid item className={classes.logoWrapper}>
                   <img
+                      aria-label={'klippit logo'}
+                      onClick={() => router.push({pathname: '/auth/dashboard'})}
                     className={classes.logo}
                     src="/assets/logo/dashboardLogo.png"
                     alt="dashboard logo"
@@ -224,6 +228,7 @@ const DashboardHeader = ({ logout, profile }) => {
               <Grid item container alignItems={"center"}>
                 <Grid item>
                   <IconButton
+                      aria-label={'dashboard'}
                     size={"small"}
                     onClick={() => router.push({ pathname: "/auth/dashboard" })}
                   >
@@ -232,6 +237,7 @@ const DashboardHeader = ({ logout, profile }) => {
                 </Grid>
                 <Grid item>
                   <IconButton
+                      aria-label={'settings dashboard'}
                     size={"small"}
                     onClick={() => router.push({ pathname: "/auth/settings" })}
                   >
@@ -239,7 +245,7 @@ const DashboardHeader = ({ logout, profile }) => {
                   </IconButton>
                 </Grid>
                 <Grid item>
-                  <IconButton size={"small"}>
+                  <IconButton aria-label={'notifications'} size={"small"}>
                     <NotificationsIcon className={classes.icon} />
                   </IconButton>
                 </Grid>
@@ -248,13 +254,14 @@ const DashboardHeader = ({ logout, profile }) => {
                   <Fragment>
                     <Grid item>
                       <Avatar
+                          aria-label={'avatar'}
                         className={classes.avatar}
                         src={profile.imageURL}
                       />
                     </Grid>
 
                     <Grid item>
-                      <Typography className={classes.username} variant={"h6"}>
+                      <Typography className={classes.username} variant={"h6"} aria-label={`${profile.firstName + " " + profile.lastName}`}>
                         {profile.firstName + " " + profile.lastName}
                       </Typography>
                     </Grid>
@@ -265,7 +272,7 @@ const DashboardHeader = ({ logout, profile }) => {
                   <Grid item container alignItems={"center"}>
                     <Grid item>
                       <IconButton size={"small"} onClick={() => handleLogout()}>
-                        <ExitToAppIcon className={classes.icon} />
+                        <ExitToAppIcon className={classes.icon} aria-label={'logout'} />
                       </IconButton>
                     </Grid>
                     <Grid item>

@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
     },
     icon: {
         fontSize: '10em',
-        color: 'red'
+        color: 'red',
+        [theme.breakpoints.down('sm')]: {
+            fontSize: '6em'
+        }
     }
 }));
 

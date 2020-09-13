@@ -4,22 +4,51 @@ import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleInput from "../../common/form/CheckCircleInput";
-import CheckboxInput from "../../common/form/CheckboxInput";
-import { Field } from "redux-form";
-import TextInput from "../../common/form/TextInput";
-import SliderInput from "../../common/form/SliderInput";
 
-import Slider from "@material-ui/core/Slider";
-import AddIcon from "@material-ui/icons/Add";
+import { Field } from "redux-form";
+
 import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
+  formWrapper: {
+    padding: "2.5em",
+    backgroundColor: theme.palette.common.inputGrey,
+    borderRadius: "10px",
+    [theme.breakpoints.down("xs")]: {
+      padding: "1.5em",
+    },
+  },
+
+  title: {
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1em",
+    },
+  },
+  subTitle: {
+    [theme.breakpoints.down("md")]: {
+      fontSize: "0.8em",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.7em",
+    },
+  },
+
+  columnTitle: {
+    fontWeight: "600",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1em",
+    },
+  },
+
   checkbox: {
     color: theme.palette.primary.main,
     "& .MuiSvgIcon-fontSizeSmall": {
       fontSize: "1.2em",
       [theme.breakpoints.down("sm")]: {
         fontSize: "0.8em",
+      },
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "0.6em",
       },
     },
   },
@@ -28,6 +57,12 @@ const useStyles = makeStyles((theme) => ({
     "& .MuiTypography-body1": {
       fontSize: "1.2em",
       fontFamily: "Raleway",
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "1em",
+      },
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "0.8em",
+      },
     },
   },
 
@@ -102,38 +137,38 @@ const leftChecks = [
 const FinePrintForm = ({ nextForm, prevForm }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <Grid
-      item
-      container
-      direction={"column"}
-      style={{
-        padding: "2.5em",
-        backgroundColor: theme.palette.common.inputGrey,
-        borderRadius: "10px",
-      }}
-    >
+    <Grid item container direction={"column"} className={classes.formWrapper}>
       <Grid item>
-        <Typography variant={"h5"}>Fine Print</Typography>
+        <Typography variant={"h5"} className={classes.title}>
+          Fine Print
+        </Typography>
+      </Grid>
+
+      <Grid item style={{ marginTop: "2em" }}>
+        <Typography variant={"subtitle1"} className={classes.subTitle}>
+          Set the conditions and restrictions concerning vouchers redemption and
+          the Merchant Offering to be stated on the Vouchers.
+        </Typography>
       </Grid>
 
       <Grid
         item
         container
-        direction={matchesXS ? "column" : "row"}
+        direction={matchesSM ? "column" : "row"}
         style={{ marginTop: "2em" }}
       >
         <Grid
           item
-          lg={6}
-          md={6}
-          sm={6}
+          lg={7}
+          md={8}
+          sm={12}
           xs={12}
           style={{ paddingRight: "1.5em" }}
         >
           <Grid item>
-            <Typography variant={"h6"} style={{ fontWeight: "600" }}>
+            <Typography variant={"h6"} className={classes.columnTitle}>
               Check all that apply:
             </Typography>
           </Grid>
@@ -163,14 +198,14 @@ const FinePrintForm = ({ nextForm, prevForm }) => {
 
         <Grid
           item
-          lg={6}
-          md={6}
+          lg={5}
+          md={4}
           sm={6}
           xs={12}
-          style={{ paddingLeft: "1.5em" }}
+          style={matchesSM ? { marginTop: "2em" } : { paddingLeft: "1.5em" }}
         >
           <Grid item>
-            <Typography variant={"h6"} style={{ fontWeight: "600" }}>
+            <Typography variant={"h6"} className={classes.columnTitle}>
               ADD CUSTOM
             </Typography>
           </Grid>
