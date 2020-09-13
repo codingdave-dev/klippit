@@ -6,30 +6,30 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {useRouter} from "next/router";
 import {connect} from "react-redux";
 import DashboardHeader from "../../../src/ui/DashboardHeader";
-import AddIcon from "@material-ui/icons/Add";
+
 import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import Avatar from "@material-ui/core/Avatar";
-import TextInput from "../../../src/common/form/TextInput";
-import {Field, reduxForm} from "redux-form";
+
 import {logout} from "../../../src/store/actions/authActions/authActions";
-import DropzoneInput from "../../../src/dropzone/DropzoneInput";
-import {
-    changeUserPassword,
-    deleteAvatarPhoto,
-    updateUserProfile
-} from "../../../src/store/actions/userActions/userActions";
+
 import ProfileForm from "../../../src/ui/settings/ProfileForm";
 import PasswordForm from "../../../src/ui/settings/PasswordForm";
 
 const useStyles = makeStyles((theme) => ({
+    wrapper: {
+        backgroundColor: 'lightgrey',
+        paddingLeft: '2em',
+        paddingRight: '2em',
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft: '1em',
+            paddingRight: '1em',
+        },
+
+    },
     myAccountButton: {
-        // marginLeft: "2em",
         borderRadius: "100px",
         backgroundColor: theme.palette.secondary.main,
         color: theme.palette.common.white,
         fontSize: "1.1em",
-        // textTransform: "none",
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
             marginTop: '1em'
@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     logoutButton: {
-
         fontSize: "1.1em",
 
         [theme.breakpoints.down('sm')]: {
@@ -92,16 +91,11 @@ const Index = ({auth, profile, logout, changeUserPassword, handleSubmit, error, 
     });
 
 
-
-
-
-
     return (
         <div style={{backgroundColor: 'lightgrey'}}>
             <DashboardHeader />
 
-
-            <Grid item container direction={'column'} style={{backgroundColor: 'lightgrey', padding: '2em'}}>
+            <Grid item container direction={'column'} className={classes.wrapper} >
 
                 {/*BUTTON CONTAINER*/}
                 <Grid item container >

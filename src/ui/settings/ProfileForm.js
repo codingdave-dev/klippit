@@ -8,11 +8,18 @@ import Button from "@material-ui/core/Button";
 import DropzoneInput from "../../dropzone/DropzoneInput";
 import {Field, reduxForm} from "redux-form";
 import TextInput from "../../common/form/TextInput";
-import {logout} from "../../store/actions/authActions/authActions";
-import {changeUserPassword, deleteAvatarPhoto, updateUserProfile} from "../../store/actions/userActions/userActions";
+
+import {deleteAvatarPhoto, updateUserProfile} from "../../store/actions/userActions/userActions";
 import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
+    formWrapper: {
+        marginTop: '3em',
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        padding: '1em',
+    },
+
     avatarButton: {
         backgroundColor: 'white',
         border: '1px solid lightgrey',
@@ -78,7 +85,28 @@ const useStyles = makeStyles((theme) => ({
     avatar: {
         width: '3.5em',
         height: '3.5em',
+        [theme.breakpoints.down('xs')]: {
+            width: '3em',
+            height: '3em',
+        }
     },
+
+    dropzone: {
+        width: 250,
+        height: 250,
+        [theme.breakpoints.down('xs')]: {
+            width: 180,
+            height: 180
+        }
+    },
+    image: {
+        width: 250,
+        height: 250,
+        [theme.breakpoints.down('xs')]: {
+            width: 180,
+            height: 180
+        }
+    }
 }));
 
 const actions = {
@@ -100,7 +128,7 @@ const mapStateToProps = (state) => {
 const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmit, error, submitting}) => {
     const classes = useStyles();
     const theme = useTheme();
-    const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
     const [uploadImage, setUploadImage] = useState(false)
     const [avatarImage, setAvatarImage] = useState(null)
@@ -116,7 +144,7 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
         deleteAvatarPhoto()
     }
     return (
-        <Grid item container direction={'column'} style={{marginTop: '3em', backgroundColor: 'white', borderRadius: '10px', padding: '1em'}}>
+        <Grid item container direction={'column'} className={classes.formWrapper} >
             <Grid item>
                 <Typography variant={'h6'} style={{fontWeight: 600}}>Personal Information</Typography>
             </Grid>
@@ -156,22 +184,25 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
 
                     {uploadImage && (
                         <Fragment>
-                            <Grid item style={{width: 250, height: 250}}>
-                                {!avatarImage  && <DropzoneInput setFiles={setAvatarImage} />}
-                                {avatarImage  && (
-                                    <img src={avatarImage[0].preview} alt="" width={250} height={250} />
-                                )}
+                            <Grid item container alignItems={'center'} direction={matchesXS ? 'column' : 'row'}>
+                                <Grid item className={classes.dropzone} >
+                                    {!avatarImage  && <DropzoneInput setFiles={setAvatarImage} />}
+                                    {avatarImage  && (
+                                        <img className={classes.image} src={avatarImage[0].preview} alt="avatar image" />
+                                    )}
+                                </Grid>
+                                <Grid item style={matchesXS ? {marginLeft: 0}:{marginLeft: '1em'}}>
+                                    <Button
+                                        variant="contained"
+                                        size={"small"}
+                                        className={classes.avatarButton}
+                                        onClick={() => setUploadImage(false)}
+                                    >
+                                        Cancel
+                                    </Button>
+                                </Grid>
                             </Grid>
-                            <Grid item style={{marginLeft: '1em'}}>
-                                <Button
-                                    variant="contained"
-                                    size={"small"}
-                                    className={classes.avatarButton}
-                                    onClick={() => setUploadImage(false)}
-                                >
-                                    Cancel
-                                </Button>
-                            </Grid>
+
                         </Fragment>
 
                     )}
@@ -185,8 +216,8 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
 
             <form autoComplete={'off'} onSubmit={handleSubmit(handleUpdateProfile)}>
                 <Grid item style={{marginTop: '2em'}}>
-                    <Grid item container>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingRight: '1em'}}>
+                    <Grid item container direction={matchesXS ? 'column' : 'row'}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'} : {paddingRight: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"firstName"}
@@ -197,7 +228,7 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                                 component={TextInput}
                             />
                         </Grid>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingLeft: '1em'}}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'} : {paddingLeft: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"lastName"}
@@ -211,9 +242,9 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                     </Grid>
                 </Grid>
 
-                <Grid item style={{marginTop: '2em'}}>
-                    <Grid item container>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingRight: '1em'}}>
+                <Grid item style={matchesXS ? null : {marginTop: '2em'}}>
+                    <Grid item container direction={matchesXS ? 'column' : 'row'}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'} : {paddingRight: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"email"}
@@ -224,7 +255,7 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                                 component={TextInput}
                             />
                         </Grid>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingLeft: '1em'}}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'} : {paddingLeft: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"phoneNumber"}
@@ -239,9 +270,9 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                 </Grid>
 
 
-                <Grid item style={{marginTop: '2em'}}>
+                <Grid item style={matchesXS ? null : {marginTop: '2em'}}>
                     <Grid item container>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingRight: '1em'}}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'} : {paddingRight: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"graduationYear"}
@@ -257,15 +288,15 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                 </Grid>
 
                 {error && (
-                    <Grid item style={{marginTop: '2em'}}>
+                    <Grid item style={matchesXS ? {marginTop: '1em'} : {marginTop: '2em'}}>
                         <Typography variant={'subtitle1'} style={{color: theme.palette.error.main, fontWeight: 600}}>{error}</Typography>
                     </Grid>
                 )}
 
 
 
-                <Grid item style={{marginTop: '2em'}}>
-                    <Grid item container alignItems={'center'}>
+                <Grid item style={matchesXS ? {marginTop: '1em'} : {marginTop: '2em'}}>
+                    <Grid item container justify={matchesXS ? 'center' : null}>
                         <Grid item >
                             <Button
                                 variant="contained"

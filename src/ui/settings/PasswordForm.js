@@ -11,8 +11,10 @@ import {connect} from "react-redux";
 import {changeUserPassword} from "../../store/actions/userActions/userActions";
 
 const useStyles = makeStyles((theme) => ({
+    formWrapper: {
+        marginTop: '3em', backgroundColor: 'white', borderRadius: '10px', padding: '1em'
+    },
     button: {
-
         borderRadius: "10px",
         backgroundColor: theme.palette.secondary.main,
         color: theme.palette.common.white,
@@ -61,19 +63,19 @@ const mapStateToProps = (state) => {
 const PasswordForm = ({auth, profile, changeUserPassword, handleSubmit, error, submitting,}) => {
     const classes = useStyles();
     const theme = useTheme();
-    const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
     const handleUpdatePassword = async (values) => {
         await changeUserPassword(values)
     }
 
     return (
-        <Grid item container direction={'column'} style={{marginTop: '3em', backgroundColor: 'white', borderRadius: '10px', padding: '1em'}}>
+        <Grid item container direction={'column'} className={classes.formWrapper}>
 
             <form autoComplete={'off'} onSubmit={handleSubmit(handleUpdatePassword)}>
-                <Grid item style={{marginTop: '2em'}}>
-                    <Grid item container>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingRight: '1em'}}>
+                <Grid item style={{marginTop: '1em'}}>
+                    <Grid item container direction={matchesXS ? 'column' : 'row'}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'}:{paddingRight: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"currentPassword"}
@@ -84,7 +86,7 @@ const PasswordForm = ({auth, profile, changeUserPassword, handleSubmit, error, s
                                 component={TextInput}
                             />
                         </Grid>
-                        <Grid item lg={6} md={6} sm={6} xs={6} style={{paddingLeft: '1em'}}>
+                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? null : {paddingLeft: '1em'}}>
                             <Field
                                 inputStyle={classes.textInput}
                                 name={"newPassword"}

@@ -19,6 +19,7 @@ const TextAreaInput = ({
                        type,
                        variant,
                        required,
+    aria,
                        meta: { touched, error },
                    }) => {
     const classes = useStyles();
@@ -27,6 +28,8 @@ const TextAreaInput = ({
         <Fragment>
             <TextField
                 {...input}
+                id={label}
+                aria-label={aria}
                 required={required}
                 label={label}
                 placeholder={placeholder}
