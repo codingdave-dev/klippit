@@ -10,7 +10,6 @@ export const fetchUserCount = () => {
   return async (dispatch, getState, { getFirestore }) => {
     try {
       dispatch(asyncActionStart());
-
       axios
         .get(
           "https://us-central1-klippit-a2e0d.cloudfunctions.net/getUserCount"
