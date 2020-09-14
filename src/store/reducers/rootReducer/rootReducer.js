@@ -7,6 +7,7 @@ import asyncReducer from '../asyncReducers/asyncReducers'
 
 import dialogReducer from '../dialogReducer/dialogReducer'
 import campaignReducer from "../campaignReducer/campaignReducer";
+import dashboardReducer from "../dashboardReducer/dashboardReducer";
 
 
 const rootReducer = combineReducers({
@@ -24,8 +25,10 @@ const rootReducer = combineReducers({
     dialog: dialogReducer,
 
     // USER
-    campaigns: campaignReducer
+    campaigns: campaignReducer,
 
+    // USER COUNT
+    users: dashboardReducer
 
 });
 

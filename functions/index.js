@@ -221,3 +221,41 @@ exports.sendNewCampaignEmail = functions.https.onRequest(
     });
   }
 );
+
+
+// axios
+//     .get(
+//         "https://us-central1-reelex-packaging-calculator.cloudfunctions.net/REELEX_calculator_userInput",
+//         {
+//           params: {
+//             req_calculatorUnits,
+//
+//           },
+//         }
+//     )
+//     .then((res) => {
+//       // const minimumGain = res.data.minimumGain.toFixed(0);
+//       // const maximumGain = res.data.maximumGain.toFixed(0);
+//       // const minimumCoilSize = res.data.minimumCoilSize.toFixed(2);
+//       // const maximumCoilSize = res.data.maximumCoilSize.toFixed(2);
+//       //
+//       // document.getElementById("MinGain").value = minimumGain;
+//       // document.getElementById("MaxGain").value = maximumGain;
+//       // document.getElementById("MinDia").value = minimumCoilSize;
+//       // document.getElementById("MaxDia").value = maximumCoilSize;
+//       //
+//       // if (document.getElementById('CalculatorUnits').value === "imperial") {
+//       //   document.getElementById("MinDiaLabel").innerHTML = "Coil Size At Minimum Gain (in inches):"
+//       //   document.getElementById("MaxDiaLabel").innerHTML = "Coil Size At Maximum Gain (in inches):"
+//       // }
+//       // if (document.getElementById('CalculatorUnits').value === "metric") {
+//       //   document.getElementById("MinDiaLabel").innerHTML = "Coil Size At Minimum Gain (in mm):"
+//       //   document.getElementById("MaxDiaLabel").innerHTML = "Coil Size At Maximum Gain (in mm):"
+//       // }
+//       //
+//       // // ENABLE BUTTON
+//       // document.getElementById("Calculate1Btn").disabled = false;
+//       // document.getElementById("Calculate2Btn").disabled = false;
+//       // document.getElementById("Calculate1Btn").innerHTML = "CALCULATE SIZE RANGE"
+//     })
+//     .catch((err) => console.log(err));

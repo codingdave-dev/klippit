@@ -1,0 +1,1 @@
+export const FETCH_USER_COUNT = 'FETCH_USER_COUNT'

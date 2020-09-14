@@ -9,6 +9,7 @@ import DashboardHeader from "../../../src/ui/DashboardHeader";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
+import {fetchUserCount} from "../../../src/store/actions/dashboardActions/dashboardActions";
 
 const useStyles = makeStyles((theme) => ({
   headerWrapper: {
@@ -167,12 +168,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const actions = {
+  fetchUserCount
+}
+
+
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
   profile: state.firebase.profile,
+  userCount: state.users.users
 });
 
-const Index = ({ auth, profile }) => {
+const Index = ({ auth, profile, userCount, fetchUserCount }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
@@ -181,6 +188,7 @@ const Index = ({ auth, profile }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    fetchUserCount()
     if (auth.isLoaded === true && auth.isEmpty === true) {
       router.push({ pathname: "/login" });
     }
@@ -192,7 +200,7 @@ const Index = ({ auth, profile }) => {
     ) {
       router.push({ pathname: "/login" });
     }
-  });
+  }, [fetchUserCount, auth, profile, router]);
 
   return (
     <Fragment>
@@ -259,7 +267,7 @@ const Index = ({ auth, profile }) => {
             <Grid item container direction={"column"}>
               <Grid item>
                 <Typography variant={"h1"} className={classes.userNumber}>
-                  13,864
+                  {userCount}
                 </Typography>
               </Grid>
 
@@ -357,4 +365,4 @@ const Index = ({ auth, profile }) => {
   );
 };
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps, actions)(Index);
