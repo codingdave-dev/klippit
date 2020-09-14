@@ -20,34 +20,35 @@ const theme = createMuiTheme({
   },
   typography: {
     h1: {
-      fontFamily: "Raleway",
+      // fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     h2: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     h3: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     h4: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     h5: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     h6: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     subtitle1: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     subtitle2: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     body1: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
     body2: {
-      fontFamily: "Raleway",
+      fontFamily: "Whitney Medium, sans-serif",
     },
   },
   overrides: {
