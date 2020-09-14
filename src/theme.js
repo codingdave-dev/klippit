@@ -1,7 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 
 const themeTeal = "#54C5CF";
-const themeOrange = "#FAA581";
+const themeOrange = "#FF8100";
 const inputGrey = "#F6F7F8";
 const navDrawer = "#647292";
 

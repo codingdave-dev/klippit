@@ -8,6 +8,8 @@ import { Provider } from "react-redux";
 import { useStore } from "../src/store/store";
 import Footer from "../src/ui/Footer";
 
+// FONTS
+import '../public/assets/fonts/style.css'
 
 const MyApp = (props) => {
   const { Component, pageProps } = props;

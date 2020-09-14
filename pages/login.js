@@ -36,16 +36,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   logoText: {
-    fontSize: "1.5em",
-    [theme.breakpoints.down("md")]: {
-      fontSize: "1.5em",
-    },
-    [theme.breakpoints.down("md")]: {
-      fontSize: "1.4em",
-    },
-    [theme.breakpoints.down("xs")]: {
-      fontSize: "1.1em",
-    },
+    fontSize: "24px",
+    fontFamily: 'Whitney Medium, sans-serif',
+    fontWeight: 600,
+    lineHeight: '42px',
+    color: 'rgba(0,0,0,0.87)'
   },
   headerWrapper: {
     marginTop: "3em",
@@ -54,8 +49,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   formHeader: {
+    fontSize: "32px",
+    fontFamily: 'Whitney Medium, sans-serif',
+    fontWeight: 700,
+    lineHeight: '32px',
+    color: 'rgba(0,0,0,0.87)',
     [theme.breakpoints.down("xs")]: {
-      fontSize: "1.6em",
+      fontSize: "28px",
       textAlign: "center",
     },
   },

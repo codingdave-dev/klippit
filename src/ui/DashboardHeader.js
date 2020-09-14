@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
   menuIcon: {
     color: theme.palette.common.white,
-    fontSize: "1.5em",
+    fontSize: "1.1em",
     [theme.breakpoints.down("xs")]: {
       fontSize: "1em",
     },
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.white,
     paddingLeft: "0.3em",
     paddingRight: "0.3em",
-    fontSize: "1.8em",
+    fontSize: "1.4em",
     cursor: "pointer",
     [theme.breakpoints.down("sm")]: {
       padding: "0.3em",
@@ -78,6 +78,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     marginLeft: "0.8em",
     marginRight: "0.8em",
+    width: '34px',
+    height: '34px',
     [theme.breakpoints.down("sm")]: {
       width: '30px',
       height: '30px',
@@ -88,12 +90,14 @@ const useStyles = makeStyles((theme) => ({
   },
   username: {
     color: theme.palette.primary.main,
+    fontSize: '1em',
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
   logoutText: {
     color: theme.palette.common.white,
+    fontSize: '1em',
     cursor: "pointer",
     [theme.breakpoints.down("xs")]: {
       display: "none",
