@@ -260,8 +260,8 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
         <Grid item className={classes.userCountWrapper}>
           <img
             className={classes.image}
-            src="https://blog.willscot.com/wp-content/uploads/2019/08/WS-OfficeFurniture-1.jpg"
-            alt=""
+            src="/assets/dashboard/dashboardMiddle.png"
+            alt="Dashboard Image"
           />
           <Grid item className={classes.userCountTextWrapper}>
             <Grid item container direction={"column"}>
