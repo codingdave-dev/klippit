@@ -223,22 +223,20 @@ exports.sendNewCampaignEmail = functions.https.onRequest(
 );
 
 // GET USER COUNT
-exports.getUserCount = functions.https.onRequest( (request, response) => {
-  cors  (request, response, async () => {
-    response.set("Access-Control-Allow-Origin", "*");
-    response.set("Access-Control-Allow-Methods", "GET");
-    response.set("Access-Control-Allow-Headers", "Content-Type");
-    response.set("Access-Control-Max-Age", "3600");
-
-    const database = admin.firestore()
-    const users = database.collection('users')
-    await users.get().then( (querySnapshot) => {
-      return response.status(200).json({
-            value: querySnapshot.size
-          }
-      )
-    })
-
-
-  })
-});
+// exports.getUserCount = functions.https.onRequest( (request, response) => {
+//   cors  (request, response, async () => {
+//     response.set("Access-Control-Allow-Origin", "*");
+//     response.set("Access-Control-Allow-Methods", "GET");
+//     response.set("Access-Control-Allow-Headers", "Content-Type");
+//     response.set("Access-Control-Max-Age", "3600");
+//
+//     const database = admin.firestore()
+//     const users = database.collection('users')
+//     await users.get().then( (querySnapshot) => {
+//       return response.status(200).json({
+//             value: querySnapshot.size
+//           }
+//       )
+//     })
+//   })
+// });

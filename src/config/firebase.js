@@ -14,9 +14,6 @@ const firebaseConfig = {
     appId: `${process.env.NEXT_PUBLIC_APP_ID}`,
 };
 
-
-
-
 if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
     firebase.storage()

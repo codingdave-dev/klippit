@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   asyncActionError,
   asyncActionFinish,
@@ -8,18 +7,19 @@ import { FETCH_USER_COUNT } from "../../constants/dashboardConstants/dashboardCo
 
 export const fetchUserCount = () => {
   return async (dispatch, getState, { getFirestore }) => {
+    const firestore = getFirestore()
+
+    const docId = 'bPlPHIxTiwRsmInlCfck'
+
+    const query = firestore.collection('userCount')
     try {
       dispatch(asyncActionStart());
-      axios
-        .get(
-          "https://us-central1-klippit-a2e0d.cloudfunctions.net/getUserCount"
-        )
-        .then((res) => {
-          const users = res.data.value;
-          dispatch({ type: FETCH_USER_COUNT, payload: { users } });
-          dispatch(asyncActionFinish());
-        })
-        .catch((err) => dispatch(asyncActionError()));
+      let userCountQuery = await query.doc(`${docId}`).get();
+      let users = userCountQuery.data().currentCount;
+
+      dispatch({ type: FETCH_USER_COUNT, payload: { users } })
+
+      dispatch(asyncActionFinish())
     } catch (error) {
       dispatch(asyncActionError());
       console.log(error);
