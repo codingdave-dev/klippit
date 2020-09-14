@@ -39,10 +39,6 @@ function ValueLabelComponent(props) {
 
 const SliderInput = ({
   input,
-  label,
-  value,
-  checkboxClass,
-  checkboxLabelClass,
   meta: { touched, error },
 }) => {
   const classes = useStyles();
@@ -52,7 +48,7 @@ const SliderInput = ({
 
   return (
     <Fragment>
-      <Slider {...input} onChange={(event, value) => input.onChange(value)} marks={marks} ValueLabelComponent={ValueLabelComponent} aria-label="custom thumb label"/>
+      <Slider {...input} onChange={(event,value) => input.onChange(value)} marks={marks} ValueLabelComponent={ValueLabelComponent} aria-label="custom thumb label"/>
     </Fragment>
   );
 };

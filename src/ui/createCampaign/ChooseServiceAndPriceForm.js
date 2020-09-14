@@ -432,6 +432,7 @@ const ChooseServiceAndPriceForm = ({ nextForm }) => {
                         type={"text"}
                         variant={"outlined"}
                         component={TextInput}
+                        adornment={"$"}
                       />
                     </Grid>
                   </Grid>
@@ -483,6 +484,7 @@ const ChooseServiceAndPriceForm = ({ nextForm }) => {
                         type={"text"}
                         variant={"outlined"}
                         component={TextInput}
+                        adornment={"$"}
                       />
                     </Grid>
                   </Grid>
@@ -537,6 +539,7 @@ const ChooseServiceAndPriceForm = ({ nextForm }) => {
                         type={"text"}
                         variant={"outlined"}
                         component={TextInput}
+                        adornment={"#"}
                       />
                     </Grid>
                   </Grid>
