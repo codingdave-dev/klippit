@@ -148,6 +148,23 @@ const useStyles = makeStyles((theme) => ({
     width: "30%",
     borderBottom: "6px solid" + theme.palette.primary.main,
   },
+  iframe: {
+    borderRadius: "10px",
+    width: "900px",
+    height: "800px",
+    [theme.breakpoints.down('md')]: {
+      width: '800px',
+      height: '700px'
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: '500px',
+      height: '400px'
+    },
+    [theme.breakpoints.down('xs')]: {
+      width: '300px',
+      height: '300px'
+    }
+  },
 }));
 
 const mapStateToProps = (state) => ({
@@ -163,7 +180,7 @@ const Index = ({ auth, profile }) => {
   const router = useRouter();
 
   useEffect(() => {
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
     if (auth.isLoaded === true && auth.isEmpty === true) {
       router.push({ pathname: "/login" });
     }
@@ -296,12 +313,24 @@ const Index = ({ auth, profile }) => {
           </Typography>
         </Grid>
 
-        <Grid item style={{ marginTop: "12em", marginBottom: "12em" }}>
-          i frame will go here
+        <Grid
+          item
+          container
+          justify={"center"}
+          style={{ marginTop: "6em", marginBottom: "6em" }}
+        >
+          <Grid item>
+            <iframe
+              className={classes.iframe}
+              src="https://marvelapp.com/prototype/9242297?emb=1&iosapp=false&frameless=false"
+              allowtransparency="true"
+              frameBorder="0"
+            ></iframe>
+          </Grid>
         </Grid>
 
         {/*YOUR SELF GUIDED*/}
-        <Grid item style={{ marginTop: "6em" }}>
+        <Grid item >
           <Typography variant={"h1"} className={classes.title}>
             Your Self-Guided
           </Typography>
