@@ -270,22 +270,6 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                 </Grid>
 
 
-                <Grid item style={matchesXS ? null : {marginTop: '2em'}}>
-                    <Grid item container>
-                        <Grid item lg={6} md={6} sm={6} xs={12} style={matchesXS ? {marginBottom: '1em'} : {paddingRight: '1em'}}>
-                            <Field
-                                inputStyle={classes.textInput}
-                                name={"graduationYear"}
-                                label={'Graduation Year'}
-                                placeholder={'Graduation Year'}
-                                type={"text"}
-                                variant={"outlined"}
-                                component={TextInput}
-                            />
-                        </Grid>
-
-                    </Grid>
-                </Grid>
 
                 {error && (
                     <Grid item style={matchesXS ? {marginTop: '1em'} : {marginTop: '2em'}}>

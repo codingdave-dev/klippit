@@ -3,7 +3,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -15,14 +15,12 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       fontSize: "0.8em",
     },
-
   },
   option: {
     color: theme.palette.grey.A200,
     [theme.breakpoints.down("md")]: {
       fontSize: "0.8em",
     },
-
   },
   link: {
     textDecoration: "none",
@@ -56,7 +54,7 @@ const footerLinks = [
         id: "influencers",
         name: "Influencers",
         link: "https://join.klippitapp.com/prelaunchapp/",
-      }
+      },
     ],
   },
   {
@@ -137,19 +135,19 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     profile: state.firebase.profile,
-  }
-}
+  };
+};
 
-const Footer = ({auth, profile}) => {
+const Footer = ({ auth, profile }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
 
-  const authenticated = auth.isLoaded === true && auth.isEmpty === false
+  const authenticated = auth.isLoaded === true && auth.isEmpty === false;
   return (
     <div className={classes.wrapper}>
-      <Grid container>
+      <Grid container justify={'center'}>
         {/*LEARN MORE*/}
         <Grid item lg={2} md={2} sm={4} xs={4}>
           <Grid item container justify={"center"}>
@@ -162,7 +160,11 @@ const Footer = ({auth, profile}) => {
                 </Grid>
                 {footerLinks[0].learnMore.map((footer) => (
                   <Grid item key={footer.id}>
-                    <a href={footer.link} target={'_blank'} className={classes.link}>
+                    <a
+                      href={footer.link}
+                      target={"_blank"}
+                      className={classes.link}
+                    >
                       <Typography
                         variant={"subtitle1"}
                         className={classes.option}
@@ -176,7 +178,6 @@ const Footer = ({auth, profile}) => {
             </Grid>
           </Grid>
         </Grid>
-
 
         {/*SUPPORT*/}
         <Grid item lg={2} md={2} sm={4} xs={4}>
@@ -206,13 +207,7 @@ const Footer = ({auth, profile}) => {
         </Grid>
 
         {/*LEGAL*/}
-        <Grid
-          item
-          lg={2}
-          md={2}
-          sm={4}
-          xs={4}
-        >
+        <Grid item lg={2} md={2} sm={4} xs={4}>
           <Grid item container justify={"center"}>
             <Grid item>
               <Grid item container direction={"column"}>
@@ -223,7 +218,10 @@ const Footer = ({auth, profile}) => {
                 </Grid>
                 {footerLinks[2].legal.map((footer) => (
                   <Grid item key={footer.id}>
-                    <a href={authenticated ? `/auth${footer.link}` : footer.link} className={classes.link}>
+                    <a
+                      href={authenticated ? `/auth${footer.link}` : footer.link}
+                      className={classes.link}
+                    >
                       <Typography
                         variant={"subtitle1"}
                         className={classes.option}
@@ -321,4 +319,4 @@ const Footer = ({auth, profile}) => {
   );
 };
 
-export default connect(mapStateToProps) (Footer);
+export default connect(mapStateToProps)(Footer);
