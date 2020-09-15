@@ -55,27 +55,8 @@ const footerLinks = [
       {
         id: "influencers",
         name: "Influencers",
-        link: "/",
-      },
-      {
-        id: "marketplace",
-        name: "Marketplace",
-        link: "/",
-      },
-    ],
-  },
-  {
-    about: [
-      {
-        id: "blog",
-        name: "Blog",
-        link: "/",
-      },
-      {
-        id: "resources",
-        name: "Resources",
-        link: "/",
-      },
+        link: "https://join.klippitapp.com/prelaunchapp/",
+      }
     ],
   },
   {
@@ -88,7 +69,7 @@ const footerLinks = [
       {
         id: "contactUs",
         name: "Contact Us",
-        link: "/",
+        link: "mailto: support@klippitapp.com?subject=Merchant Help",
       },
       {
         id: "productTour",
@@ -115,19 +96,11 @@ const footerLinks = [
     address: [
       {
         id: "addr1",
-        name: "501 N. Orlando",
+        name: "1065 Liberty Pkwy nw,",
       },
       {
         id: "addr2",
-        name: "Ave. #323. PMB",
-      },
-      {
-        id: "addr3",
-        name: "247, Winter",
-      },
-      {
-        id: "addr4",
-        name: "Park, FL 32789",
+        name: "Atlanta, GA, 30318",
       },
     ],
   },
@@ -178,7 +151,7 @@ const Footer = ({auth, profile}) => {
     <div className={classes.wrapper}>
       <Grid container>
         {/*LEARN MORE*/}
-        <Grid item lg={2} md={2} sm={3} xs={4}>
+        <Grid item lg={2} md={2} sm={4} xs={4}>
           <Grid item container justify={"center"}>
             <Grid item>
               <Grid item container direction={"column"}>
@@ -189,7 +162,7 @@ const Footer = ({auth, profile}) => {
                 </Grid>
                 {footerLinks[0].learnMore.map((footer) => (
                   <Grid item key={footer.id}>
-                    <a href={footer.link} className={classes.link}>
+                    <a href={footer.link} target={'_blank'} className={classes.link}>
                       <Typography
                         variant={"subtitle1"}
                         className={classes.option}
@@ -204,35 +177,9 @@ const Footer = ({auth, profile}) => {
           </Grid>
         </Grid>
 
-        {/*ABOUT*/}
-        <Grid item lg={2} md={2} sm={3} xs={4}>
-          <Grid item container justify={"center"}>
-            <Grid item>
-              <Grid item container direction={"column"}>
-                <Grid item>
-                  <Typography variant={"subtitle1"} className={classes.title}>
-                    ABOUT
-                  </Typography>
-                </Grid>
-                {footerLinks[1].about.map((footer) => (
-                  <Grid item key={footer.id}>
-                    <a href={footer.link} className={classes.link}>
-                      <Typography
-                        variant={"subtitle1"}
-                        className={classes.option}
-                      >
-                        {footer.name}
-                      </Typography>
-                    </a>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
 
         {/*SUPPORT*/}
-        <Grid item lg={2} md={2} sm={3} xs={4}>
+        <Grid item lg={2} md={2} sm={4} xs={4}>
           <Grid item container justify={"center"}>
             <Grid item>
               <Grid item container direction={"column"}>
@@ -241,7 +188,7 @@ const Footer = ({auth, profile}) => {
                     SUPPORT
                   </Typography>
                 </Grid>
-                {footerLinks[2].support.map((footer) => (
+                {footerLinks[1].support.map((footer) => (
                   <Grid item key={footer.id}>
                     <a href={footer.link} className={classes.link}>
                       <Typography
@@ -263,9 +210,8 @@ const Footer = ({auth, profile}) => {
           item
           lg={2}
           md={2}
-          sm={3}
+          sm={4}
           xs={4}
-          style={matchesXS ? { marginTop: "1em" } : null}
         >
           <Grid item container justify={"center"}>
             <Grid item>
@@ -275,7 +221,7 @@ const Footer = ({auth, profile}) => {
                     LEGAL
                   </Typography>
                 </Grid>
-                {footerLinks[3].legal.map((footer) => (
+                {footerLinks[2].legal.map((footer) => (
                   <Grid item key={footer.id}>
                     <a href={authenticated ? `/auth${footer.link}` : footer.link} className={classes.link}>
                       <Typography
@@ -298,7 +244,7 @@ const Footer = ({auth, profile}) => {
           lg={2}
           md={2}
           sm={6}
-          xs={4}
+          xs={6}
           style={matchesSM ? { marginTop: "1em" } : null}
         >
           <Grid item container justify={"center"}>
@@ -309,7 +255,7 @@ const Footer = ({auth, profile}) => {
                     ADDRESS
                   </Typography>
                 </Grid>
-                {footerLinks[4].address.map((footer) => (
+                {footerLinks[3].address.map((footer) => (
                   <Grid item key={footer.id}>
                     <Typography
                       variant={"subtitle1"}
@@ -330,7 +276,7 @@ const Footer = ({auth, profile}) => {
           lg={2}
           md={2}
           sm={6}
-          xs={12}
+          xs={6}
           style={matchesSM ? { marginTop: "1em" } : null}
         >
           <Grid item container justify={"center"}>
@@ -367,7 +313,7 @@ const Footer = ({auth, profile}) => {
           }
         >
           <Typography variant={"body2"} className={classes.copyright}>
-            © TapInfluence 2020
+            © Klippit 2020
           </Typography>
         </Grid>
       </Grid>
