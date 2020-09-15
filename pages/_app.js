@@ -9,7 +9,11 @@ import { useStore } from "../src/store/store";
 import Footer from "../src/ui/Footer";
 
 // FONTS
-import '../public/assets/fonts/style.css'
+import '../public/assets/fonts/whitney/style.css'
+import '../public/assets/fonts/grotesque/style.css'
+import '../public/assets/fonts/helvetica/style.css'
+import '../public/assets/fonts/arial/style.css'
+import '../public/assets/fonts/droid/style.css'
 
 const MyApp = (props) => {
   const { Component, pageProps } = props;

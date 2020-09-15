@@ -9,7 +9,7 @@ import DashboardHeader from "../../../src/ui/DashboardHeader";
 import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
-import {fetchUserCount} from "../../../src/store/actions/dashboardActions/dashboardActions";
+import { fetchUserCount } from "../../../src/store/actions/dashboardActions/dashboardActions";
 
 const useStyles = makeStyles((theme) => ({
   headerWrapper: {
@@ -49,19 +49,24 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   titleWrapper: {
-    marginTop: "3em",
+    marginTop: "6em",
+    width: "60%",
   },
   title: {
-    fontWeight: 600,
-    [theme.breakpoints.down("md")]: {
-      fontSize: "4.5em",
-    },
+    fontFamily: "Basis Grotesque Pro, Helvetica Neue, Arial, Droid, sans-serif",
+    fontWeight: 900,
+    fontSize: "75px",
+    lineHeight: "66px",
+    color: "#000000",
+    textAlign: "center",
     [theme.breakpoints.down("sm")]: {
-      fontSize: "3.5em",
+      fontSize: "40px",
+      lineHeight: "55px",
       textAlign: "center",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "2em",
+      fontSize: "25px",
+      lineHeight: "40px",
       textAlign: "center",
     },
   },
@@ -75,11 +80,13 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   subText: {
-    [theme.breakpoints.down("md")]: {
-      fontSize: "1.3em",
-    },
+    fontFamily: "Basis Grotesque Pro, Helvetica Neue, Arial, Droid, sans-serif",
+    fontWeight: 400,
+    fontSize: "16px",
+    lineHeight: "20px",
+    color: "#4a4a4a",
     [theme.breakpoints.down("sm")]: {
-      fontSize: "1em",
+      fontSize: "14px",
       paddingLeft: "5em",
       paddingRight: "5em",
       textAlign: "center",
@@ -150,33 +157,23 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: "6px solid" + theme.palette.primary.main,
   },
   iframe: {
-    borderRadius: "10px",
-    width: "900px",
-    height: "800px",
-    [theme.breakpoints.down('md')]: {
-      width: '800px',
-      height: '700px'
+    width: "453px",
+    height: "864px",
+    [theme.breakpoints.down("xs")]: {
+      width: "440px",
+      height: "664px",
     },
-    [theme.breakpoints.down('sm')]: {
-      width: '500px',
-      height: '400px'
-    },
-    [theme.breakpoints.down('xs')]: {
-      width: '300px',
-      height: '300px'
-    }
   },
 }));
 
 const actions = {
-  fetchUserCount
-}
-
+  fetchUserCount,
+};
 
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
   profile: state.firebase.profile,
-  userCount: state.users.users
+  userCount: state.users.users,
 });
 
 const Index = ({ auth, profile, userCount, fetchUserCount }) => {
@@ -188,7 +185,7 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    fetchUserCount()
+    fetchUserCount();
     if (auth.isLoaded === true && auth.isEmpty === true) {
       router.push({ pathname: "/login" });
     }
@@ -239,12 +236,7 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
         {/*MAIN TITLE*/}
         <Grid item className={classes.titleWrapper}>
           <Typography variant={"h1"} className={classes.title}>
-            The Influencer Marketing
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Typography variant={"h1"} className={classes.title}>
-            Platform
+            The Influencer Marketing Platform
           </Typography>
         </Grid>
 
@@ -330,15 +322,15 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
           <Grid item>
             <iframe
               className={classes.iframe}
-              src="https://marvelapp.com/prototype/9242297?emb=1&iosapp=false&frameless=false"
+              src="https://marvelapp.com/prototype/f3f68jb?emb=1&iosapp=false&frameless=false"
               allowtransparency="true"
               frameBorder="0"
-            ></iframe>
+            />
           </Grid>
         </Grid>
 
         {/*YOUR SELF GUIDED*/}
-        <Grid item >
+        <Grid item>
           <Typography variant={"h1"} className={classes.title}>
             Your Self-Guided
           </Typography>
