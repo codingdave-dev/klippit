@@ -156,16 +156,19 @@ const ProfileForm = ({profile, updateUserProfile, deleteAvatarPhoto, handleSubmi
                             <Grid item>
                                 <Avatar className={classes.avatar} src={profile.imageURL || '/assets/avatar/avatar.png'}/>
                             </Grid>
-                            <Grid item style={{marginLeft: '1em'}}>
-                                <Button
-                                    variant="contained"
-                                    size={"small"}
-                                    className={classes.avatarButton}
-                                    onClick={() => setUploadImage(true)}
-                                >
-                                    Upload Avatar
-                                </Button>
-                            </Grid>
+                            {profile.imageURL === '/assets/avatar/avatar.png' && (
+                                <Grid item style={{marginLeft: '1em'}}>
+                                    <Button
+                                        variant="contained"
+                                        size={"small"}
+                                        className={classes.avatarButton}
+                                        onClick={() => setUploadImage(true)}
+                                    >
+                                        Upload Avatar
+                                    </Button>
+                                </Grid>
+                            )}
+
                             {profile.imageURL !== '/assets/avatar/avatar.png' && (
                                 <Grid item style={{marginLeft: '1em'}}>
                                     <Button

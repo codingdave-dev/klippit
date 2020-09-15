@@ -24,6 +24,9 @@ export const registerUser = (creds) => {
       let newUser = {
         uid: createdUser.user.uid,
         email: creds.email,
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
         additionalInfoSet: false,
         imageURL: "/assets/avatar/avatar.png",
         createdAt: firestore.FieldValue.serverTimestamp(),

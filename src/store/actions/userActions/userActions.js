@@ -16,7 +16,6 @@ export const updateUserProfile = (values, avatarImage) => {
     const firstName = values.firstName;
     const lastName = values.lastName;
     const phoneNumber = values.phoneNumber;
-    const graduationYear = values.graduationYear;
     const email = values.email;
 
     let imageURL = "/assets/avatar/avatar.png";
@@ -99,7 +98,6 @@ export const updateUserProfile = (values, avatarImage) => {
         firstName: firstName,
         lastName: lastName,
         phoneNumber: phoneNumber,
-        graduationYear: graduationYear,
         email: email,
         imageURL: imageURL,
         imageName: imageName,
