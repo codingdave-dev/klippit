@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   welcomeText: {
+      color: '#647191',
     marginRight: "2em",
     [theme.breakpoints.down("md")]: {
       marginRight: "1.5em",
@@ -102,9 +103,9 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   image: {
-    width: "900px",
+    width: "700px",
     [theme.breakpoints.down("md")]: {
-      width: "800px",
+      width: "500px",
     },
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -113,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   userCountTextWrapper: {
     position: "absolute",
     textAlign: "center",
-    width: "65%",
+    width: "80%",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
@@ -138,6 +139,7 @@ const useStyles = makeStyles((theme) => ({
   userNumberSubText: {
     paddingLeft: "5em",
     paddingRight: "5em",
+    fontSize: '1.2em',
     [theme.breakpoints.down("sm")]: {
       paddingLeft: "2em",
       paddingRight: "2em",
@@ -274,9 +276,7 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
                   variant={"subtitle1"}
                   className={classes.userNumberSubText}
                 >
-                  Get discovered and partner with industry-leading food,
-                  fashion, beauty and lifestyle brands. Don't sell your
-                  influence short.
+                  Number of influencers that are on our waitlist. These influencers will have access to your campaigns at launch.
                 </Typography>
               </Grid>
             </Grid>

@@ -8,36 +8,27 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   image: {
     width: "100%",
-    height: "30em",
+    height: "auto",
     filter: "brightness(0.4)",
-    [theme.breakpoints.down("md")]: {
-      height: "25em",
-    },
-    [theme.breakpoints.down("sm")]: {
-      height: "15em",
-    },
-    [theme.breakpoints.down("xs")]: {
-      height: "10em",
-    },
   },
   overlay: {
     zIndex: theme.zIndex.modal + 1,
-    marginTop: "-300px",
+    marginTop: "-800px",
     backgroundColor: "white",
     width: "60%",
     height: "60em",
     padding: "1em",
     borderRadius: "5px",
     [theme.breakpoints.down("md")]: {
-      marginTop: "-250px",
+      marginTop: "-500px",
       width: "80%",
     },
     [theme.breakpoints.down("sm")]: {
-      marginTop: "-150px",
+      marginTop: "-300px",
       width: "90%",
     },
     [theme.breakpoints.down("xs")]: {
-      marginTop: "-100px",
+      marginTop: "-150px",
     },
   },
   headerWrapper: {
@@ -49,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   textWrapper: {
-    marginTop: "0.4em",
-    marginBottom: "0.4em",
+    marginTop: "0.6em",
+    marginBottom: "0.6em",
     [theme.breakpoints.down("sm")]: {
-      marginTop: "0.3em",
-      marginBottom: "0.3em",
+      marginTop: "0.4em",
+      marginBottom: "0.4em",
     },
   },
 
@@ -107,11 +98,15 @@ const Terms = () => {
                 Terms & Conditions
               </Typography>
             </Grid>
+
+
             <Grid item className={classes.textWrapper}>
               <Typography variant={"body1"} className={classes.sectionText}>
-                Updated <span style={{ fontWeight: 600 }}>DATE HERE</span>
+                July 12, 2020
               </Typography>
             </Grid>
+
+
             <Grid item className={classes.textWrapper}>
               <Typography variant={"body1"} className={classes.sectionText}>
                 IZEA Worldwide Inc.

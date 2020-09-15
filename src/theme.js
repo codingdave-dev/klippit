@@ -48,7 +48,7 @@ const theme = createMuiTheme({
       fontFamily: "Whitney Medium, sans-serif",
     },
     body2: {
-      fontFamily: "Whitney Medium, sans-serif",
+      fontFamily: "Raleway",
     },
   },
   overrides: {
