@@ -361,7 +361,7 @@ const Index = ({
           <div className={classes.imageWrapper}>
             <Grid item container justify={"center"}>
               <Grid item>
-                <Fade in={true} timeout={500}>
+                <Fade in={true} timeout={3000}>
                   <img
                       className={classes.image}
                       src="/assets/landing/landingPage.png"
