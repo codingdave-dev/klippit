@@ -11,10 +11,12 @@ import Hidden from "@material-ui/core/Hidden";
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     zIndex: theme.zIndex.modal + 3,
-    backgroundColor: 'white',
-    paddingLeft: "1em",
-    paddingRight: "1em",
-    position: 'fixed'
+    backgroundColor: "white",
+    paddingTop: "0.8em",
+    paddingBottom: "0.8em",
+    paddingLeft: "3em",
+    paddingRight: "3em",
+    position: "fixed",
   },
   logo: {
     width: "140px",
@@ -39,9 +41,10 @@ const useStyles = makeStyles((theme) => ({
   },
 
   supportText: {
-    [theme.breakpoints.down("md")]: {
-      fontSize: "1em",
-    },
+    fontSize: "16px",
+    fontFamily: "Whitney, sans-serif",
+    textDecoration: "none",
+    color: theme.palette.common.black,
   },
   avatarWrapper: {
     marginRight: "1em",
@@ -50,12 +53,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   avatar: {
-    [theme.breakpoints.down("sm")]: {
-      "&.MuiAvatar-root": {
-        width: "30px",
-        height: "30px",
-      },
-    },
+    width: "25px",
+    height: "25px",
   },
   toolbarMargin: {
     ...theme.mixins.toolbar,
@@ -84,19 +83,24 @@ const Header = () => {
             <Grid item>
               <a href="/">
                 <img
-                    className={classes.logo}
-                    src="/assets/logo/logo.png"
-                    alt="logo"
+                  className={classes.logo}
+                  src="/assets/logo/logo.png"
+                  alt="logo"
                 />
               </a>
             </Grid>
             <Grid item>
-              <a href="/" style={{textDecoration: 'none', color: theme.palette.grey.A700}}>
+              <a
+                href="/"
+                style={{
+                  textDecoration: "none",
+                  color: theme.palette.grey.A700,
+                }}
+              >
                 <Typography className={classes.logoText} variant={"h6"}>
                   Merchant Waitlist
                 </Typography>
               </a>
-
             </Grid>
           </Grid>
         </Grid>
@@ -111,35 +115,39 @@ const Header = () => {
                     <AvatarGroup>
                       <Avatar
                         className={classes.avatar}
-                        alt="Remy Sharp"
-                        src=""
+                        alt="Suport Avatar1"
+                        src="/assets/avatar/headerAvatar/avatar1.png"
                       />
                       <Avatar
                         className={classes.avatar}
-                        alt="Travis Howard"
-                        src=""
+                        alt="Suport Avatar2"
+                        src="/assets/avatar/headerAvatar/avatar2.png"
                       />
                       <Avatar
                         className={classes.avatar}
-                        alt="Cindy Baker"
-                        src=""
+                        alt="Suport Avatar3"
+                        src="/assets/avatar/headerAvatar/avatar3.png"
                       />
                     </AvatarGroup>
                   </Grid>
                 </Hidden>
 
                 <Grid item>
-                  <Typography variant={"h6"} className={classes.supportText}>
-                    Need help?{" "}
-                    <span style={{ fontWeight: "600" }}>Get Support</span>
-                  </Typography>
+                  <a
+                    href="mailto: support@klippitapp.com?subject=Merchant Help"
+                    className={classes.supportText}
+                  >
+                    <Typography variant={"body1"}>
+                      <span style={{ color: "grey" }}>Need help? </span>
+                      <span style={{ fontWeight: "bold" }}>Get Support</span>
+                    </Typography>
+                  </a>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
       </Grid>
-      <div className={classes.toolbarMargin} />
     </Fragment>
   );
 };

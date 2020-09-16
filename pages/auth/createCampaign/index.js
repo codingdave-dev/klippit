@@ -16,9 +16,9 @@ import FinePrintForm from "../../../src/ui/createCampaign/FinePrintForm";
 import LocationForm from "../../../src/ui/createCampaign/LocationForm";
 import { createCampaign } from "../../../src/store/actions/campaignActions/campaignActions";
 import { useRouter } from "next/router";
+import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
-
   wrapper: {
     width: "60%",
     [theme.breakpoints.down("md")]: {
@@ -28,10 +28,20 @@ const useStyles = makeStyles((theme) => ({
 
   title: {
     [theme.breakpoints.down("sm")]: {
-      textAlign: 'center'
+      textAlign: "center",
     },
     [theme.breakpoints.down("xs")]: {
-      fontSize: '1em'
+      fontSize: "1em",
+    },
+  },
+
+  subTitle: {
+    color: "grey",
+    [theme.breakpoints.down("sm")]: {
+      textAlign: "center",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "1em",
     },
   },
 
@@ -40,11 +50,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     [theme.breakpoints.down("md")]: {
       marginTop: "2em",
-},
-    [theme.breakpoints.down("xs")]: {
-      textAlign: 'center'
     },
-  }
+    [theme.breakpoints.down("xs")]: {
+      textAlign: "center",
+    },
+  },
 }));
 
 const actions = {
@@ -53,7 +63,7 @@ const actions = {
 
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
-  loading: state.loading.loading
+  loading: state.loading.loading,
 });
 
 const steps = [
@@ -83,7 +93,14 @@ const steps = [
   },
 ];
 
-const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading }) => {
+const Index = ({
+  auth,
+  createCampaign,
+  handleSubmit,
+  error,
+  submitting,
+  loading,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -107,10 +124,10 @@ const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading 
     const img2 = image2 ? image2 : "";
     const img3 = image3 ? image3 : "";
 
-    await createCampaign(uid, values, img1, img2, img3)
+    await createCampaign(uid, values, img1, img2, img3);
 
     if (!loading) {
-      await router.push({ pathname: "/auth/campaigns" })
+      await router.push({ pathname: "/auth/campaigns" });
     }
   };
 
@@ -183,19 +200,28 @@ const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading 
 
       <Grid item container direction={"column"} alignItems={"center"}>
         <Grid item className={classes.wrapper}>
-
           {/*TITLE STEPPER BLOCK*/}
           <Grid item container direction={"column"} alignItems={"center"}>
             {/*TITLE*/}
             <Grid item>
               <Typography variant={"h4"} className={classes.title}>
-                Create a new campaign by following the steps below
+                Create a deal for influencers by following steps below
+              </Typography>
+            </Grid>
+
+            <Grid item style={{ marginTop: "1em" }}>
+              <Typography variant={"h6"} className={classes.subTitle}>
+                Your deal will be available at launch
               </Typography>
             </Grid>
 
             {/*STEPPER*/}
-            <Grid item className={classes.stepperWrapper} >
-              <Stepper alternativeLabel={matchesXS ? false : true} activeStep={stepperValue} orientation={matchesXS ? 'vertical' : 'horizontal'}>
+            <Grid item className={classes.stepperWrapper}>
+              <Stepper
+                alternativeLabel={matchesXS ? false : true}
+                activeStep={stepperValue}
+                orientation={matchesXS ? "vertical" : "horizontal"}
+              >
                 {steps.map((step) => (
                   <Step key={step.id}>
                     <StepLabel>
@@ -210,7 +236,10 @@ const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading 
           </Grid>
 
           {/*FORMS*/}
-          <form autoComplete={"off"} onSubmit={handleSubmit(handleCreateCampaign)}>
+          <form
+            autoComplete={"off"}
+            onSubmit={handleSubmit(handleCreateCampaign)}
+          >
             {/*SERVICE FORM*/}
             {servicePriceForm && (
               <ChooseServiceAndPriceForm nextForm={handleNextForm} />
@@ -253,6 +282,7 @@ const Index = ({ auth, createCampaign, handleSubmit, error, submitting, loading 
           </form>
         </Grid>
       </Grid>
+      <Footer />
     </Fragment>
   );
 };

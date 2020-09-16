@@ -18,7 +18,7 @@ const CheckboxInput = ({input, label, value, checkboxClass, checkboxLabelClass, 
                 control={
                     <Checkbox
                         // checked={input.value ? true : false}
-                        // checked={value}
+                        checked={value}
                         onChange={input.onChange}
                         color={'primary'}
                         size={'small'}

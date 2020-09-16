@@ -14,24 +14,32 @@ import TypeOfBusinessForm from "../../../src/ui/additionalInformation/TypeOfBusi
 import BusinessInfoForm from "../../../src/ui/additionalInformation/BusinessInfoForm";
 import ManagementResponsibilitiesForm from "../../../src/ui/additionalInformation/ManagementResponsibilitiesForm";
 import NumberOfPeopleForm from "../../../src/ui/additionalInformation/NumberOfPeopleForm";
-import { addBusinessInfo } from "../../../src/store/actions/businessActions/businessActions";
+import {
+  addBusinessInfo,
+  addBusinessType,
+  addFirstLastName,
+  addManagementResponsibilities,
+  addNumberOfPeople,
+} from "../../../src/store/actions/businessActions/businessActions";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     backgroundColor: theme.palette.common.inputGrey,
     width: "100%",
     paddingTop: "10em",
-    paddingBottom: "10em",
-
-    [theme.breakpoints.down("xs")]: {
-      paddingTop: "3.5em",
-      paddingBottom: "5em",
+    paddingBottom: "20em",
+    [theme.breakpoints.down("sm")]: {
+      paddingTop: "10em",
     },
   },
 }));
 
 const actions = {
+  addFirstLastName,
+  addBusinessType,
   addBusinessInfo,
+  addManagementResponsibilities,
+  addNumberOfPeople,
 };
 
 const mapStateToProps = (state) => ({
@@ -40,12 +48,13 @@ const mapStateToProps = (state) => ({
 });
 
 const Index = ({
+  addFirstLastName,
+  addBusinessType,
   addBusinessInfo,
+  addManagementResponsibilities,
+  addNumberOfPeople,
   auth,
   profile,
-  handleSubmit,
-  error,
-  submitting,
 }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -55,7 +64,7 @@ const Index = ({
 
   const [welcomeForm, setWelcomeForm] = useState(true);
   const [businessTypeForm, setBusinessTypeForm] = useState(false);
-  const [businessInfoForm, setBusinessForm] = useState(false);
+  const [businessInfoForm, setBusinessInfoForm] = useState(false);
   const [
     managementResponsibilitiesForm,
     setManagementResponsibilitiesForm,
@@ -76,37 +85,32 @@ const Index = ({
     }
   });
 
-  const handleNextPage = (page) => {
-    if (page === 1) {
-      setWelcomeForm(false);
-      setBusinessTypeForm(true);
-    }
-
-    if (page === 2) {
-      setWelcomeForm(false);
-      setBusinessTypeForm(false);
-      setBusinessForm(true);
-    }
-
-    if (page === 3) {
-      setWelcomeForm(false);
-      setBusinessTypeForm(false);
-      setBusinessForm(false);
-      setManagementResponsibilitiesForm(true);
-    }
-
-    if (page === 4) {
-      setWelcomeForm(false);
-      setBusinessTypeForm(false);
-      setBusinessForm(false);
-      setManagementResponsibilitiesForm(false);
-      setNumberOfPeopleForm(true);
-    }
+  const handleFirstLastName = async (values) => {
+    await addFirstLastName(uid, values);
+    setWelcomeForm(false);
+    setBusinessTypeForm(true);
   };
 
-  const formSubmit = async (values) => {
-    await addBusinessInfo(uid, values);
+  const handleBusinessType = async (values) => {
+    await addBusinessType(uid, values);
+    setBusinessTypeForm(false);
+    setBusinessInfoForm(true);
+  };
 
+  const handleBusinessInfo = async (values) => {
+    await addBusinessInfo(uid, values);
+    setBusinessInfoForm(false);
+    setManagementResponsibilitiesForm(true);
+  };
+
+  const handleManagementResponsibilities = async (values) => {
+    await addManagementResponsibilities(uid, values);
+    setManagementResponsibilitiesForm(false);
+    setNumberOfPeopleForm(true);
+  };
+
+  const handleNumberOfPeople = async (values) => {
+    await addNumberOfPeople(uid, values);
     router.push({ pathname: "/auth/dashboard" });
   };
 
@@ -117,23 +121,29 @@ const Index = ({
       <Grid container>
         <Grid item className={classes.wrapper}>
           <Grid item container direction={"column"} alignItems={"center"}>
-            <form autoComplete={"off"} onSubmit={handleSubmit(formSubmit)}>
-              {welcomeForm && <WelcomeForm nextPage={handleNextPage} />}
+            {welcomeForm && (
+              <WelcomeForm handleFirstLastName={handleFirstLastName} />
+            )}
 
-              {businessTypeForm && (
-                <TypeOfBusinessForm nextPage={handleNextPage} />
-              )}
+            {businessTypeForm && (
+              <TypeOfBusinessForm handleBusinessType={handleBusinessType} />
+            )}
 
-              {businessInfoForm && (
-                <BusinessInfoForm nextPage={handleNextPage} />
-              )}
+            {businessInfoForm && (
+              <BusinessInfoForm handleBusinessInfo={handleBusinessInfo} />
+            )}
 
-              {managementResponsibilitiesForm && (
-                <ManagementResponsibilitiesForm nextPage={handleNextPage} />
-              )}
+            {managementResponsibilitiesForm && (
+              <ManagementResponsibilitiesForm
+                handleManagementResponsibilities={
+                  handleManagementResponsibilities
+                }
+              />
+            )}
 
-              {numberOfPeopleForm && <NumberOfPeopleForm submitting={submitting}/>}
-            </form>
+            {numberOfPeopleForm && (
+              <NumberOfPeopleForm handleNumberOfPeople={handleNumberOfPeople} />
+            )}
           </Grid>
         </Grid>
       </Grid>
@@ -141,7 +151,4 @@ const Index = ({
   );
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(reduxForm({ form: "additionalInfo", destroyOnUnmount: false })(Index));
+export default connect(mapStateToProps, actions)(Index);

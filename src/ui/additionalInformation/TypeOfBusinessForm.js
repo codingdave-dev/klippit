@@ -3,18 +3,24 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 
 import Typography from "@material-ui/core/Typography";
-import { Field } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import CheckboxInput from "../../common/form/CheckboxInput";
 import Button from "@material-ui/core/Button";
+import { SubmissionError } from "redux-form";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
+    fontFamily: 'Whitney, sans-serif',
+    fontWeight: '700',
+    fontSize: '48px',
+    lineHeight: '58px',
     [theme.breakpoints.down("sm")]: {
       fontSize: "2.5em",
     },
     [theme.breakpoints.down("xs")]: {
-      paddingLeft: '0.5em',
-      paddingRight: '0.5em',
+      paddingLeft: "0.5em",
+      paddingRight: "0.5em",
       fontSize: "2.4em",
       textAlign: "center",
     },
@@ -56,6 +62,10 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.light,
     },
   },
+  error: {
+    color: theme.palette.error.main,
+    fontWeight: 500,
+  },
 }));
 
 const businessTypes = [
@@ -85,9 +95,31 @@ const businessTypes = [
   },
 ];
 
-const TypeOfBusinessForm = ({ nextPage }) => {
+
+
+const TypeOfBusinessForm = ({
+  handleBusinessType,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
+
+  const validate = (value) => {
+    if (
+      value.foodBeverage ||
+      value.beautySpa ||
+      value.healthFitness ||
+      value.onlineGoods ||
+      value.events ||
+      value.thingsToDo === true
+    ) {
+      handleBusinessType(value);
+    } else {
+      throw new SubmissionError({ _error: "Please choose an option" });
+    }
+  };
 
   return (
     <Fragment>
@@ -101,42 +133,55 @@ const TypeOfBusinessForm = ({ nextPage }) => {
       </Grid>
 
       {/*BUSINESS OPTIONS*/}
-      <Grid item container justify={"center"}>
-        <Grid item className={classes.optionWrapper}>
-          {businessTypes.map((business) => (
-            <Grid key={business.id} item className={classes.option}>
-              <Grid item container alignItems={"center"}>
-                <Grid item>
-                  <Typography variant={"subtitle1"}>{business.name}</Typography>
-                </Grid>
+      <form autoComplete={"off"} onSubmit={handleSubmit(validate)}>
+        <Grid item container justify={"center"}>
+          <Grid item className={classes.optionWrapper}>
+            {businessTypes.map((business) => (
+              <Grid key={business.id} item className={classes.option}>
+                <Grid item container alignItems={"center"}>
+                  <Grid item>
+                    <Typography variant={"subtitle1"}>
+                      {business.name}
+                    </Typography>
+                  </Grid>
 
-                <Grid item style={{ marginLeft: "auto" }}>
-                  <Field
-                    name={business.id}
-                    component={CheckboxInput}
-                    checkboxClass={classes.checkbox}
-                  />
+                  <Grid item style={{ marginLeft: "auto" }}>
+                    <Field
+                      name={business.id}
+                      component={CheckboxInput}
+                      checkboxClass={classes.checkbox}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          ))}
+            ))}
 
-          <Grid item style={{ marginTop: "3em" }}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="secondary"
-              size={"large"}
-              fullWidth
-              onClick={() => nextPage(2)}
-            >
-              Continue
-            </Button>
+            {error && (
+              <Grid item style={{ marginTop: "0.5em" }}>
+                <Typography variant={"subtitle1"} className={classes.error}>
+                  {error}
+                </Typography>
+              </Grid>
+            )}
+
+            <Grid item style={{ marginTop: "3em" }}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size={"large"}
+                fullWidth
+                type={"submit"}
+                disabled={submitting}
+              >
+                Continue
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </form>
     </Fragment>
   );
 };
 
-export default TypeOfBusinessForm;
+export default reduxForm({ form: "typeOfBusiness" })(TypeOfBusinessForm);

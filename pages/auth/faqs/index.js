@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { connect } from "react-redux";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -309,6 +310,7 @@ const Index = ({ auth, profile }) => {
           </Grid>
         </Grid>
       )}
+      <Footer/>
     </Fragment>
   );
 };

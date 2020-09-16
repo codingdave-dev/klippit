@@ -3,13 +3,19 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
-import { Field } from "redux-form";
+import { Field, reduxForm, SubmissionError } from "redux-form";
 import CheckboxInput from "../../common/form/CheckboxInput";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
+import handleSubmit from "redux-form/lib/handleSubmit";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
+    fontFamily: 'Whitney, sans-serif',
+    fontWeight: '700',
+    fontSize: '48px',
+    lineHeight: '58px',
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
       fontSize: "2.5em",
@@ -20,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   subTitle: {
+    color: 'grey',
     [theme.breakpoints.down("sm")]: {
       fontSize: "1em",
     },
@@ -65,6 +72,10 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.light,
     },
   },
+  error: {
+    color: theme.palette.error.main,
+    fontWeight: 500,
+  },
 }));
 
 const managementResponsibilities = [
@@ -82,10 +93,28 @@ const managementResponsibilities = [
   },
 ];
 
-const ManagementResponsibilitiesForm = ({ nextPage }) => {
+
+const ManagementResponsibilitiesForm = ({
+  handleManagementResponsibilities,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
-    const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+  const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
+
+  const validate = (value) => {
+    if (
+      value.manager ||
+      value.individualContributor ||
+      value.executive === true
+    ) {
+      handleManagementResponsibilities(value);
+    } else {
+      throw new SubmissionError({ _error: "Please choose an option" });
+    }
+  };
 
   return (
     <Fragment>
@@ -96,7 +125,7 @@ const ManagementResponsibilitiesForm = ({ nextPage }) => {
             What best describes your management responsibilities/level
           </Typography>
         </Grid>
-        <Grid item style={{marginTop: '1em'}}>
+        <Grid item style={{ marginTop: "1em" }}>
           <Typography variant={"h5"} className={classes.subTitle}>
             Select the role that best describes your job function
           </Typography>
@@ -104,44 +133,57 @@ const ManagementResponsibilitiesForm = ({ nextPage }) => {
       </Grid>
 
       {/*BUSINESS OPTIONS*/}
-      <Grid item container justify={"center"}>
-        <Grid item className={classes.optionWrapper}>
-          {managementResponsibilities.map((management) => (
-            <Grid key={management.id} item className={classes.option}>
-              <Grid item container alignItems={"center"}>
-                <Grid item>
-                  <Typography variant={"subtitle1"}>
-                    {management.name}
-                  </Typography>
-                </Grid>
+      <form autoComplete={"off"} onSubmit={handleSubmit(validate)}>
+        <Grid item container justify={"center"}>
+          <Grid item className={classes.optionWrapper}>
+            {managementResponsibilities.map((management) => (
+              <Grid key={management.id} item className={classes.option}>
+                <Grid item container alignItems={"center"}>
+                  <Grid item>
+                    <Typography variant={"subtitle1"}>
+                      {management.name}
+                    </Typography>
+                  </Grid>
 
-                <Grid item style={{ marginLeft: "auto" }}>
-                  <Field
-                    name={management.id}
-                    component={CheckboxInput}
-                    checkboxClass={classes.checkbox}
-                  />
+                  <Grid item style={{ marginLeft: "auto" }}>
+                    <Field
+                      name={management.id}
+                      component={CheckboxInput}
+                      checkboxClass={classes.checkbox}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          ))}
+            ))}
 
-          <Grid item style={{ marginTop: "3em" }}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="secondary"
-              size={"large"}
-              fullWidth
-              onClick={() => nextPage(4)}
-            >
-              Continue
-            </Button>
+            {error && (
+              <Grid item style={{ marginTop: "0.5em" }}>
+                <Typography variant={"subtitle1"} className={classes.error}>
+                  {error}
+                </Typography>
+              </Grid>
+            )}
+
+            <Grid item style={{ marginTop: "3em" }}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size={"large"}
+                fullWidth
+                type={"submit"}
+                disabled={submitting}
+              >
+                Continue
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </form>
     </Fragment>
   );
 };
 
-export default ManagementResponsibilitiesForm;
+export default reduxForm({ form: "addManagementResponsibilities" })(
+  ManagementResponsibilitiesForm
+);

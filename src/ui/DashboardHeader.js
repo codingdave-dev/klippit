@@ -159,10 +159,10 @@ const drawerLinks = [
     link: "/auth/faqs",
   },
   {
-    id: "invites",
-    name: "Invites",
-    icon: "/assets/icon/nav/question.png",
-    link: "/auth/invites",
+    id: "howItWorks",
+    name: "How it works",
+    icon: "/assets/icon/nav/question-mark.png",
+    link: "/auth/howItWorks",
   },
   {
     id: "privacyPolicy",

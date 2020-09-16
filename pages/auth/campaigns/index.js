@@ -13,6 +13,7 @@ import CampaignTable from "../../../src/ui/campaigns/CampaignTable";
 import {connect} from "react-redux";
 import {useRouter} from "next/router";
 import {fetchUserCampaigns, toggleCampaign} from "../../../src/store/actions/campaignActions/campaignActions";
+import Footer from "../../../src/ui/Footer";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -194,7 +195,7 @@ const Index = ({auth, profile, fetchUserCampaigns, toggleCampaign, currentCampai
 
 
 
-
+            <Footer/>
 
         </Fragment>
     );

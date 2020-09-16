@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
 import cuid from "cuid/index";
+import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -1573,6 +1574,8 @@ const Index = ({ auth, profile }) => {
           </Grid>
         </Grid>
       </Grid>
+
+      <Footer/>
     </Fragment>
   );
 };

@@ -3,13 +3,17 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
-import { Field } from "redux-form";
+import { Field, reduxForm, SubmissionError } from "redux-form";
 import CheckboxInput from "../../common/form/CheckboxInput";
 import Button from "@material-ui/core/Button";
-import Hidden from "@material-ui/core/Hidden";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   title: {
+    fontFamily: 'Whitney, sans-serif',
+    fontWeight: '700',
+    fontSize: '48px',
+    lineHeight: '58px',
     textAlign: "center",
     [theme.breakpoints.down("sm")]: {
       fontSize: "2.5em",
@@ -56,35 +60,59 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.light,
     },
   },
+  error: {
+    color: theme.palette.error.main,
+    fontWeight: 500,
+  },
 }));
 
 const numberOfEmployees = [
   {
-    id: "1to10",
+    id: "oneToTen",
     name: "1 - 10",
   },
   {
-    id: "11to50",
+    id: "elevenToFifty",
     name: "11 - 50",
   },
   {
-    id: "51to250",
+    id: "fiftyOneToTwoFifty",
     name: "51 - 250",
   },
   {
-    id: "251to1000",
+    id: "twoFiftyOneToOneHundered",
     name: "251 - 1000",
   },
   {
-    id: "1000plus",
+    id: "oneThousandPlus",
     name: "1000 +",
   },
 ];
 
-const NumberOfPeopleForm = ({ submitting }) => {
+
+const NumberOfPeopleForm = ({
+  handleNumberOfPeople,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const validate = (value) => {
+    if (
+      value.oneToTen ||
+      value.elevenToFifty ||
+      value.fiftyOneToTwoFifty ||
+      value.twoFiftyOneToOneHundered ||
+      value.oneThousandPlus === true
+    ) {
+      handleNumberOfPeople(value);
+    } else {
+      throw new SubmissionError({ _error: "Please choose an option" });
+    }
+  };
   return (
     <Fragment>
       {/*NUMBER OF PEOPLE*/}
@@ -97,43 +125,52 @@ const NumberOfPeopleForm = ({ submitting }) => {
       </Grid>
 
       {/*PEOPLE OPTIONS*/}
-      <Grid item container justify={"center"}>
-        <Grid item className={classes.optionWrapper}>
-          {numberOfEmployees.map((number) => (
-            <Grid key={number.id} item className={classes.option}>
-              <Grid item container alignItems={"center"}>
-                <Grid item>
-                  <Typography variant={"subtitle1"}>{number.name}</Typography>
-                </Grid>
+      <form autoComplete={"off"} onSubmit={handleSubmit(validate)}>
+        <Grid item container justify={"center"}>
+          <Grid item className={classes.optionWrapper}>
+            {numberOfEmployees.map((number) => (
+              <Grid key={number.id} item className={classes.option}>
+                <Grid item container alignItems={"center"}>
+                  <Grid item>
+                    <Typography variant={"subtitle1"}>{number.name}</Typography>
+                  </Grid>
 
-                <Grid item style={{ marginLeft: "auto" }}>
-                  <Field
-                    name={number.id}
-                    component={CheckboxInput}
-                    checkboxClass={classes.checkbox}
-                  />
+                  <Grid item style={{ marginLeft: "auto" }}>
+                    <Field
+                      name={number.id}
+                      component={CheckboxInput}
+                      checkboxClass={classes.checkbox}
+                    />
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          ))}
+            ))}
+            {error && (
+              <Grid item style={{ marginTop: "0.5em" }}>
+                <Typography variant={"subtitle1"} className={classes.error}>
+                  {error}
+                </Typography>
+              </Grid>
+            )}
 
-          <Grid item style={{ marginTop: "3em" }}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              color="secondary"
-              size={"large"}
-              fullWidth
-              type={"submit"}
-              disabled={submitting}
-            >
-              Continue
-            </Button>
+            <Grid item style={{ marginTop: "3em" }}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="secondary"
+                size={"large"}
+                fullWidth
+                type={"submit"}
+                disabled={submitting}
+              >
+                Continue
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </form>
     </Fragment>
   );
 };
 
-export default NumberOfPeopleForm;
+export default reduxForm({ form: "addNumberOfPeople" })(NumberOfPeopleForm);

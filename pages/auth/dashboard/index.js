@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import { fetchUserCount } from "../../../src/store/actions/dashboardActions/dashboardActions";
+import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
   headerWrapper: {
@@ -353,6 +354,7 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
           </Button>
         </Grid>
       </Grid>
+      <Footer/>
     </Fragment>
   );
 };

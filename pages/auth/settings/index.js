@@ -13,6 +13,7 @@ import {logout} from "../../../src/store/actions/authActions/authActions";
 
 import ProfileForm from "../../../src/ui/settings/ProfileForm";
 import PasswordForm from "../../../src/ui/settings/PasswordForm";
+import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -136,6 +137,8 @@ const Index = ({auth, profile, logout, changeUserPassword, handleSubmit, error, 
 
 
             </Grid>
+
+            <Footer/>
         </div>
     );
 };

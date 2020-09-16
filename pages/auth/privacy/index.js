@@ -6,6 +6,7 @@ import DashboardHeader from "../../../src/ui/DashboardHeader";
 import Typography from "@material-ui/core/Typography";
 import { connect } from "react-redux";
 import { useRouter } from "next/router";
+import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
   image: {
@@ -202,6 +203,7 @@ const Index = ({ auth, profile }) => {
           </Grid>
         </Grid>
       </Grid>
+      <Footer/>
     </Fragment>
   );
 };
