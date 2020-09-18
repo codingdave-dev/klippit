@@ -11,7 +11,7 @@ import StepLabel from "@material-ui/core/StepLabel";
 import { connect } from "react-redux";
 import ChooseServiceAndPriceForm_Edit from "../../../src/ui/edit Campaign/ChooseServiceAndPriceForm_Edit";
 import {fetchCampaign} from "../../../src/store/actions/campaignActions/campaignActions";
-import {withRouter} from "next/router";
+import {useRouter, withRouter} from "next/router";
 import Router from "next/router";
 import AddImagesForm_Edit from "../../../src/ui/edit Campaign/AddImagesForm_Edit";
 import DescribeBusinessForm_Edit from "../../../src/ui/edit Campaign/DescribeBusinessForm_Edit";
@@ -110,10 +110,12 @@ const Index = ({ auth, profile, fetchCampaign, router, loading }) => {
 
   const id = router.query.id;
 
+  console.log(router)
+
   useEffect(() => {
-    if (auth.isLoaded === true && auth.isEmpty === true) {
-      Router.push({ pathname: "/login" });
-    }
+    // if (auth.isLoaded === true && auth.isEmpty === true) {
+    //   route.push({ pathname: "/login" });
+    // }
 
     fetchCampaign(id)
 

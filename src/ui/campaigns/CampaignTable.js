@@ -122,7 +122,7 @@ const CampaignTable = ({ campaigns, deleteCampaign }) => {
               Project Name
             </TableCell>
             <TableCell className={classes.dateHeaderCell} align={"center"}>
-              Start Date
+              Date Created
             </TableCell>
             <TableCell className={classes.actionHeaderCell}>Action</TableCell>
           </TableRow>

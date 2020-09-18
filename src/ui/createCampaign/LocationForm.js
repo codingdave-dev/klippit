@@ -170,22 +170,28 @@ const LocationForm = ({
       values.myBusinessHasAPhysicalLocation ||
       values.myBusinessDoesntHaveAPhysicalLocation === true
     ) {
-      if (addLocation) {
-        if (
-          values.locations[0].streetAddress &&
-          values.locations[0].city &&
-          values.locations[0].state &&
-          values.locations[0].zip &&
-          values.locations[0].phoneNumber
-        ) {
-          await createCampaignStep5(campaignId, values);
-          router.push({ pathname: "/auth/createCampaign/confirmation" });
+      if (values.myBusinessHasAPhysicalLocation === true) {
+        if (addLocation) {
+          if (
+              values.locations[0].streetAddress &&
+              values.locations[0].city &&
+              values.locations[0].state &&
+              values.locations[0].zip &&
+              values.locations[0].phoneNumber
+          ) {
+            await createCampaignStep5(campaignId, values);
+            router.push({ pathname: "/auth/createCampaign/confirmation" });
+          } else {
+            throw new SubmissionError({ _error: "Please fill in all fields" });
+          }
         } else {
-          throw new SubmissionError({ _error: "Please fill in all fields" });
+          throw new SubmissionError({ _error: "Please add a business address" });
         }
       } else {
-        throw new SubmissionError({ _error: "Please add a business address" });
+        await createCampaignStep5(campaignId, values);
+        router.push({ pathname: "/auth/createCampaign/confirmation" });
       }
+
     } else {
       throw new SubmissionError({ _error: "Please select a location option" });
     }

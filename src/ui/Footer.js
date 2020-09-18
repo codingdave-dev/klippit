@@ -62,7 +62,7 @@ const footerLinks = [
       {
         id: "helpCenter",
         name: "Help Center",
-        link: "/",
+        link: "/auth/faqs",
       },
       {
         id: "contactUs",

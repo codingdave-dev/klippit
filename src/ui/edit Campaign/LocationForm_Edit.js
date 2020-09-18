@@ -171,28 +171,57 @@ const LocationForm = ({
 
   const handleLocation = async (values) => {
     if (
-      values.myBusinessHasAPhysicalLocation ||
-      values.myBusinessDoesntHaveAPhysicalLocation === true
+        values.myBusinessHasAPhysicalLocation ||
+        values.myBusinessDoesntHaveAPhysicalLocation === true
     ) {
-      if (addLocation) {
-        if (
-          values.locations[0].streetAddress &&
-          values.locations[0].city &&
-          values.locations[0].state &&
-          values.locations[0].zip &&
-          values.locations[0].phoneNumber
-        ) {
-          await editCampaignStep5(campaignId, values);
-          router.push({ pathname: "/auth/campaigns" });
+      if (values.myBusinessHasAPhysicalLocation === true) {
+        if (addLocation) {
+          if (
+              values.locations[0].streetAddress &&
+              values.locations[0].city &&
+              values.locations[0].state &&
+              values.locations[0].zip &&
+              values.locations[0].phoneNumber
+          ) {
+            await editCampaignStep5(campaignId, values);
+            router.push({ pathname: "/auth/campaigns" });
+          } else {
+            throw new SubmissionError({ _error: "Please fill in all fields" });
+          }
         } else {
-          throw new SubmissionError({ _error: "Please fill in all fields" });
+          throw new SubmissionError({ _error: "Please add a business address" });
         }
       } else {
-        throw new SubmissionError({ _error: "Please add a business address" });
+        await editCampaignStep5(campaignId, values);
+        router.push({ pathname: "/auth/campaigns" });
       }
+
     } else {
       throw new SubmissionError({ _error: "Please select a location option" });
     }
+    // if (
+    //   values.myBusinessHasAPhysicalLocation ||
+    //   values.myBusinessDoesntHaveAPhysicalLocation === true
+    // ) {
+    //   if (addLocation) {
+    //     if (
+    //       values.locations[0].streetAddress &&
+    //       values.locations[0].city &&
+    //       values.locations[0].state &&
+    //       values.locations[0].zip &&
+    //       values.locations[0].phoneNumber
+    //     ) {
+    //       await editCampaignStep5(campaignId, values);
+    //       router.push({ pathname: "/auth/campaigns" });
+    //     } else {
+    //       throw new SubmissionError({ _error: "Please fill in all fields" });
+    //     }
+    //   } else {
+    //     throw new SubmissionError({ _error: "Please add a business address" });
+    //   }
+    // } else {
+    //   throw new SubmissionError({ _error: "Please select a location option" });
+    // }
   };
 
   const handleAddLocation = () => {
