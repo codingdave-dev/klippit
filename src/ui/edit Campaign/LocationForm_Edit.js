@@ -14,8 +14,11 @@ import CancelIcon from "@material-ui/icons/Cancel";
 
 import TextInput from "../../common/form/TextInput";
 import { connect } from "react-redux";
-import { createCampaignStep5 } from "../../store/actions/campaignActions/campaignActions";
-import router  from "next/router";
+import {
+  createCampaignStep5,
+  editCampaignStep5,
+} from "../../store/actions/campaignActions/campaignActions";
+import router, { withRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -137,18 +140,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// const mapStateToProps = (state) => {
-//   return {
-//     initialValues: state.campaigns.addCampaign[0],
-//   };
-// };
-
 const actions = {
-  createCampaignStep5,
+  editCampaignStep5,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.firebase.auth,
+    profile: state.firebase.profile,
+    initialValues: state.campaigns.addCampaign[0],
+  };
 };
 
 const LocationForm = ({
-  createCampaignStep5,
+  editCampaignStep5,
   pushArray,
   campaignId,
   nextForm,
@@ -160,7 +165,7 @@ const LocationForm = ({
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const [addLocation, setAddLocation] = useState(false);
+  const [addLocation, setAddLocation] = useState(true);
 
   const handleLocation = async (values) => {
     if (
@@ -175,7 +180,7 @@ const LocationForm = ({
           values.locations[0].zip &&
           values.locations[0].phoneNumber
         ) {
-          await createCampaignStep5(campaignId, values);
+          await editCampaignStep5(campaignId, values);
           router.push({ pathname: "/auth/dashboard" });
         } else {
           throw new SubmissionError({ _error: "Please fill in all fields" });
@@ -243,8 +248,14 @@ const LocationForm = ({
                   <IconButton
                     aria-label="delete"
                     className={classes.cancelIcon}
-                    onClick={() => fields.remove(index)}
+                    onClick={() => {
+                      fields.remove(index);
+                      if (fields.length === 1) {
+                        setAddLocation(false);
+                      }
+                    }}
                   >
+                    {console.log(fields.length)}
                     <CancelIcon />
                   </IconButton>
                 </Grid>
@@ -467,7 +478,13 @@ const LocationForm = ({
   );
 };
 
-export default connect(
-  null,
-  actions
-)(reduxForm({ form: "addBusinessLocation" })(LocationForm));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    actions
+  )(
+    reduxForm({ form: "addBusinessLocation", enableReinitialize: true })(
+      LocationForm
+    )
+  )
+);

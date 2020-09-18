@@ -14,6 +14,8 @@ import TableBody from "@material-ui/core/TableBody";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { useRouter } from "next/router";
+import {deleteCampaign} from "../../store/actions/campaignActions/campaignActions";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   nameHeaderCell: {
@@ -69,13 +71,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CampaignTable = ({ campaigns }) => {
+const actions = {
+  deleteCampaign
+}
+
+const CampaignTable = ({ campaigns, deleteCampaign }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
 
-  console.log(campaigns);
+  const handleDeleteCampaign = (id) => {
+    deleteCampaign(id)
+  }
+
   return (
     <TableContainer>
       <Table aria-label="simple table">
@@ -122,7 +131,7 @@ const CampaignTable = ({ campaigns }) => {
                       |
                     </Grid>
                     <Grid item>
-                      <Typography variant={"body2"}>Delete</Typography>
+                      <Typography variant={"body2"} onClick={() => handleDeleteCampaign(campaign.id)}>Delete</Typography>
                     </Grid>
                   </Grid>
                 </TableCell>
@@ -134,4 +143,4 @@ const CampaignTable = ({ campaigns }) => {
   );
 };
 
-export default CampaignTable;
+export default connect(null, actions)(CampaignTable);

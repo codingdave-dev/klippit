@@ -23,8 +23,7 @@ const CheckCircleInput = ({input, label, value, checkboxClass, checkboxLabelClas
                 className={checkboxLabelClass}
                 control={
                     <Checkbox
-                        // checked={input.value ? true : false}
-                        // checked={value}
+                        checked={input.value}
                         onChange={input.onChange}
                         color={'primary'}
                         size={'small'}

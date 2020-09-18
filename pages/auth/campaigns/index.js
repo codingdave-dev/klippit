@@ -50,9 +50,7 @@ const mapStateToProps = (state) => {
   let currentCampaigns = [];
 
   if (state.campaigns.campaigns && state.campaigns.campaigns.length > 0) {
-    currentCampaigns = state.campaigns.campaigns.filter(
-      (array) => array.active === true
-    );
+    currentCampaigns = state.campaigns.campaigns
   }
 
   return {

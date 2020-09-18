@@ -142,13 +142,13 @@ const AddImagesForm = ({
           Choose service and Price
         </Typography>
       </Grid>
-
+      <Grid item>
+        <Typography variant={"subtitle1"} className={classes.subTitle}>
+          UPLOAD UP TO THREE IMAGES
+        </Typography>
+      </Grid>
       <form autoComplete={"off"} onSubmit={handleSubmit(handleAddImages)}>
-        <Grid item>
-          <Typography variant={"subtitle1"} className={classes.subTitle}>
-            UPLOAD UP TO THREE IMAGES
-          </Typography>
-        </Grid>
+
 
         <Grid item container justify={"center"}>
           <Grid item lg={4}>
