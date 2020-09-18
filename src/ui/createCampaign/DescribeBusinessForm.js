@@ -5,9 +5,12 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import { Field } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 
 import TextAreaInput from "../../common/form/TextAreaInput";
+import { connect } from "react-redux";
+import { createCampaignStep3 } from "../../store/actions/campaignActions/campaignActions";
+import {combineValidators, isRequired} from "revalidate";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -73,64 +76,92 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DescribeBusinessForm = ({ nextForm, prevForm }) => {
+const validate = combineValidators({
+  businessDescription: isRequired({ message: "Business description is required" }),
+});
+
+const actions = {
+  createCampaignStep3,
+};
+
+const DescribeBusinessForm = ({
+  createCampaignStep3,
+  campaignId,
+  nextForm,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleBusinessDescription = async (value) => {
+    let ref = await createCampaignStep3(campaignId, value);
+    nextForm("finePrint", ref);
+  };
   return (
-    <Grid
-      item
-      container
-      direction={"column"}
-      alignItems={"center"}
-      className={classes.formWrapper}
+    <form
+      autoComplete={"off"}
+      onSubmit={handleSubmit(handleBusinessDescription)}
     >
-      <Grid item>
-        <Typography variant={"h5"} className={classes.title}>
-          Describe your business in 115 Characters
-        </Typography>
-      </Grid>
-
-      <Grid item container>
-        <Grid item className={classes.inputWrapper}>
-          <Field
-            inputStyle={classes.textInput}
-            name={"businessDescription"}
-            placeholder={"Enter the description"}
-            rows={15}
-            type={"text"}
-            variant={"outlined"}
-            component={TextAreaInput}
-          />
+      <Grid
+        item
+        container
+        direction={"column"}
+        alignItems={"center"}
+        className={classes.formWrapper}
+      >
+        <Grid item>
+          <Typography variant={"h5"} className={classes.title}>
+            Describe your business in 115 Characters
+          </Typography>
         </Grid>
-      </Grid>
-
-      <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
         <Grid item container>
-          <Grid item style={{ marginRight: "1em" }}>
-            <Button
-              variant="contained"
-              size={"large"}
-              className={classes.buttonGrey}
-              onClick={() => prevForm("addImages")}
-            >
-              Back
-            </Button>
+          <Grid item className={classes.inputWrapper}>
+            <Field
+              inputStyle={classes.textInput}
+              name={"businessDescription"}
+              placeholder={"Enter the description"}
+              rows={15}
+              type={"text"}
+              variant={"outlined"}
+              component={TextAreaInput}
+            />
           </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              size={"large"}
-              className={classes.button}
-              onClick={() => nextForm("finePrint")}
-            >
-              Next Step
-            </Button>
+        </Grid>
+
+        <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
+          <Grid item container>
+            <Grid item style={{ marginRight: "1em" }}>
+              <Button
+                variant="contained"
+                size={"large"}
+                className={classes.buttonGrey}
+                // onClick={() => prevForm("addImages")}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                size={"large"}
+                className={classes.button}
+                type={"submit"}
+                disabled={submitting}
+              >
+                Next Step
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </form>
   );
 };
 
-export default DescribeBusinessForm;
+export default connect(
+  null,
+  actions
+)(reduxForm({ form: "addBusinessDescription", validate })(DescribeBusinessForm));

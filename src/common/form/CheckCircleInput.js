@@ -7,6 +7,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     // ADD STYLES HERE
@@ -34,6 +35,7 @@ const CheckCircleInput = ({input, label, value, checkboxClass, checkboxLabelClas
                 }
                 label={label}
             />
+
         </Fragment>
     );
 };

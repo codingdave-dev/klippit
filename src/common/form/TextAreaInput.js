@@ -43,6 +43,12 @@ const TextAreaInput = ({
 
             />
 
+            {touched && error && (
+                <Typography variant={"subtitle1"} className={classes.error}>
+                    {error}
+                </Typography>
+            )}
+
 
         </Fragment>
     );

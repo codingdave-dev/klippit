@@ -7,15 +7,14 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
+
 import Typography from "@material-ui/core/Typography";
 import ChooseServiceAndPriceForm from "../../../src/ui/createCampaign/ChooseServiceAndPriceForm";
 import AddImagesForm from "../../../src/ui/createCampaign/AddImagesForm";
 import DescribeBusinessForm from "../../../src/ui/createCampaign/DescribeBusinessForm";
 import FinePrintForm from "../../../src/ui/createCampaign/FinePrintForm";
 import LocationForm from "../../../src/ui/createCampaign/LocationForm";
-import { createCampaign } from "../../../src/store/actions/campaignActions/campaignActions";
-import { useRouter } from "next/router";
+
 import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,10 +56,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const actions = {
-  createCampaign,
-};
-
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
   loading: state.loading.loading,
@@ -93,21 +88,10 @@ const steps = [
   },
 ];
 
-const Index = ({
-  auth,
-  createCampaign,
-  handleSubmit,
-  error,
-  submitting,
-  loading,
-}) => {
+const Index = ({ auth, loading }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
-
-  const [image1, setImage1] = useState(null);
-  const [image2, setImage2] = useState("");
-  const [image3, setImage3] = useState("");
 
   const [stepperValue, setStepperValue] = useState(0);
   const [servicePriceForm, setServicePriceForm] = useState(true);
@@ -116,22 +100,12 @@ const Index = ({
   const [finePrintForm, setFinePrintForm] = useState(false);
   const [locationForm, setLocationForm] = useState(false);
 
+  const [campaignId, setCampaignId] = useState("");
+
   const uid = auth.uid;
-  const router = useRouter();
 
-  const handleCreateCampaign = async (values) => {
-    const img1 = image1 ? image1 : "";
-    const img2 = image2 ? image2 : "";
-    const img3 = image3 ? image3 : "";
-
-    await createCampaign(uid, values, img1, img2, img3);
-
-    if (!loading) {
-      await router.push({ pathname: "/auth/campaigns" });
-    }
-  };
-
-  const handleNextForm = (form) => {
+  const handleNextForm = (form, ref) => {
+    setCampaignId(ref);
     if (form === "addImages") {
       setServicePriceForm(false);
       setAddImagesForm(true);
@@ -236,50 +210,29 @@ const Index = ({
           </Grid>
 
           {/*FORMS*/}
-          <form
-            autoComplete={"off"}
-            onSubmit={handleSubmit(handleCreateCampaign)}
-          >
-            {/*SERVICE FORM*/}
-            {servicePriceForm && (
-              <ChooseServiceAndPriceForm nextForm={handleNextForm} />
-            )}
+          {/*SERVICE FORM*/}
+          {servicePriceForm && (
+            <ChooseServiceAndPriceForm nextForm={handleNextForm} />
+          )}
 
-            {addImagesForm && (
-              <AddImagesForm
-                nextForm={handleNextForm}
-                prevForm={handlePrevForm}
-                image1={image1}
-                setImage1={setImage1}
-                image2={image2}
-                setImage2={setImage2}
-                image3={image3}
-                setImage3={setImage3}
-              />
-            )}
+          {addImagesForm && (
+            <AddImagesForm campaignId={campaignId} nextForm={handleNextForm} />
+          )}
 
-            {describeBusinessForm && (
-              <DescribeBusinessForm
-                nextForm={handleNextForm}
-                prevForm={handlePrevForm}
-              />
-            )}
+          {describeBusinessForm && (
+            <DescribeBusinessForm
+              campaignId={campaignId}
+              nextForm={handleNextForm}
+            />
+          )}
 
-            {finePrintForm && (
-              <FinePrintForm
-                nextForm={handleNextForm}
-                prevForm={handlePrevForm}
-              />
-            )}
+          {finePrintForm && (
+            <FinePrintForm campaignId={campaignId} nextForm={handleNextForm} />
+          )}
 
-            {locationForm && (
-              <LocationForm
-                nextForm={handleNextForm}
-                prevForm={handlePrevForm}
-                submitting={submitting}
-              />
-            )}
-          </form>
+          {locationForm && (
+            <LocationForm campaignId={campaignId} nextForm={handleNextForm} />
+          )}
         </Grid>
       </Grid>
       <Footer />
@@ -287,7 +240,4 @@ const Index = ({
   );
 };
 
-export default connect(
-  mapStateToProps,
-  actions
-)(reduxForm({ form: "createCampaign", destroyOnUnmount: false })(Index));
+export default connect(mapStateToProps)(Index);

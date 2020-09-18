@@ -1,12 +1,12 @@
 import {createReducer} from "../../../common/util/reducerUtil";
-import {FETCH_USER_CAMPAIGNS} from "../../constants/campaignConstants/campaignConstants";
+import {ADD_CAMPAIGN, FETCH_USER_CAMPAIGNS} from "../../constants/campaignConstants/campaignConstants";
 
 
 
 
 const initialState = {
     campaigns: [],
-
+    addCampaign: []
 }
 
 const fetchUserCampaigns = (state, payload) => {
@@ -16,8 +16,16 @@ const fetchUserCampaigns = (state, payload) => {
     }
 }
 
+const addCampaign = (state, payload) => {
+    return {
+        ...state,
+        addCampaign: payload.campaign,
+    }
+}
+
 
 export default createReducer(initialState, {
     [FETCH_USER_CAMPAIGNS]: fetchUserCampaigns,
+    [ADD_CAMPAIGN]: addCampaign,
 
 })

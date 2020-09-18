@@ -5,7 +5,13 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleInput from "../../common/form/CheckCircleInput";
 import CheckboxInput from "../../common/form/CheckboxInput";
-import { Field, FieldArray, reduxForm, arrayPush } from "redux-form";
+import {
+  Field,
+  FieldArray,
+  reduxForm,
+  arrayPush,
+  SubmissionError,
+} from "redux-form";
 
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
@@ -15,6 +21,9 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
 import TextInput from "../../common/form/TextInput";
 import { connect } from "react-redux";
+import { createCampaignStep5 } from "../../store/actions/campaignActions/campaignActions";
+import { router } from "next/client";
+import { combineValidators, isRequired } from "revalidate";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -67,17 +76,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   addLocationWrapper: {
-    marginTop: '1em',
-    marginLeft: '-12px',
-        [theme.breakpoints.down('xs')]: {
-          marginLeft: '-18px',
-}
+    marginTop: "1em",
+    marginLeft: "-12px",
+    [theme.breakpoints.down("xs")]: {
+      marginLeft: "-18px",
+    },
   },
   addLocation: {
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '0.8em'
-    }
-
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.8em",
+    },
   },
   addIcon: {
     color: theme.palette.primary.main,
@@ -131,6 +139,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  error: {
+    color: theme.palette.error.main,
+    fontWeight: 300,
+  },
 }));
 
 const mapStateToProps = () => {
@@ -139,10 +151,50 @@ const mapStateToProps = () => {
   };
 };
 
-const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
+const actions = {
+  createCampaignStep5,
+};
+
+const LocationForm = ({
+  createCampaignStep5,
+  pushArray,
+  campaignId,
+  nextForm,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [addLocation, setAddLocation] = useState(false);
+
+  const handleLocation = async (values) => {
+    if (
+      values.myBusinessHasAPhysicalLocation ||
+      values.myBusinessDoesntHaveAPhysicalLocation === true
+    ) {
+      if (addLocation) {
+        if (
+          values.locations[0].streetAddress &&
+          values.locations[0].city &&
+          values.locations[0].state &&
+          values.locations[0].zip &&
+          values.locations[0].phoneNumber
+        ) {
+          await createCampaignStep5(campaignId, values);
+          router.push({ pathname: "/auth/dashboard" });
+        } else {
+          throw new SubmissionError({ _error: "Please fill in all fields" });
+        }
+      } else {
+        throw new SubmissionError({ _error: "Please add a business address" });
+      }
+    } else {
+      throw new SubmissionError({ _error: "Please select a location option" });
+    }
+  };
 
   const handleAddLocation = () => {
     pushArray("createCampaign", "locations", "");
@@ -159,13 +211,21 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
           className={classes.addLocationWrapper}
         >
           <Grid item>
-
-            <IconButton aria-label="add location" onClick={() => fields.push({})} className={classes.addIcon}>
-              <AddCircleIcon   />
+            <IconButton
+              aria-label="add location"
+              onClick={() => {
+                fields.push({});
+                setAddLocation(true);
+              }}
+              className={classes.addIcon}
+            >
+              <AddCircleIcon />
             </IconButton>
           </Grid>
           <Grid item>
-            <Typography variant={"subtitle1"} className={classes.addLocation}>ADD LOCATION</Typography>
+            <Typography variant={"subtitle1"} className={classes.addLocation}>
+              ADD LOCATION
+            </Typography>
           </Grid>
         </Grid>
       )}
@@ -177,7 +237,14 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
           key={index}
           style={{ marginTop: "1.5em", marginBottom: "2em" }}
         >
-          <Grid item lg={1} md={1} sm={1} xs={1} style={matchesSM ? null : { paddingLeft: "0.8em" }}>
+          <Grid
+            item
+            lg={1}
+            md={1}
+            sm={1}
+            xs={1}
+            style={matchesSM ? null : { paddingLeft: "0.8em" }}
+          >
             <Grid item>
               <Grid item container direction={"column"}>
                 <Grid item>
@@ -204,9 +271,19 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item lg={11} md={11} sm={11} xs={11} style={matchesSM ? {paddingLeft: '1em'} : null}>
+          <Grid
+            item
+            lg={11}
+            md={11}
+            sm={11}
+            xs={11}
+            style={matchesSM ? { paddingLeft: "1em" } : null}
+          >
             <Grid item container direction={"column"}>
-              <Grid item style={matchesSM ? {padding: '0.5em'}:{ padding: "1em" }}>
+              <Grid
+                item
+                style={matchesSM ? { padding: "0.5em" } : { padding: "1em" }}
+              >
                 <Field
                   inputStyle={classes.textInput}
                   placeholder={"Street Address"}
@@ -217,8 +294,17 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
                 />
               </Grid>
               <Grid item>
-                <Grid item container direction={matchesSM ? 'column' : 'row'}>
-                  <Grid item lg={4} md={4} sm={12} xs={12} style={matchesSM ? {padding: '0.5em'}:{ padding: "1em" }}>
+                <Grid item container direction={matchesSM ? "column" : "row"}>
+                  <Grid
+                    item
+                    lg={4}
+                    md={4}
+                    sm={12}
+                    xs={12}
+                    style={
+                      matchesSM ? { padding: "0.5em" } : { padding: "1em" }
+                    }
+                  >
                     <Field
                       inputStyle={classes.textInput}
                       placeholder={"City"}
@@ -228,7 +314,16 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
                       component={TextInput}
                     />
                   </Grid>
-                  <Grid item lg={4} md={4} sm={12} xs={12} style={matchesSM ? {padding: '0.5em'}:{ padding: "1em" }}>
+                  <Grid
+                    item
+                    lg={4}
+                    md={4}
+                    sm={12}
+                    xs={12}
+                    style={
+                      matchesSM ? { padding: "0.5em" } : { padding: "1em" }
+                    }
+                  >
                     <Field
                       inputStyle={classes.textInput}
                       placeholder={"State"}
@@ -238,7 +333,16 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
                       component={TextInput}
                     />
                   </Grid>
-                  <Grid item lg={4} md={4} sm={12} xs={12} style={matchesSM ? {padding: '0.5em'}:{ padding: "1em" }}>
+                  <Grid
+                    item
+                    lg={4}
+                    md={4}
+                    sm={12}
+                    xs={12}
+                    style={
+                      matchesSM ? { padding: "0.5em" } : { padding: "1em" }
+                    }
+                  >
                     <Field
                       inputStyle={classes.textInput}
                       placeholder={"Zip"}
@@ -251,7 +355,10 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
                 </Grid>
               </Grid>
 
-              <Grid item style={matchesSM ? {padding: '0.5em'}:{ padding: "1em" }}>
+              <Grid
+                item
+                style={matchesSM ? { padding: "0.5em" } : { padding: "1em" }}
+              >
                 <Field
                   inputStyle={classes.textInput}
                   placeholder={"Phone number"}
@@ -269,88 +376,99 @@ const LocationForm = ({ nextForm, prevForm, pushArray, submitting }) => {
   );
 
   return (
-    <Grid item container direction={"column"} className={classes.formWrapper}>
-      <Grid item>
-        <Typography variant={"h5"} className={classes.title}>
-          Location
-        </Typography>
-      </Grid>
-      <Grid item style={{ marginTop: "2em" }}>
-        <Typography variant={"subtitle1"} className={classes.subTitle}>
-          Review your business location(s) where customers may redeem their
-          vouchers.
-        </Typography>
-      </Grid>
-
-      <Grid
-        item
-        container
-        direction={matchesSM ? "column" : "row"}
-        style={{ marginTop: "2em"}}
-      >
-        <Grid item lg={6} md={6} sm={12} xs={12}>
-          <Grid item>
-            <Field
-              name={"myBusinessHasAPhysicalLocation"}
-              label={"My business has a physical location"}
-              component={CheckCircleInput}
-              checkboxClass={classes.checkbox}
-              checkboxLabelClass={classes.checkboxLabel}
-            />
-          </Grid>
+    <form autoComplete={"off"} onSubmit={handleSubmit(handleLocation)}>
+      <Grid item container direction={"column"} className={classes.formWrapper}>
+        <Grid item>
+          <Typography variant={"h5"} className={classes.title}>
+            Location
+          </Typography>
+        </Grid>
+        <Grid item style={{ marginTop: "2em" }}>
+          <Typography variant={"subtitle1"} className={classes.subTitle}>
+            Review your business location(s) where customers may redeem their
+            vouchers.
+          </Typography>
         </Grid>
 
         <Grid
           item
-          lg={6}
-          md={6}
-          sm={12}
-          xs={12}
-          style={matchesSM ? { marginTop: "0.2em" } : { paddingLeft: "1.5em" }}
+          container
+          direction={matchesSM ? "column" : "row"}
+          style={{ marginTop: "2em" }}
         >
-          <Grid item>
-            <Field
-              name={"myBusinessDoesntHaveAPhysicalLocation"}
-              label={`My business doesn't have a physical location`}
-              component={CheckCircleInput}
-              checkboxClass={classes.checkbox}
-              checkboxLabelClass={classes.checkboxLabel}
-            />
+          <Grid item lg={6} md={6} sm={12} xs={12}>
+            <Grid item>
+              <Field
+                name={"myBusinessHasAPhysicalLocation"}
+                label={"My business has a physical location"}
+                component={CheckCircleInput}
+                checkboxClass={classes.checkbox}
+                checkboxLabelClass={classes.checkboxLabel}
+              />
+            </Grid>
+          </Grid>
+
+          <Grid
+            item
+            lg={6}
+            md={6}
+            sm={12}
+            xs={12}
+            style={
+              matchesSM ? { marginTop: "0.2em" } : { paddingLeft: "1.5em" }
+            }
+          >
+            <Grid item>
+              <Field
+                name={"myBusinessDoesntHaveAPhysicalLocation"}
+                label={`My business doesn't have a physical location`}
+                component={CheckCircleInput}
+                checkboxClass={classes.checkbox}
+                checkboxLabelClass={classes.checkboxLabel}
+              />
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <FieldArray name="locations" component={locationFields} />
+
+        {error && (
+          <Typography variant={"subtitle1"} className={classes.error}>
+            {error}
+          </Typography>
+        )}
+
+        <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
+          <Grid item container>
+            <Grid item style={{ marginRight: "1em" }}>
+              <Button
+                variant="contained"
+                size={"large"}
+                className={classes.buttonGrey}
+                // onClick={() => prevForm("finePrint")}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                size={"large"}
+                className={classes.button}
+                type={"submit"}
+                disabled={submitting}
+              >
+                Submit
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-
-      <FieldArray name="locations" component={locationFields} />
-
-      <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
-        <Grid item container>
-          <Grid item style={{ marginRight: "1em" }}>
-            <Button
-              variant="contained"
-              size={"large"}
-              className={classes.buttonGrey}
-              onClick={() => prevForm("finePrint")}
-            >
-              Back
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              size={"large"}
-              className={classes.button}
-              type={"submit"}
-              disabled={submitting}
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
-      </Grid>
-    </Grid>
+    </form>
   );
 };
 
-export default connect(mapStateToProps)(
-  reduxForm({ form: "createCampaign", destroyOnUnmount: false })(LocationForm)
-);
+export default connect(
+  null,
+  actions
+)(reduxForm({ form: "addBusinessFinePrint" })(LocationForm));

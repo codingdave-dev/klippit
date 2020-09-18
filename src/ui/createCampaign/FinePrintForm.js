@@ -5,9 +5,12 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleInput from "../../common/form/CheckCircleInput";
 
-import { Field } from "redux-form";
+import { Field, reduxForm, SubmissionError } from "redux-form";
 
 import Button from "@material-ui/core/Button";
+import handleSubmit from "redux-form/lib/handleSubmit";
+import { createCampaignStep4 } from "../../store/actions/campaignActions/campaignActions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -94,6 +97,10 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "0.8em",
     },
   },
+  error: {
+    color: theme.palette.error.main,
+    fontWeight: 300,
+  },
 }));
 
 const leftChecks = [
@@ -134,10 +141,40 @@ const leftChecks = [
   },
 ];
 
-const FinePrintForm = ({ nextForm, prevForm }) => {
+const actions = {
+  createCampaignStep4,
+};
+
+const FinePrintForm = ({
+  createCampaignStep4,
+  campaignId,
+  nextForm,
+  handleSubmit,
+  error,
+  submitting,
+}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const handleFinePrint = async (values) => {
+    if (
+      values.mayRedeemAcrossVisits ||
+      values.appointmentRequired ||
+      values.doesNotShipToPOBoxes ||
+      values.mustPurchaseRedeemTogetherToSitTogether ||
+      values.newClientsOnly ||
+      values.onlineOnly ||
+      values.expirationVaries ||
+      values.amountPaidNeverExpires
+    ) {
+      let ref = await createCampaignStep4(campaignId, values);
+      nextForm("location", ref);
+    } else {
+      throw new SubmissionError({ _error: "Please choose an option" });
+    }
+  };
+
   return (
     <Grid item container direction={"column"} className={classes.formWrapper}>
       <Grid item>
@@ -153,91 +190,104 @@ const FinePrintForm = ({ nextForm, prevForm }) => {
         </Typography>
       </Grid>
 
-      <Grid
-        item
-        container
-        direction={matchesSM ? "column" : "row"}
-        style={{ marginTop: "2em" }}
-      >
+      <form autoComplete={"off"} onSubmit={handleSubmit(handleFinePrint)}>
         <Grid
           item
-          lg={7}
-          md={8}
-          sm={12}
-          xs={12}
-          style={{ paddingRight: "1.5em" }}
+          container
+          direction={matchesSM ? "column" : "row"}
+          style={{ marginTop: "2em" }}
         >
-          <Grid item>
-            <Typography variant={"h6"} className={classes.columnTitle}>
-              Check all that apply:
-            </Typography>
-          </Grid>
+          <Grid
+            item
+            lg={7}
+            md={8}
+            sm={12}
+            xs={12}
+            style={{ paddingRight: "1.5em" }}
+          >
+            <Grid item>
+              <Typography variant={"h6"} className={classes.columnTitle}>
+                Check all that apply:
+              </Typography>
+            </Grid>
 
-          <Grid item>
-            <Grid item container>
-              <Grid item lg={12} md={12} sm={12} xs={12}>
-                {leftChecks.map((option) => (
-                  <Grid item key={option.id}>
-                    <Grid item container alignItems={"center"}>
-                      <Grid item>
-                        <Field
-                          name={`${option.id}`}
-                          label={option.name}
-                          component={CheckCircleInput}
-                          checkboxClass={classes.checkbox}
-                          checkboxLabelClass={classes.checkboxLabel}
-                        />
+            <Grid item>
+              <Grid item container>
+                <Grid item lg={12} md={12} sm={12} xs={12}>
+                  {leftChecks.map((option) => (
+                    <Grid item key={option.id}>
+                      <Grid item container alignItems={"center"}>
+                        <Grid item>
+                          <Field
+                            name={`${option.id}`}
+                            label={option.name}
+                            component={CheckCircleInput}
+                            checkboxClass={classes.checkbox}
+                            checkboxLabelClass={classes.checkboxLabel}
+                          />
+                        </Grid>
                       </Grid>
                     </Grid>
-                  </Grid>
-                ))}
+                  ))}
+                </Grid>
               </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid
+            item
+            lg={5}
+            md={4}
+            sm={6}
+            xs={12}
+            style={matchesSM ? { marginTop: "2em" } : { paddingLeft: "1.5em" }}
+          >
+            <Grid item>
+              <Typography variant={"h6"} className={classes.columnTitle}>
+                ADD CUSTOM
+              </Typography>
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid
-          item
-          lg={5}
-          md={4}
-          sm={6}
-          xs={12}
-          style={matchesSM ? { marginTop: "2em" } : { paddingLeft: "1.5em" }}
-        >
-          <Grid item>
-            <Typography variant={"h6"} className={classes.columnTitle}>
-              ADD CUSTOM
-            </Typography>
-          </Grid>
-        </Grid>
-      </Grid>
+        {error && (
+          <Typography variant={"subtitle1"} className={classes.error}>
+            {error}
+          </Typography>
+        )}
 
-      <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
-        <Grid item container>
-          <Grid item style={{ marginRight: "1em" }}>
-            <Button
-              variant="contained"
-              size={"large"}
-              className={classes.buttonGrey}
-              onClick={() => prevForm("describeBusiness")}
-            >
-              Back
-            </Button>
-          </Grid>
-          <Grid item>
-            <Button
-              variant="contained"
-              size={"large"}
-              className={classes.button}
-              onClick={() => nextForm("location")}
-            >
-              Next Step
-            </Button>
+        <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
+          <Grid item container>
+            <Grid item style={{ marginRight: "1em" }}>
+              <Button
+                variant="contained"
+                size={"large"}
+                className={classes.buttonGrey}
+                // onClick={() => prevForm("describeBusiness")}
+              >
+                Back
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="contained"
+                size={"large"}
+                className={classes.button}
+                type={"submit"}
+                disabled={submitting}
+                // onClick={() => nextForm("location")}
+              >
+                Next Step
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </form>
     </Grid>
   );
 };
 
-export default FinePrintForm;
+export default connect(
+  null,
+  actions
+)(reduxForm({ form: "addBusinessFinePrint" })(FinePrintForm));

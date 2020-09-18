@@ -5,6 +5,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import Slider from "@material-ui/core/Slider";
 import Tooltip from "@material-ui/core/Tooltip";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   error: {
@@ -49,6 +50,11 @@ const SliderInput = ({
   return (
     <Fragment>
       <Slider {...input} onChange={(event,value) => input.onChange(value)} marks={marks} ValueLabelComponent={ValueLabelComponent} aria-label="custom thumb label"/>
+      {touched && error && (
+          <Typography variant={"subtitle1"} className={classes.error}>
+            {error}
+          </Typography>
+      )}
     </Fragment>
   );
 };

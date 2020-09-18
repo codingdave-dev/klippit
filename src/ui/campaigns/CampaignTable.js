@@ -11,6 +11,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import { useRouter } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   nameHeaderCell: {
@@ -66,10 +69,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CampaignTable = ({ campaigns, toggleCampaign }) => {
+const CampaignTable = ({ campaigns }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
+  const router = useRouter();
+
+  console.log(campaigns);
   return (
     <TableContainer>
       <Table aria-label="simple table">
@@ -94,11 +100,31 @@ const CampaignTable = ({ campaigns, toggleCampaign }) => {
                 <TableCell className={classes.dateRowCell} align={"center"}>
                   {format(campaign.createdAt.toDate(), "L/d/yyyy")}
                 </TableCell>
-                <TableCell
-                  className={classes.actionRowCell}
-                  onClick={() => toggleCampaign(campaign.id, campaign.active)}
-                >
-                  {campaign.active ? "End Campaign" : "Start Campaign"}
+                <TableCell className={classes.actionRowCell}>
+                  <Grid item container>
+                    <Grid item>
+                      <Typography
+                        variant={"body2"}
+                        onClick={() =>
+                          router.push({
+                            pathname: "/auth/editCampaign",
+                            query: { id: campaign.id },
+                          })
+                        }
+                      >
+                        Edit
+                      </Typography>
+                    </Grid>
+                    <Grid
+                      item
+                      style={{ paddingLeft: "0.5em", paddingRight: "0.5em" }}
+                    >
+                      |
+                    </Grid>
+                    <Grid item>
+                      <Typography variant={"body2"}>Delete</Typography>
+                    </Grid>
+                  </Grid>
                 </TableCell>
               </TableRow>
             ))}
