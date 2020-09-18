@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import format from "date-fns/format";
@@ -16,6 +16,12 @@ import Grid from "@material-ui/core/Grid";
 import { useRouter } from "next/router";
 import {deleteCampaign} from "../../store/actions/campaignActions/campaignActions";
 import {connect} from "react-redux";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   nameHeaderCell: {
@@ -81,12 +87,34 @@ const CampaignTable = ({ campaigns, deleteCampaign }) => {
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
   const router = useRouter();
 
-  const handleDeleteCampaign = (id) => {
-    deleteCampaign(id)
+  const [open, setOpen] = useState(false)
+  const [campaignId, setCampaignId] = useState('')
+
+  const handleDeleteCampaign = () => {
+    deleteCampaign(campaignId)
+    setCampaignId('')
+    setOpen(false)
   }
 
   return (
     <TableContainer>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle id="alert-dialog-title">{"Delete Campaign"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this campaign?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => handleDeleteCampaign(campaignId)} style={{color: theme.palette.error.main}} autoFocus>
+            Delete
+          </Button>
+        </DialogActions>
+
+      </Dialog>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -131,7 +159,10 @@ const CampaignTable = ({ campaigns, deleteCampaign }) => {
                       |
                     </Grid>
                     <Grid item>
-                      <Typography variant={"body2"} onClick={() => handleDeleteCampaign(campaign.id)}>Delete</Typography>
+                      <Typography variant={"body2"} onClick={() => {
+                        setOpen(true)
+                        setCampaignId(campaign.id)
+                      }}>Delete</Typography>
                     </Grid>
                   </Grid>
                 </TableCell>

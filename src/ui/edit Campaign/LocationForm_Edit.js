@@ -19,6 +19,7 @@ import {
   editCampaignStep5,
 } from "../../store/actions/campaignActions/campaignActions";
 import router, { withRouter } from "next/router";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -181,7 +183,7 @@ const LocationForm = ({
           values.locations[0].phoneNumber
         ) {
           await editCampaignStep5(campaignId, values);
-          router.push({ pathname: "/auth/dashboard" });
+          router.push({ pathname: "/auth/campaigns" });
         } else {
           throw new SubmissionError({ _error: "Please fill in all fields" });
         }
@@ -467,7 +469,7 @@ const LocationForm = ({
                   type={"submit"}
                   disabled={submitting}
                 >
-                  Submit
+                  {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
                 </Button>
               </Grid>
             </Grid>

@@ -21,6 +21,8 @@ import {
   updateUserProfile,
 } from "../../store/actions/userActions/userActions";
 import { withRouter } from "next/router";
+import Tooltip from "@material-ui/core/Tooltip";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -139,6 +141,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -155,6 +158,11 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: theme.palette.error.main,
     fontWeight: 300,
+  },
+  tooltip: {
+    backgroundColor: theme.palette.primary.main,
+    fontSize: "12px",
+    width: "150px",
   },
 }));
 
@@ -267,10 +275,25 @@ const ChooseServiceAndPriceForm_Edit = ({
             xs={12}
             className={classes.leftWrapper}
           >
-            <Grid item>
-              <Typography variant={"h6"} className={classes.columnTitle}>
-                TYPE OF BUSINESS
-              </Typography>
+            <Grid item container alignItems={"center"}>
+              <Grid item>
+                <Typography variant={"h6"} className={classes.columnTitle}>
+                  TYPE OF BUSINESS
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Tooltip
+                  title={"What category would you place your business in?"}
+                  placement={"right"}
+                  classes={{ tooltip: classes.tooltip }}
+                >
+                  <img
+                    src="/assets/icon/campaign/question.png"
+                    alt="question mark"
+                    style={{ width: "18px", marginLeft: "0.8em" }}
+                  />
+                </Tooltip>
+              </Grid>
             </Grid>
             <Grid item>
               <Typography
@@ -335,9 +358,28 @@ const ChooseServiceAndPriceForm_Edit = ({
             className={classes.rightWrapper}
           >
             <Grid item>
-              <Typography variant={"h6"} className={classes.columnTitle}>
-                CUSTOM FIELDS
-              </Typography>
+              <Grid item container alignItems={"center"}>
+                <Grid item>
+                  <Typography variant={"h6"} className={classes.columnTitle}>
+                    CUSTOM FIELDS
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Tooltip
+                    title={
+                      "Is the product that you are selling restricted to a certain size or color? If so enter it here. Skip this if it is not applicable to you"
+                    }
+                    placement={"right"}
+                    classes={{ tooltip: classes.tooltip }}
+                  >
+                    <img
+                      src="/assets/icon/campaign/question.png"
+                      alt="question mark"
+                      style={{ width: "18px", marginLeft: "0.8em" }}
+                    />
+                  </Tooltip>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item>
               <Typography
@@ -421,7 +463,18 @@ const ChooseServiceAndPriceForm_Edit = ({
                       variant={"subtitle1"}
                       className={classes.inputLabel}
                     >
-                      DESCRIBE A SERVICE YOU WANT TO PROMOTE
+                      DESCRIBE A SERVICE YOU WANT TO PROMOTE{" "}
+                      <Tooltip
+                        title={"Ex: 60-Minute Swedish or Deep Tissue Massage"}
+                        placement={"right"}
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <img
+                          src="/assets/icon/campaign/question.png"
+                          alt="question mark"
+                          style={{ width: "18px", marginLeft: "0.8em" }}
+                        />
+                      </Tooltip>
                     </Typography>
                   </Grid>
                   <Grid item style={{ marginTop: "0.5em" }}>
@@ -472,7 +525,20 @@ const ChooseServiceAndPriceForm_Edit = ({
                       variant={"subtitle1"}
                       className={classes.inputLabel}
                     >
-                      DESCRIBE WHAT INFLUENCERS SHOULD DO TO REDEEM THIS OFFER
+                      DESCRIBE WHAT INFLUENCERS SHOULD DO TO REDEEM THIS OFFER{" "}
+                      <Tooltip
+                        title={
+                          "Your deal is tied to a one time incentive that influencers will have to complete to redeem this deal. Ex: You must take a picture of yourself with the (product)"
+                        }
+                        placement={"right"}
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <img
+                          src="/assets/icon/campaign/question.png"
+                          alt="question mark"
+                          style={{ width: "18px", marginLeft: "0.7em" }}
+                        />
+                      </Tooltip>
                     </Typography>
                   </Grid>
 
@@ -523,7 +589,18 @@ const ChooseServiceAndPriceForm_Edit = ({
                       variant={"subtitle1"}
                       className={classes.inputLabel}
                     >
-                      WHAT DO YOUR CUSTOMERS USUALLY PAY FOR THIS PRODUCT
+                      WHAT DO YOUR CUSTOMERS USUALLY PAY FOR THIS PRODUCT{" "}
+                      <Tooltip
+                        title={"How much would this cost without a discount?"}
+                        placement={"right"}
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <img
+                          src="/assets/icon/campaign/question.png"
+                          alt="question mark"
+                          style={{ width: "18px", marginLeft: "0.7em" }}
+                        />
+                      </Tooltip>
                     </Typography>
                   </Grid>
 
@@ -578,7 +655,20 @@ const ChooseServiceAndPriceForm_Edit = ({
                       variant={"subtitle1"}
                       className={classes.inputLabel}
                     >
-                      WHAT HASHTAG DO YOU WANT YOUR CUSTOMERS TO USE
+                      WHAT HASHTAG DO YOU WANT YOUR CUSTOMERS TO USE{" "}
+                      <Tooltip
+                        title={
+                          "Influencers will be sharing the content they create on their social media pages. What hashtag do you want them to use when they post about your business?"
+                        }
+                        placement={"right"}
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <img
+                          src="/assets/icon/campaign/question.png"
+                          alt="question mark"
+                          style={{ width: "18px", marginLeft: "0.7em" }}
+                        />
+                      </Tooltip>
                     </Typography>
                   </Grid>
 
@@ -630,7 +720,20 @@ const ChooseServiceAndPriceForm_Edit = ({
                       variant={"subtitle1"}
                       className={classes.inputLabel}
                     >
-                      SELECT A DISCOUNT PERCENTAGE
+                      SELECT A DISCOUNT PERCENTAGE{" "}
+                      <Tooltip
+                        title={
+                          "How much will you be discounting this product/service for influencers?"
+                        }
+                        placement={"right"}
+                        classes={{ tooltip: classes.tooltip }}
+                      >
+                        <img
+                          src="/assets/icon/campaign/question.png"
+                          alt="question mark"
+                          style={{ width: "18px", marginLeft: "0.7em" }}
+                        />
+                      </Tooltip>
                     </Typography>
                   </Grid>
 
@@ -670,7 +773,7 @@ const ChooseServiceAndPriceForm_Edit = ({
             aria-label={"next screen"}
             disabled={submitting}
           >
-            Next Step
+            {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
           </Button>
         </Grid>
       </form>

@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme) => ({
   appBar: {
     backgroundColor: "black",
     zIndex: theme.zIndex.modal + 3,
+    paddingLeft: '4em',
+    paddingRight: '4em',
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: '1em',
+      paddingRight: '1em',
+    }
   },
 
   menuIcon: {

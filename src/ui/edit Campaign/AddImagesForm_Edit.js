@@ -15,6 +15,8 @@ import { connect } from "react-redux";
 import { withRouter } from "next/router";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Tooltip from "@material-ui/core/Tooltip";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
   },
   title: {
+    color: theme.palette.primary.main,
     [theme.breakpoints.down("xs")]: {
       fontSize: "1em",
     },
@@ -74,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -105,6 +109,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.main,
     fontWeight: 300,
   },
+  tooltip: {
+    backgroundColor: theme.palette.primary.main,
+    fontSize: '12px',
+    width: '150px'
+  }
 }));
 
 const actions = {
@@ -136,43 +145,47 @@ const AddImagesForm = ({
   const [image2, setImage2] = useState("");
   const [image3, setImage3] = useState("");
 
-  const [deleteImage1, setDeleteImage1] = useState(false);
-  const [deleteImage2, setDeleteImage2] = useState(false);
-  const [deleteImage3, setDeleteImage3] = useState(false);
 
   const handleAddImages = async () => {
     if (image1 && image2 && image3) {
-      if (deleteImage1) {
+
+      if (!image1[0].original) {
         await editCampaignStep2(campaignId, image1);
       }
-      if (deleteImage2) {
+
+      if (!image2[0].original) {
         await editCampaignStep2(campaignId, image2);
       }
-      if (deleteImage3) {
+
+      if (!image3[0].original) {
         await editCampaignStep2(campaignId, image3);
       }
-      // let ref = await createCampaignStep2(campaignId, image1, image2, image3);
+
       nextForm("describeBusiness", campaignId);
     } else {
       throw new SubmissionError({ _error: "Please add images" });
     }
   };
 
+
   const handleDeleteImage = async (id, imgName, img) => {
     if (img === 1) {
       await deleteCampaignImage(campaignId, id, imgName);
-      setDeleteImage1(true);
-      setImage1(null);
+      setImage1('')
+      setImage2('')
+      setImage3('')
     }
     if (img === 2) {
       await deleteCampaignImage(campaignId, id, imgName);
-      setDeleteImage2(true);
-      setImage2(null);
+      setImage1('')
+      setImage2('')
+      setImage3('')
     }
     if (img === 3) {
       await deleteCampaignImage(campaignId, id, imgName);
-      setDeleteImage3(true);
-      setImage3(null);
+      setImage1('')
+      setImage2('')
+      setImage3('')
     }
   };
 
@@ -182,20 +195,20 @@ const AddImagesForm = ({
         const img1Id = photos[0].id;
         const img1 = photos[0].photoURL;
         const img1Name = photos[0].photoName;
-        setImage1([{ preview: img1, photoName: img1Name, id: img1Id }]);
+        setImage1([{ preview: img1, photoName: img1Name, id: img1Id, original: true }]);
       }
       if (photos[1]) {
         const img2Id = photos[1].id;
         const img2 = photos[1].photoURL;
         const img2Name = photos[1].photoName;
-        setImage2([{ preview: img2, photoName: img2Name, id: img2Id }]);
+        setImage2([{ preview: img2, photoName: img2Name, id: img2Id, original: true }]);
       }
       if (photos[2]) {
         const img3Id = photos[2].id;
         const img3 = photos[2].photoURL;
         const img3Name = photos[2].photoName;
 
-        setImage3([{ preview: img3, photoName: img3Name, id: img3Id }]);
+        setImage3([{ preview: img3, photoName: img3Name, id: img3Id, original: true }]);
       }
     }
   }, [photos, setImage1, setImage2, setImage3]);
@@ -209,8 +222,10 @@ const AddImagesForm = ({
       className={classes.formWrapper}
     >
       <Grid item>
-        <Typography variant={"h5"} className={classes.title}>
-          Choose service and Price
+        <Typography variant={"h4"} className={classes.title}>
+          Select a image for this deal <Tooltip title={'This is the cover image(s) that will be displayed on our mobile app.'} placement={'right'} classes={{tooltip: classes.tooltip}}>
+          <img src="/assets/icon/campaign/question.png" alt="question mark" style={{width: '18px'}}/>
+        </Tooltip>
         </Typography>
       </Grid>
       <Grid item>
@@ -244,22 +259,24 @@ const AddImagesForm = ({
                         className={classes.image}
                       />
                     </Grid>
-                    {/*<Grid item>*/}
-                    {/*  <Button*/}
-                    {/*    variant="contained"*/}
-                    {/*    style={{ backgroundColor: "red", color: "white" }}*/}
-                    {/*    size={"small"}*/}
-                    {/*    onClick={() =>*/}
-                    {/*      handleDeleteImage(*/}
-                    {/*        image1[0].id,*/}
-                    {/*        image1[0].photoName,*/}
-                    {/*        1*/}
-                    {/*      )*/}
-                    {/*    }*/}
-                    {/*  >*/}
-                    {/*    Delete*/}
-                    {/*  </Button>*/}
-                    {/*</Grid>*/}
+
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "red", color: "white" }}
+                        size={"small"}
+                        onClick={() =>
+                          handleDeleteImage(
+                            image1[0].id,
+                            image1[0].photoName,
+                            1
+                          )
+                        }
+                      >
+                        Delete
+                      </Button>
+                    </Grid>
+
                   </Grid>
                 )}
               </Grid>
@@ -291,22 +308,22 @@ const AddImagesForm = ({
                         />
                       )}
                     </Grid>
-                    {/*<Grid item>*/}
-                    {/*  <Button*/}
-                    {/*    variant="contained"*/}
-                    {/*    style={{ backgroundColor: "red", color: "white" }}*/}
-                    {/*    size={"small"}*/}
-                    {/*    onClick={() =>*/}
-                    {/*      handleDeleteImage(*/}
-                    {/*        image2[0].id,*/}
-                    {/*        image2[0].photoName,*/}
-                    {/*        2*/}
-                    {/*      )*/}
-                    {/*    }*/}
-                    {/*  >*/}
-                    {/*    Delete*/}
-                    {/*  </Button>*/}
-                    {/*</Grid>*/}
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "red", color: "white" }}
+                        size={"small"}
+                        onClick={() =>
+                          handleDeleteImage(
+                            image2[0].id,
+                            image2[0].photoName,
+                            2
+                          )
+                        }
+                      >
+                        Delete
+                      </Button>
+                    </Grid>
                   </Grid>
                 )}
               </Grid>
@@ -338,22 +355,22 @@ const AddImagesForm = ({
                         />
                       )}
                     </Grid>
-                    {/*<Grid item>*/}
-                    {/*  <Button*/}
-                    {/*    variant="contained"*/}
-                    {/*    style={{ backgroundColor: "red", color: "white" }}*/}
-                    {/*    size={"small"}*/}
-                    {/*    onClick={() =>*/}
-                    {/*      handleDeleteImage(*/}
-                    {/*        image3[0].id,*/}
-                    {/*        image3[0].photoName,*/}
-                    {/*        3*/}
-                    {/*      )*/}
-                    {/*    }*/}
-                    {/*  >*/}
-                    {/*    Delete*/}
-                    {/*  </Button>*/}
-                    {/*</Grid>*/}
+                    <Grid item>
+                      <Button
+                        variant="contained"
+                        style={{ backgroundColor: "red", color: "white" }}
+                        size={"small"}
+                        onClick={() =>
+                          handleDeleteImage(
+                            image3[0].id,
+                            image3[0].photoName,
+                            3
+                          )
+                        }
+                      >
+                        Delete
+                      </Button>
+                    </Grid>
                   </Grid>
                 )}
               </Grid>
@@ -386,8 +403,9 @@ const AddImagesForm = ({
                 size={"large"}
                 className={classes.button}
                 type={"submit"}
+                disabled={submitting}
               >
-                Next Step
+                {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
               </Button>
             </Grid>
           </Grid>

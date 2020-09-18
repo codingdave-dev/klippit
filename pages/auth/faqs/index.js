@@ -71,6 +71,12 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
   faqLink: {
+    color: theme.palette.primary.main,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: "0.9em",
+    },
+  },
+  faqAnswer: {
     color: theme.palette.grey.A200,
     [theme.breakpoints.down("xs")]: {
       fontSize: "0.9em",
@@ -81,6 +87,15 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "1em",
     },
   },
+  columnWrapper: {
+    padding: '3em',
+    [theme.breakpoints.down('md')]: {
+      padding: '2em'
+    },
+    [theme.breakpoints.down('sm')]: {
+      padding: 0
+    }
+  }
 }));
 
 const mapStateToProps = (state) => {
@@ -94,35 +109,61 @@ const searchFAQ = [
   {
     id: 1,
     category: "general",
-    name: "How do referral rewards work?",
+    name: "How many influencers do you have on your platform?",
     link: "#",
     description:
-      "When you refer friends to join Klippit and they use your referral link or code to sign up, you earn $1. The more friends that sign up with your code or link, the more money you earn.",
+      "The current number of influencers that we have on our platform can be found on the home page of your dashboard!",
   },
   {
     id: 2,
     category: "general",
-    name: "When do I get the rewards money I have earned for referrals?",
+    name: "How does Klippit help me get more customers?",
     link: "#",
     description:
-      "You can see your referral rewards balance by logging in to the Klippit mobile app. Your rewards money will be deposited into your Klippit wallet once we launch the full app in the Spring. Klippit will notify you once we launch the Klippit Daily Deals app in the Spring. From there, you can withdraw your funds from the wallet within the app.",
+      "Klippit turns all of your existing customers into advocates for your business by making them talk about your deal/business with their network. They are willing to this more aggressively because they will be incentivized whenever their friends buy from you using their promo code. ",
   },
   {
     id: 3,
     category: "general",
-    name: "How can I spend the rewards I earn?",
+    name: "How do I get more information about Klippit?",
     link: "#",
     description:
-      'After Klippit launches the "Klippit Daily Deals" app, you will be able to deposit your funds to a spending account of your choice.',
+      'You can send an email to support@klippitapp.com and a representative will reach out to you.',
   },
   {
     id: 4,
     category: "general",
-    name: "How do I login after creating an account?",
+    name: "How much does Klippit cost?",
     link: "#",
     description:
-      "To login after creating an account you must re-verify the phone number used to set up your account and confirm your birthday. This will allow you to log back in and access your account.",
+      "Unlike other influencer marketing platforms, you will only be charged once people buy from you. We take a transaction fee whenever someone purchases your deal from our platform.",
   },
+
+  {
+    id: 5,
+    category: "theApp",
+    name: "How can we ensure that influencers will create appropriate content for my business?",
+    link: "#",
+    description:
+        "In the full feature merchant portal, you will have the ability to flag content that influencers create for your business. You also have the option to approve or reject content for your deal before they post it to redeem their deal.",
+  },
+  {
+    id: 6,
+    category: "theApp",
+    name: "How long does my deal last?",
+    link: "#",
+    description:
+        "You will have the ability to set the duration of your deal when it is live.",
+  },
+  {
+    id: 7,
+    category: "theApp",
+    name: "When will my deal be available?",
+    link: "#",
+    description:
+        'Your deal will be available when we launch. However, we will contact you prior to our launch to make go over your deal with you and make sure that you are prepared for your Klippit customers.',
+  },
+
 ];
 
 const Index = ({ auth, profile }) => {
@@ -154,7 +195,6 @@ const Index = ({ auth, profile }) => {
     const searchData = searchFAQ.map((faq) =>
       Object.values(faq).filter((option) => option !== true && option !== false)
     );
-    console.log(searchData);
     const matches = searchData.map((faw) =>
       faw.map((option) =>
         option
@@ -231,34 +271,75 @@ const Index = ({ auth, profile }) => {
               </Typography>
             </Grid>
 
-            <Grid item>
-              <Grid item style={{ marginTop: "2em", marginBottom: "0.8em" }}>
-                <Typography variant={"h6"} className={classes.columnHeader}>
-                  General
-                </Typography>
-              </Grid>
 
-              {searchFAQ
-                .filter((category) => category.category === "general")
-                .map((option) => (
-                  <Grid item key={option.id}>
-                    <Typography
-                      variant={"subtitle1"}
-                      className={classes.faqLink}
-                    >
-                      <a
-                        href={option.link}
-                        style={{
-                          textDecoration: "none",
-                          color: theme.palette.grey.A200,
-                        }}
-                      >
-                        {option.name}
-                      </a>
-                    </Typography>
-                  </Grid>
-                ))}
+            <Grid item container>
+              <Grid item lg={6} md={6} sm={12} xs={12} className={classes.columnWrapper}>
+                <Grid item style={{ marginTop: "2em", marginBottom: "0.8em" }}>
+                  <Typography variant={"h6"} className={classes.columnHeader}>
+                    General
+                  </Typography>
+                </Grid>
+
+                {searchFAQ
+                    .filter((category) => category.category === "general")
+                    .map((option) => (
+                        <Grid item container direction={'column'} key={option.id} style={{marginTop: '1em', marginBottom: '1em'}}>
+                          <Grid item >
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqLink}
+                            >
+                              {option.name}
+                            </Typography>
+                          </Grid>
+                          <Grid item style={{paddingLeft: '1.5em'}}>
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqAnswer}
+                            >
+                              {option.description}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+
+                    ))}
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12} className={classes.columnWrapper}>
+                <Grid item style={{ marginTop: "2em", marginBottom: "0.8em" }}>
+                  <Typography variant={"h6"} className={classes.columnHeader}>
+                    The App
+                  </Typography>
+                </Grid>
+
+                {searchFAQ
+                    .filter((category) => category.category === "theApp")
+                    .map((option) => (
+                        <Grid item container direction={'column'} key={option.id} style={{marginTop: '1em', marginBottom: '1em'}}>
+                          <Grid item >
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqLink}
+                            >
+                              {option.name}
+                            </Typography>
+                          </Grid>
+                          <Grid item style={{paddingLeft: '1.5em'}}>
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqAnswer}
+                            >
+                              {option.description}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+
+                    ))}
+              </Grid>
             </Grid>
+
+
+
+
           </Grid>
         </Grid>
       )}
@@ -278,35 +359,71 @@ const Index = ({ auth, profile }) => {
               </Typography>
             </Grid>
 
-            <Grid item lg={6}>
-              <Grid item style={{ marginTop: "2em", marginBottom: "1em" }}>
-                <Typography variant={"h6"} className={classes.columnHeader}>
-                  General
-                </Typography>
-              </Grid>
+            <Grid item container>
+              <Grid item lg={6} md={6} sm={12} xs={12} className={classes.columnWrapper}>
+                <Grid item style={{ marginTop: "2em", marginBottom: "1em" }}>
+                  <Typography variant={"h6"} className={classes.columnHeader}>
+                    General
+                  </Typography>
+                </Grid>
 
-              {searchResults &&
+                {searchResults &&
                 searchResults
-                  .filter((result) => result.search)
-                  .map((option) => (
-                    <Grid item key={option.id}>
-                      <Typography
-                        variant={"subtitle1"}
-                        className={classes.faqLink}
-                      >
-                        <a
-                          href={option.link}
-                          style={{
-                            textDecoration: "none",
-                            color: theme.palette.grey.A200,
-                          }}
-                        >
-                          {option.name}
-                        </a>
-                      </Typography>
-                    </Grid>
-                  ))}
+                    .filter((result) => result.search).filter((category) => category.category === "general")
+                    .map((option) => (
+                        <Grid item container direction={'column'} key={option.id} style={{marginTop: '1em', marginBottom: '1em'}}>
+                          <Grid item >
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqLink}
+                            >
+                              {option.name}
+                            </Typography>
+                          </Grid>
+                          <Grid item style={{paddingLeft: '3em'}}>
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqAnswer}
+                            >
+                              {option.description}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                    ))}
+              </Grid>
+              <Grid item lg={6} md={6} sm={12} xs={12} className={classes.columnWrapper}>
+                <Grid item style={{ marginTop: "2em", marginBottom: "1em" }}>
+                  <Typography variant={"h6"} className={classes.columnHeader}>
+                    The App
+                  </Typography>
+                </Grid>
+
+                {searchResults &&
+                searchResults
+                    .filter((result) => result.search).filter((category) => category.category === "theApp")
+                    .map((option) => (
+                        <Grid item container direction={'column'} key={option.id} style={{marginTop: '1em', marginBottom: '1em'}}>
+                          <Grid item >
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqLink}
+                            >
+                              {option.name}
+                            </Typography>
+                          </Grid>
+                          <Grid item style={{paddingLeft: '3em'}}>
+                            <Typography
+                                variant={"subtitle1"}
+                                className={classes.faqAnswer}
+                            >
+                              {option.description}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                    ))}
+              </Grid>
             </Grid>
+
           </Grid>
         </Grid>
       )}

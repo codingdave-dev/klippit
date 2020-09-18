@@ -246,8 +246,7 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
         {/*SUB TEXT*/}
         <Grid item className={classes.subTitleWrapper}>
           <Typography variant={"h6"} className={classes.subText}>
-            Technology powewred by an opt-in marketplace of over 550K content
-            creators.
+            Thanks for joining the Klippit Merchant Wait-list.  We will alert you once we launch in the winter.
           </Typography>
         </Grid>
 
@@ -298,21 +297,15 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
 
         <Grid item style={{ marginTop: "3em" }}>
           <Typography variant={"subtitle1"} className={classes.subText}>
-            We think you'll love our marketplace! Just click on the
+            Here is a first hand experience at how influencers will find your deal,
           </Typography>
         </Grid>
         <Grid item>
           <Typography variant={"subtitle1"} className={classes.subText}>
-            experience below to begin. When you are done.
+            purchase it, and promote your business to their network!
           </Typography>
         </Grid>
-        <Grid item>
-          <Typography variant={"subtitle1"} className={classes.subText}>
-            <a style={{ color: theme.palette.primary.main }} href="/">
-              click here for more info
-            </a>
-          </Typography>
-        </Grid>
+
 
         <Grid
           item
@@ -333,13 +326,12 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
         {/*YOUR SELF GUIDED*/}
         <Grid item>
           <Typography variant={"h1"} className={classes.title}>
-            Your Self-Guided
+            We're Launching Soon
           </Typography>
         </Grid>
         <Grid item style={{ marginTop: "3em" }}>
           <Typography variant={"subtitle1"} className={classes.subText}>
-            Technology powered by an opt-in marketplace of over 550K content
-            creators.
+            Creat a deal and it will be available for influencers when we launch.
           </Typography>
         </Grid>
         <Grid item style={{ marginTop: "3em" }}>
@@ -347,10 +339,9 @@ const Index = ({ auth, profile, userCount, fetchUserCount }) => {
             variant="contained"
             size={"large"}
             className={classes.button}
-            startIcon={<AddIcon />}
             onClick={() => router.push({ pathname: "/auth/createCampaign" })}
           >
-            New Campaign
+            Get Started
           </Button>
         </Grid>
       </Grid>

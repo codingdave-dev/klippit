@@ -72,7 +72,7 @@ const footerLinks = [
       {
         id: "productTour",
         name: "Product Tour",
-        link: "/",
+        link: "/auth/howItWorks",
       },
     ],
   },

@@ -15,7 +15,8 @@ import CancelIcon from "@material-ui/icons/Cancel";
 import TextInput from "../../common/form/TextInput";
 import { connect } from "react-redux";
 import { createCampaignStep5 } from "../../store/actions/campaignActions/campaignActions";
-import router  from "next/router";
+import router, {useRouter} from "next/router";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -89,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -161,6 +163,7 @@ const LocationForm = ({
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [addLocation, setAddLocation] = useState(false);
+  const router = useRouter()
 
   const handleLocation = async (values) => {
     if (
@@ -176,7 +179,7 @@ const LocationForm = ({
           values.locations[0].phoneNumber
         ) {
           await createCampaignStep5(campaignId, values);
-          router.push({ pathname: "/auth/dashboard" });
+          router.push({ pathname: "/auth/createCampaign/confirmation" });
         } else {
           throw new SubmissionError({ _error: "Please fill in all fields" });
         }
@@ -456,7 +459,7 @@ const LocationForm = ({
                   type={"submit"}
                   disabled={submitting}
                 >
-                  Submit
+                  {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
                 </Button>
               </Grid>
             </Grid>

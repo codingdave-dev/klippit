@@ -11,6 +11,8 @@ import TextAreaInput from "../../common/form/TextAreaInput";
 import { connect } from "react-redux";
 import { createCampaignStep3 } from "../../store/actions/campaignActions/campaignActions";
 import {combineValidators, isRequired} from "revalidate";
+import Tooltip from "@material-ui/core/Tooltip";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -33,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -74,6 +77,11 @@ const useStyles = makeStyles((theme) => ({
       },
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.primary.main,
+    fontSize: '12px',
+    width: '150px'
+  }
 }));
 
 const validate = combineValidators({
@@ -114,7 +122,9 @@ const DescribeBusinessForm = ({
       >
         <Grid item>
           <Typography variant={"h5"} className={classes.title}>
-            Describe your business in 115 Characters
+            Describe your business in 115 Characters <Tooltip title={'Ex: Neighborhood Italian eatery with a menu based on four generations of family recipes'} placement={'right'} classes={{tooltip: classes.tooltip}}>
+            <img src="/assets/icon/campaign/question.png" alt="question mark" style={{width: '18px'}}/>
+          </Tooltip>
           </Typography>
         </Grid>
         <Grid item container>
@@ -151,7 +161,7 @@ const DescribeBusinessForm = ({
                 type={"submit"}
                 disabled={submitting}
               >
-                Next Step
+                {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
               </Button>
             </Grid>
           </Grid>

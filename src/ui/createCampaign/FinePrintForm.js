@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import handleSubmit from "redux-form/lib/handleSubmit";
 import { createCampaignStep4 } from "../../store/actions/campaignActions/campaignActions";
 import { connect } from "react-redux";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -70,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -275,9 +277,8 @@ const FinePrintForm = ({
                 className={classes.button}
                 type={"submit"}
                 disabled={submitting}
-                // onClick={() => nextForm("location")}
               >
-                Next Step
+                {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
               </Button>
             </Grid>
           </Grid>

@@ -8,6 +8,8 @@ import DropzoneInput from "../../dropzone/DropzoneInput";
 import { reduxForm, SubmissionError } from "redux-form";
 import { createCampaignStep2 } from "../../store/actions/campaignActions/campaignActions";
 import { connect } from "react-redux";
+import Tooltip from "@material-ui/core/Tooltip";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -16,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
   },
   title: {
+
+    color: theme.palette.primary.main,
     [theme.breakpoints.down("xs")]: {
       fontSize: "1em",
     },
@@ -67,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   button: {
+    width: '130px',
     borderRadius: "100px",
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
@@ -98,6 +103,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.error.main,
     fontWeight: 300,
   },
+  tooltip: {
+    backgroundColor: theme.palette.primary.main,
+    fontSize: '12px',
+    width: '150px'
+  }
 }));
 
 const actions = {
@@ -138,8 +148,10 @@ const AddImagesForm = ({
       className={classes.formWrapper}
     >
       <Grid item>
-        <Typography variant={"h5"} className={classes.title}>
-          Choose service and Price
+        <Typography variant={"h4"} className={classes.title}>
+          Select a image for this deal <Tooltip title={'This is the cover image(s) that will be displayed on our mobile app.'} placement={'right'} classes={{tooltip: classes.tooltip}}>
+          <img src="/assets/icon/campaign/question.png" alt="question mark" style={{width: '18px'}}/>
+        </Tooltip>
         </Typography>
       </Grid>
       <Grid item>
@@ -240,8 +252,9 @@ const AddImagesForm = ({
                 size={"large"}
                 className={classes.button}
                 type={"submit"}
+                disabled={submitting}
               >
-                Next Step
+                {submitting ? <CircularProgress size={30} style={{color: 'white'}}/> : 'Next Step'}
               </Button>
             </Grid>
           </Grid>

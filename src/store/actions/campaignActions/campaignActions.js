@@ -8,6 +8,7 @@ import {
   ADD_CAMPAIGN,
   FETCH_USER_CAMPAIGNS,
 } from "../../constants/campaignConstants/campaignConstants";
+import axios from "axios";
 
 export const fetchCampaign = (id) => {
   return async (dispatch, getState, { getFirestore }) => {
@@ -17,7 +18,7 @@ export const fetchCampaign = (id) => {
     const photosQuery = firestore
       .collection("campaigns")
       .doc(`${id}`)
-      .collection("photos");
+      .collection("photos").orderBy('createdAt', 'asc');
 
     try {
       let query = await campaignQuery.get();
@@ -253,6 +254,7 @@ export const createCampaignStep5 = (id, values) => {
     const firebase = getFirebase();
     const firestore = getFirestore();
 
+    let firebaseQuery = firebase.auth().currentUser;
     const campaignQuery = firestore.collection("campaigns").doc(`${id}`);
 
     try {
@@ -260,8 +262,16 @@ export const createCampaignStep5 = (id, values) => {
 
       await campaignQuery.update({ ...values });
 
+      // NEW USER EMAIL
+      await axios.get(
+          "https://us-central1-klippit-a2e0d.cloudfunctions.net/sendNewCampaignEmail",
+          {
+            params: {
+              email: firebaseQuery.email,
+            },
+          }
+      );
       dispatch(fetchCampaign(id));
-
       dispatch(asyncActionFinish());
     } catch (error) {
       dispatch(asyncActionError());
