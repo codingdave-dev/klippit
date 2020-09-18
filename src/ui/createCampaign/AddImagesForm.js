@@ -236,16 +236,16 @@ const AddImagesForm = ({
               </Grid>
           )}
           <Grid item container>
-            <Grid item style={{ marginRight: "1em" }}>
-              <Button
-                variant="contained"
-                size={"large"}
-                className={classes.buttonGrey}
-                // onClick={() => prevForm("servicePrice")}
-              >
-                Back
-              </Button>
-            </Grid>
+            {/*<Grid item style={{ marginRight: "1em" }}>*/}
+            {/*  <Button*/}
+            {/*    variant="contained"*/}
+            {/*    size={"large"}*/}
+            {/*    className={classes.buttonGrey}*/}
+            {/*    // onClick={() => prevForm("servicePrice")}*/}
+            {/*  >*/}
+            {/*    Back*/}
+            {/*  </Button>*/}
+            {/*</Grid>*/}
             <Grid item>
               <Button
                 variant="contained"
