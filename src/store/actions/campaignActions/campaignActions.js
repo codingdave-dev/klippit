@@ -8,7 +8,6 @@ import {
   ADD_CAMPAIGN,
   FETCH_USER_CAMPAIGNS,
 } from "../../constants/campaignConstants/campaignConstants";
-import axios from "axios";
 
 export const fetchCampaign = (id) => {
   return async (dispatch, getState, { getFirestore }) => {
