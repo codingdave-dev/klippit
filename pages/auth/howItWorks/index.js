@@ -11,23 +11,49 @@ import {useRouter} from "next/router";
 const useStyles = makeStyles((theme) => ({
   wrapper: {
     width: '90%',
-    [theme.breakpoints.down("md")]: {
-      width: "90%",
-    },
   },
   title: {
+    fontFamily: "Basis Grotesque Pro, Helvetica Neue, Arial, Droid, sans-serif",
+    fontWeight: 900,
+    fontSize: "75px",
+    lineHeight: "66px",
+    color: "#000000",
+    textAlign: "center",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "40px",
+      lineHeight: "55px",
+      textAlign: "center",
+    },
     [theme.breakpoints.down("xs")]: {
-      fontSize: "1.8em",
+      fontSize: "25px",
+      lineHeight: "40px",
       textAlign: "center",
     },
   },
   subTitleWrapper: {
     paddingLeft: '10em',
     paddingRight: '10em',
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: '4em',
+      paddingRight: '4em',
+    },
+    [theme.breakpoints.down('sm')]: {
+  paddingLeft: 0,
+  paddingRight: 0,
+}
   },
   subTitleWrapper2: {
     paddingLeft: '8em',
     paddingRight: '8em',
+    [theme.breakpoints.down('md')]: {
+      paddingLeft: '4em',
+      paddingRight: '4em',
+    },
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 0,
+      paddingRight: 0,
+    }
+
   },
   subTitle: {
     color: "grey",
@@ -37,8 +63,8 @@ const useStyles = makeStyles((theme) => ({
     width: "80%",
     height: "600px",
     [theme.breakpoints.down("xs")]: {
-      width: "440px",
-      height: "664px",
+      width: "90%",
+      // height: "664px",
     },
   },
 
