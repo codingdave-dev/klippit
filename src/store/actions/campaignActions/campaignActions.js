@@ -261,7 +261,6 @@ export const createCampaignStep5 = (id, values) => {
       await campaignQuery.update({ ...values });
 
       dispatch(fetchCampaign(id));
-      return id;
 
       dispatch(asyncActionFinish());
     } catch (error) {

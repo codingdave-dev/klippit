@@ -4,26 +4,18 @@ import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Typography from "@material-ui/core/Typography";
 import CheckCircleInput from "../../common/form/CheckCircleInput";
-import CheckboxInput from "../../common/form/CheckboxInput";
-import {
-  Field,
-  FieldArray,
-  reduxForm,
-  arrayPush,
-  SubmissionError,
-} from "redux-form";
+import { Field, FieldArray, reduxForm, SubmissionError } from "redux-form";
 
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import CancelIcon from "@material-ui/icons/Cancel";
-import mapDispatchToProps from "react-redux/lib/connect/mapDispatchToProps";
+
 import TextInput from "../../common/form/TextInput";
 import { connect } from "react-redux";
 import { createCampaignStep5 } from "../../store/actions/campaignActions/campaignActions";
-import { router } from "next/client";
-import { combineValidators, isRequired } from "revalidate";
+import { router } from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   formWrapper: {
@@ -152,7 +144,7 @@ const mapStateToProps = () => {
 };
 
 const actions = {
-  createCampaignStep5,
+  // createCampaignStep5,
 };
 
 const LocationForm = ({
@@ -376,99 +368,106 @@ const LocationForm = ({
   );
 
   return (
-    <form autoComplete={"off"} onSubmit={handleSubmit(handleLocation)}>
-      <Grid item container direction={"column"} className={classes.formWrapper}>
-        <Grid item>
-          <Typography variant={"h5"} className={classes.title}>
-            Location
-          </Typography>
-        </Grid>
-        <Grid item style={{ marginTop: "2em" }}>
-          <Typography variant={"subtitle1"} className={classes.subTitle}>
-            Review your business location(s) where customers may redeem their
-            vouchers.
-          </Typography>
-        </Grid>
-
+    <Fragment>
+      <form autoComplete={"off"} onSubmit={handleSubmit(handleLocation)}>
         <Grid
           item
           container
-          direction={matchesSM ? "column" : "row"}
-          style={{ marginTop: "2em" }}
+          direction={"column"}
+          className={classes.formWrapper}
         >
-          <Grid item lg={6} md={6} sm={12} xs={12}>
-            <Grid item>
-              <Field
-                name={"myBusinessHasAPhysicalLocation"}
-                label={"My business has a physical location"}
-                component={CheckCircleInput}
-                checkboxClass={classes.checkbox}
-                checkboxLabelClass={classes.checkboxLabel}
-              />
-            </Grid>
+          <Grid item>
+            <Typography variant={"h5"} className={classes.title}>
+              Location
+            </Typography>
+          </Grid>
+          <Grid item style={{ marginTop: "2em" }}>
+            <Typography variant={"subtitle1"} className={classes.subTitle}>
+              Review your business location(s) where customers may redeem their
+              vouchers.
+            </Typography>
           </Grid>
 
           <Grid
             item
-            lg={6}
-            md={6}
-            sm={12}
-            xs={12}
-            style={
-              matchesSM ? { marginTop: "0.2em" } : { paddingLeft: "1.5em" }
-            }
+            container
+            direction={matchesSM ? "column" : "row"}
+            style={{ marginTop: "2em" }}
           >
-            <Grid item>
-              <Field
-                name={"myBusinessDoesntHaveAPhysicalLocation"}
-                label={`My business doesn't have a physical location`}
-                component={CheckCircleInput}
-                checkboxClass={classes.checkbox}
-                checkboxLabelClass={classes.checkboxLabel}
-              />
+            <Grid item lg={6} md={6} sm={12} xs={12}>
+              <Grid item>
+                <Field
+                  name={"myBusinessHasAPhysicalLocation"}
+                  label={"My business has a physical location"}
+                  component={CheckCircleInput}
+                  checkboxClass={classes.checkbox}
+                  checkboxLabelClass={classes.checkboxLabel}
+                />
+              </Grid>
+            </Grid>
+
+            <Grid
+              item
+              lg={6}
+              md={6}
+              sm={12}
+              xs={12}
+              style={
+                matchesSM ? { marginTop: "0.2em" } : { paddingLeft: "1.5em" }
+              }
+            >
+              <Grid item>
+                <Field
+                  name={"myBusinessDoesntHaveAPhysicalLocation"}
+                  label={`My business doesn't have a physical location`}
+                  component={CheckCircleInput}
+                  checkboxClass={classes.checkbox}
+                  checkboxLabelClass={classes.checkboxLabel}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <FieldArray name="locations" component={locationFields} />
+
+          {error && (
+            <Typography variant={"subtitle1"} className={classes.error}>
+              {error}
+            </Typography>
+          )}
+
+          <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
+            <Grid item container>
+              <Grid item style={{ marginRight: "1em" }}>
+                <Button
+                  variant="contained"
+                  size={"large"}
+                  className={classes.buttonGrey}
+                  // onClick={() => prevForm("finePrint")}
+                >
+                  Back
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  size={"large"}
+                  className={classes.button}
+                  type={"submit"}
+                  disabled={submitting}
+                >
+                  Submit
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-
-        <FieldArray name="locations" component={locationFields} />
-
-        {error && (
-          <Typography variant={"subtitle1"} className={classes.error}>
-            {error}
-          </Typography>
-        )}
-
-        <Grid item style={{ marginTop: "3em", marginLeft: "auto" }}>
-          <Grid item container>
-            <Grid item style={{ marginRight: "1em" }}>
-              <Button
-                variant="contained"
-                size={"large"}
-                className={classes.buttonGrey}
-                // onClick={() => prevForm("finePrint")}
-              >
-                Back
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button
-                variant="contained"
-                size={"large"}
-                className={classes.button}
-                type={"submit"}
-                disabled={submitting}
-              >
-                Submit
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    </form>
+      </form>
+    </Fragment>
   );
 };
 
 export default connect(
   null,
   actions
-)(reduxForm({ form: "addBusinessFinePrint" })(LocationForm));
+)(reduxForm({ form: "addBusinessLocation" })(LocationForm));

@@ -2,20 +2,18 @@ import React, { Fragment, useState } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
+import Footer from "../../../src/ui/Footer";
 import DashboardHeader from "../../../src/ui/DashboardHeader";
+import Typography from "@material-ui/core/Typography";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import { connect } from "react-redux";
-
-import Typography from "@material-ui/core/Typography";
 import ChooseServiceAndPriceForm from "../../../src/ui/createCampaign/ChooseServiceAndPriceForm";
 import AddImagesForm from "../../../src/ui/createCampaign/AddImagesForm";
 import DescribeBusinessForm from "../../../src/ui/createCampaign/DescribeBusinessForm";
 import FinePrintForm from "../../../src/ui/createCampaign/FinePrintForm";
 import LocationForm from "../../../src/ui/createCampaign/LocationForm";
-
-import Footer from "../../../src/ui/Footer";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -56,11 +54,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapStateToProps = (state) => ({
-  auth: state.firebase.auth,
-  loading: state.loading.loading,
-});
-
 const steps = [
   {
     id: "1",
@@ -88,6 +81,11 @@ const steps = [
   },
 ];
 
+const mapStateToProps = (state) => ({
+  auth: state.firebase.auth,
+  loading: state.loading.loading,
+});
+
 const Index = ({ auth, loading }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -101,8 +99,6 @@ const Index = ({ auth, loading }) => {
   const [locationForm, setLocationForm] = useState(false);
 
   const [campaignId, setCampaignId] = useState("");
-
-  const uid = auth.uid;
 
   const handleNextForm = (form, ref) => {
     setCampaignId(ref);
@@ -134,37 +130,6 @@ const Index = ({ auth, loading }) => {
       setFinePrintForm(false);
       setLocationForm(true);
       setStepperValue(stepperValue + 1);
-    }
-  };
-
-  const handlePrevForm = (form) => {
-    if (form === "servicePrice") {
-      setAddImagesForm(false);
-      setServicePriceForm(true);
-      setStepperValue(stepperValue - 1);
-    }
-
-    if (form === "addImages") {
-      setDescribeBusinessForm(false);
-      setServicePriceForm(false);
-      setAddImagesForm(true);
-      setStepperValue(stepperValue - 1);
-    }
-
-    if (form === "describeBusiness") {
-      setFinePrintForm(false);
-      setDescribeBusinessForm(true);
-      setServicePriceForm(false);
-      setAddImagesForm(false);
-      setStepperValue(stepperValue - 1);
-    }
-    if (form === "finePrint") {
-      setFinePrintForm(true);
-      setLocationForm(false);
-      setDescribeBusinessForm(true);
-      setServicePriceForm(false);
-      setAddImagesForm(false);
-      setStepperValue(stepperValue - 1);
     }
   };
 
@@ -208,28 +173,23 @@ const Index = ({ auth, loading }) => {
               </Stepper>
             </Grid>
           </Grid>
-
           {/*FORMS*/}
           {/*SERVICE FORM*/}
           {servicePriceForm && (
             <ChooseServiceAndPriceForm nextForm={handleNextForm} />
           )}
-
           {addImagesForm && (
             <AddImagesForm campaignId={campaignId} nextForm={handleNextForm} />
           )}
-
           {describeBusinessForm && (
             <DescribeBusinessForm
               campaignId={campaignId}
               nextForm={handleNextForm}
             />
           )}
-
           {finePrintForm && (
             <FinePrintForm campaignId={campaignId} nextForm={handleNextForm} />
           )}
-
           {locationForm && (
             <LocationForm campaignId={campaignId} nextForm={handleNextForm} />
           )}
