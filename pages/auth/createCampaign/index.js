@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -14,6 +14,7 @@ import AddImagesForm from "../../../src/ui/createCampaign/AddImagesForm";
 import DescribeBusinessForm from "../../../src/ui/createCampaign/DescribeBusinessForm";
 import FinePrintForm from "../../../src/ui/createCampaign/FinePrintForm";
 import LocationForm from "../../../src/ui/createCampaign/LocationForm";
+import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -99,6 +100,14 @@ const Index = ({ auth, loading }) => {
   const [locationForm, setLocationForm] = useState(false);
 
   const [campaignId, setCampaignId] = useState("");
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (auth.isLoaded === true && auth.isEmpty === true) {
+      router.push({ pathname: "/login" });
+    }
+  })
 
   const handleNextForm = (form, ref) => {
     setCampaignId(ref);

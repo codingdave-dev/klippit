@@ -121,7 +121,7 @@ const Index = () => {
             className={classes.subTitleWrapper}
           >
             <Grid item>
-              <Typography variant={"body1"} className={classes.subTitle}>
+              <Typography variant={"h6"} className={classes.subTitle}>
                 Take our self-guided product tour to learn how Klippit works for
                 Merchants. It all starts with creating a deal for influencers.
               </Typography>
@@ -150,7 +150,7 @@ const Index = () => {
               className={classes.subTitleWrapper}
           >
             <Grid item>
-              <Typography variant={"body1"} className={classes.subTitle}>
+              <Typography variant={"h6"} className={classes.subTitle}>
                 Here is a first hand experience at how influencers will find your deal, purchase it, and promote your business to their network.
               </Typography>
             </Grid>

@@ -9,14 +9,10 @@ import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import { connect } from "react-redux";
-import ChooseServiceAndPriceForm from "../../../src/ui/createCampaign/ChooseServiceAndPriceForm";
-import AddImagesForm from "../../../src/ui/createCampaign/AddImagesForm";
-import DescribeBusinessForm from "../../../src/ui/createCampaign/DescribeBusinessForm";
-import FinePrintForm from "../../../src/ui/createCampaign/FinePrintForm";
-import LocationForm from "../../../src/ui/createCampaign/LocationForm";
 import ChooseServiceAndPriceForm_Edit from "../../../src/ui/edit Campaign/ChooseServiceAndPriceForm_Edit";
 import {fetchCampaign} from "../../../src/store/actions/campaignActions/campaignActions";
 import {withRouter} from "next/router";
+import Router from "next/router";
 import AddImagesForm_Edit from "../../../src/ui/edit Campaign/AddImagesForm_Edit";
 import DescribeBusinessForm_Edit from "../../../src/ui/edit Campaign/DescribeBusinessForm_Edit";
 import FinePrintForm_Edit from "../../../src/ui/edit Campaign/FinePrintForm_Edit";
@@ -94,10 +90,11 @@ const actions = {
 
 const mapStateToProps = (state) => ({
   auth: state.firebase.auth,
+  profile: state.firebase.profile,
   loading: state.loading.loading,
 });
 
-const Index = ({ auth, fetchCampaign, router, loading }) => {
+const Index = ({ auth, profile, fetchCampaign, router, loading }) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesXS = useMediaQuery(theme.breakpoints.down("xs"));
@@ -114,6 +111,9 @@ const Index = ({ auth, fetchCampaign, router, loading }) => {
   const id = router.query.id;
 
   useEffect(() => {
+    if (auth.isLoaded === true && auth.isEmpty === true) {
+      Router.push({ pathname: "/login" });
+    }
 
     fetchCampaign(id)
 
