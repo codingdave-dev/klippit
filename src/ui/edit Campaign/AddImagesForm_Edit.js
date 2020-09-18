@@ -249,7 +249,7 @@ const AddImagesForm = ({
                   <Grid
                     item
                     container
-                    direction={"column"}
+                    direction={matchesSM ? 'row' : 'column'}
                     alignItems={"center"}
                   >
                     <Grid item>
@@ -296,7 +296,7 @@ const AddImagesForm = ({
                   <Grid
                     item
                     container
-                    direction={"column"}
+                    direction={matchesSM ? 'row' : 'column'}
                     alignItems={"center"}
                   >
                     <Grid item>
@@ -343,7 +343,7 @@ const AddImagesForm = ({
                   <Grid
                     item
                     container
-                    direction={"column"}
+                    direction={matchesSM ? 'row' : 'column'}
                     alignItems={"center"}
                   >
                     <Grid item>

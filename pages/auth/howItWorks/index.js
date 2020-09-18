@@ -10,7 +10,7 @@ import {useRouter} from "next/router";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
-    width: "60%",
+    width: '90%',
     [theme.breakpoints.down("md")]: {
       width: "90%",
     },
@@ -34,9 +34,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   iframe: {
-    width: "453px",
+    width: "80%",
     height: "600px",
-    // height: "864px",
     [theme.breakpoints.down("xs")]: {
       width: "440px",
       height: "664px",
@@ -81,7 +80,7 @@ const Index = () => {
             direction={matchesSM ? "column" : "row"}
           >
             <Grid item>
-              <Typography variant={"h4"} className={classes.title}>
+              <Typography variant={"h1"} className={classes.title}>
                 How It Works
               </Typography>
             </Grid>
@@ -111,12 +110,8 @@ const Index = () => {
             direction={matchesSM ? "column" : "row"}
             style={{ marginTop: "2em" }}
           >
-            <iframe
-                className={classes.iframe}
-              src="https://marvelapp.com/prototype/25b009d6?emb=1&iosapp=false&frameless=false"
-              allowtransparency="true"
-              frameBorder="0"
-            ></iframe>
+            <iframe className={classes.iframe} src="https://marvelapp.com/prototype/9242297?emb=1&iosapp=false&frameless=false" width="3840"
+                    height="3310" allowtransparency="true" frameBorder="0"></iframe>
           </Grid>
 
           <Grid
@@ -125,7 +120,7 @@ const Index = () => {
               justify={"center"}
               alignItems={"center"}
               direction={matchesSM ? "column" : "row"}
-              style={{ marginTop: "6em", marginBottom: '6em' }}
+              style={{ marginTop: "9em", marginBottom: '9em' }}
               className={classes.subTitleWrapper}
           >
             <Grid item>
