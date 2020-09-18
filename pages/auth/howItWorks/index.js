@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, {Fragment, useEffect} from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Grid } from "@material-ui/core";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import {useRouter} from "next/router";
+import {connect} from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -82,12 +83,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Index = () => {
+const mapStateToProps = (state) => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+  loading: state.loading.loading,
+});
+
+const Index = ({auth}) => {
   const classes = useStyles();
   const theme = useTheme();
   const matchesSM = useMediaQuery(theme.breakpoints.down("sm"));
 
   const router = useRouter()
+
+  useEffect(() => {
+    if (auth.isLoaded === true && auth.isEmpty === true) {
+      // router.push({ pathname: "/login" });
+      router.push({pathname: '/login'});
+    }
+
+
+  });
   return (
     <Fragment>
       <DashboardHeader />
@@ -216,4 +232,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default connect(mapStateToProps)(Index);

@@ -108,18 +108,19 @@ const Index = ({ auth, profile, fetchCampaign, router, loading }) => {
 
   const [campaignId, setCampaignId] = useState('')
 
+
   const id = router.query.id;
 
-  console.log(router)
 
   useEffect(() => {
-    // if (auth.isLoaded === true && auth.isEmpty === true) {
-    //   route.push({ pathname: "/login" });
-    // }
+    if (auth.isLoaded === true && auth.isEmpty === true) {
+      // router.push({ pathname: "/login" });
+      router.push({pathname: '/login'});
+    }
 
     fetchCampaign(id)
 
-  }, [fetchCampaign, id]);
+  }, [fetchCampaign, id, router, auth]);
 
 
   const handleNextForm = (form, ref) => {
@@ -223,3 +224,4 @@ const Index = ({ auth, profile, fetchCampaign, router, loading }) => {
 };
 
 export default withRouter(connect(mapStateToProps, actions)(Index));
+// export default connect(mapStateToProps, actions)(Index);
